@@ -8,6 +8,15 @@ export interface PaginatedResponse<T> {
     number: number;
     first: boolean;
     last: boolean;
+    empty: boolean;
+    numberOfElements: number;
+}
+
+export interface PaginationParams {
+    page?: number;
+    size?: number;
+    sort?: string;
+    direction?: 'asc' | 'desc';
 }
 
 export interface ApiError {
@@ -26,6 +35,17 @@ export class BaseService<T> {
 
     async getAll(): Promise<T[]> {
         const response = await api.get<T[]>(this.endpoint);
+        return response.data;
+    }
+
+    async getPaginated(params?: PaginationParams): Promise<PaginatedResponse<T>> {
+        const queryParams: Record<string, any> = {};
+        if (params?.page !== undefined) queryParams.page = params.page;
+        if (params?.size !== undefined) queryParams.size = params.size;
+        if (params?.sort) {
+            queryParams.sort = `${params.sort},${params.direction || 'asc'}`;
+        }
+        const response = await api.get<PaginatedResponse<T>>(this.endpoint, { params: queryParams });
         return response.data;
     }
 
