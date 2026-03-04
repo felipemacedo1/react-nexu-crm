@@ -15,33 +15,33 @@ const NotFoundPage = () => {
                 >
                     <div className="w-full surface-card py-8 px-5 sm:px-8 flex flex-column align-items-center" style={{ borderRadius: '53px' }}>
                         <span className="text-blue-500 font-bold text-3xl">404</span>
-                        <h1 className="text-900 font-bold text-5xl mb-2">Not Found</h1>
-                        <div className="text-600 mb-5">Requested resource is not available</div>
+                        <h1 className="text-900 font-bold text-5xl mb-2">Página não encontrada</h1>
+                        <div className="text-600 mb-5">O recurso solicitado não está disponível</div>
                         <Link href="/" className="w-full flex align-items-center py-5 border-300 border-bottom-1">
                             <span className="flex justify-content-center align-items-center bg-cyan-400 border-round" style={{ height: '3.5rem', width: '3.5rem' }}>
-                                <i className="text-50 pi pi-fw pi-table text-2xl"></i>
+                                <i className="text-50 pi pi-fw pi-home text-2xl"></i>
                             </span>
                             <span className="ml-4 flex flex-column">
-                                <span className="text-900 lg:text-xl font-medium mb-1">Frequently Asked Questions</span>
-                                <span className="text-600 lg:text-lg">Ultricies mi quis hendrerit dolor.</span>
+                                <span className="text-900 lg:text-xl font-medium mb-1">Dashboard</span>
+                                <span className="text-600 lg:text-lg">Voltar para a página inicial do NexoCRM</span>
                             </span>
                         </Link>
-                        <Link href="/" className="w-full flex align-items-center py-5 border-300 border-bottom-1">
+                        <Link href="/crm/leads" className="w-full flex align-items-center py-5 border-300 border-bottom-1">
                             <span className="flex justify-content-center align-items-center bg-orange-400 border-round" style={{ height: '3.5rem', width: '3.5rem' }}>
-                                <i className="pi pi-fw pi-question-circle text-50 text-2xl"></i>
+                                <i className="pi pi-fw pi-users text-50 text-2xl"></i>
                             </span>
                             <span className="ml-4 flex flex-column">
-                                <span className="text-900 lg:text-xl font-medium mb-1">Solution Center</span>
-                                <span className="text-600 lg:text-lg">Phasellus faucibus scelerisque eleifend.</span>
+                                <span className="text-900 lg:text-xl font-medium mb-1">Leads</span>
+                                <span className="text-600 lg:text-lg">Gerenciar seus leads e prospecções</span>
                             </span>
                         </Link>
-                        <Link href="/" className="w-full flex align-items-center mb-5 py-5 border-300 border-bottom-1">
+                        <Link href="/crm/contas" className="w-full flex align-items-center mb-5 py-5 border-300 border-bottom-1">
                             <span className="flex justify-content-center align-items-center bg-indigo-400 border-round" style={{ height: '3.5rem', width: '3.5rem' }}>
-                                <i className="pi pi-fw pi-unlock text-50 text-2xl"></i>
+                                <i className="pi pi-fw pi-building text-50 text-2xl"></i>
                             </span>
                             <span className="ml-4 flex flex-column">
-                                <span className="text-900 lg:text-xl font-medium mb-1">Permission Manager</span>
-                                <span className="text-600 lg:text-lg">Accumsan in nisl nisi scelerisque</span>
+                                <span className="text-900 lg:text-xl font-medium mb-1">Contas</span>
+                                <span className="text-600 lg:text-lg">Gerenciar suas contas e empresas</span>
                             </span>
                         </Link>
                     </div>

@@ -1,6 +1,7 @@
 'use client';
 import React, { createContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { AuthService, LoginRequest, LoginResponse, RegisterRequest, UsuarioLogado } from '@/services/auth.service';
+import { useRouter } from 'next/navigation';
 
 interface AuthContextProps {
     user: UsuarioLogado | null;

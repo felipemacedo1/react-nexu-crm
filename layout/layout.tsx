@@ -9,6 +9,7 @@ import AppFooter from './AppFooter';
 import AppSidebar from './AppSidebar';
 import AppTopbar from './AppTopbar';
 import AppConfig from './AppConfig';
+import AuthGuard from '@/components/auth/AuthGuard';
 import { LayoutContext } from './context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
@@ -123,7 +124,7 @@ const Layout = ({ children }: ChildContainerProps) => {
     });
 
     return (
-        <React.Fragment>
+        <AuthGuard>
             <div className={containerClass}>
                 <AppTopbar ref={topbarRef} />
                 <div ref={sidebarRef} className="layout-sidebar">
@@ -136,7 +137,7 @@ const Layout = ({ children }: ChildContainerProps) => {
                 <AppConfig />
                 <div className="layout-mask"></div>
             </div>
-        </React.Fragment>
+        </AuthGuard>
     );
 };
 

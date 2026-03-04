@@ -22,10 +22,10 @@ const AccessDeniedPage = () => {
                         <div className="flex justify-content-center align-items-center bg-pink-500 border-circle" style={{ height: '3.2rem', width: '3.2rem' }}>
                             <i className="pi pi-fw pi-exclamation-circle text-2xl text-white"></i>
                         </div>
-                        <h1 className="text-900 font-bold text-5xl mb-2">Access Denied</h1>
-                        <div className="text-600 mb-5">You do not have the necessary permisions.</div>
-                        <img src="/demo/images/access/asset-access.svg" alt="Error" className="mb-5" width="80%" />
-                        <Button icon="pi pi-arrow-left" label="Go to Dashboard" text onClick={() => router.push('/')} />
+                        <h1 className="text-900 font-bold text-5xl mb-2">Acesso Negado</h1>
+                        <div className="text-600 mb-5">Você não possui as permissões necessárias para acessar esta página.</div>
+                        <img src="/demo/images/access/asset-access.svg" alt="Acesso negado" className="mb-5" width="80%" />
+                        <Button icon="pi pi-arrow-left" label="Voltar ao Dashboard" text onClick={() => router.push('/')} />
                     </div>
                 </div>
             </div>
