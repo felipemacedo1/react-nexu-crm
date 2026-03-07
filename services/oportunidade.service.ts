@@ -1,4 +1,4 @@
-import { BaseService } from './base.service';
+import { BaseService, PaginatedResponse, PaginationParams } from './base.service';
 
 export interface OportunidadeDTO {
     id?: string;
@@ -23,6 +23,26 @@ export interface OportunidadeDTO {
 class OportunidadeServiceClass extends BaseService<OportunidadeDTO> {
     constructor() {
         super('/oportunidade');
+    }
+
+    async listarPaginado(params?: PaginationParams): Promise<PaginatedResponse<OportunidadeDTO>> {
+        return this.getPaginated(params);
+    }
+
+    async buscarPorId(id: string): Promise<OportunidadeDTO> {
+        return this.getById(id);
+    }
+
+    async criar(data: Partial<OportunidadeDTO>): Promise<OportunidadeDTO> {
+        return this.create(data);
+    }
+
+    async atualizar(id: string, data: Partial<OportunidadeDTO>): Promise<OportunidadeDTO> {
+        return this.update(id, data);
+    }
+
+    async excluir(id: string): Promise<void> {
+        return this.delete(id);
     }
 
     async buscarPorEstagio(estagio: string): Promise<OportunidadeDTO[]> {

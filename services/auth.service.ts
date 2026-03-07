@@ -29,6 +29,16 @@ export interface RegisterRequest {
     senha: string;
 }
 
+export interface RegisterResponse {
+    message: string;
+    emailEnviado: boolean;
+}
+
+export interface VerificacaoResponse {
+    message: string;
+    sucesso: boolean;
+}
+
 const TOKEN_KEY = 'nexocrm_token';
 const USER_KEY = 'nexocrm_user';
 
@@ -43,8 +53,20 @@ export const AuthService = {
         return response.data;
     },
 
-    async register(data: RegisterRequest): Promise<any> {
-        const response = await api.post('/auth/registrar', data);
+    async register(data: RegisterRequest): Promise<RegisterResponse> {
+        const response = await api.post<RegisterResponse>('/auth/registrar', data);
+        return response.data;
+    },
+
+    async verificarEmail(token: string): Promise<VerificacaoResponse> {
+        const response = await api.get<VerificacaoResponse>('/auth/verificar-email', {
+            params: { token }
+        });
+        return response.data;
+    },
+
+    async reenviarVerificacao(email: string): Promise<{ message: string }> {
+        const response = await api.post<{ message: string }>('/auth/reenviar-verificacao', { email });
         return response.data;
     },
 

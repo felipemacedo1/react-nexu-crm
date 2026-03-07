@@ -43,11 +43,20 @@ const LoginPage = () => {
             toast.current?.show({ severity: 'success', summary: 'Bem-vindo!', detail: 'Login realizado com sucesso', life: 2000 });
             setTimeout(() => router.push('/'), 500);
         } catch (error: any) {
-            const message =
-                error?.response?.status === 401
-                    ? 'E-mail ou senha incorretos'
-                    : error?.response?.data?.message || 'Erro ao realizar login. Tente novamente.';
-            toast.current?.show({ severity: 'error', summary: 'Erro no login', detail: message, life: 5000 });
+            const httpStatus = error?.response?.status;
+            let message: string;
+            let summary = 'Erro no login';
+
+            if (httpStatus === 403) {
+                summary = 'E-mail não verificado';
+                message = error?.response?.data?.message || 'Verifique seu e-mail antes de fazer login.';
+            } else if (httpStatus === 401) {
+                message = 'E-mail ou senha incorretos';
+            } else {
+                message = error?.response?.data?.message || 'Erro ao realizar login. Tente novamente.';
+            }
+
+            toast.current?.show({ severity: httpStatus === 403 ? 'warn' : 'error', summary, detail: message, life: 5000 });
         } finally {
             setLoading(false);
         }

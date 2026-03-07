@@ -1,0 +1,348 @@
+'use client';
+import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Dropdown } from 'primereact/dropdown';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
+import { Divider } from 'primereact/divider';
+import { classNames } from 'primereact/utils';
+import { ContatoService, ContatoDTO } from '@/services/contato.service';
+
+const SAUDACAO_OPTIONS = [
+    { label: 'Sr.', value: 'Sr.' },
+    { label: 'Sra.', value: 'Sra.' },
+    { label: 'Dr.', value: 'Dr.' },
+    { label: 'Dra.', value: 'Dra.' },
+    { label: 'Prof.', value: 'Prof.' },
+    { label: 'Profa.', value: 'Profa.' }
+];
+
+const NovoContatoPage = () => {
+    const router = useRouter();
+    const toast = useRef<Toast>(null);
+
+    const [saving, setSaving] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+
+    const [formData, setFormData] = useState<Partial<ContatoDTO>>({
+        saudacao: '',
+        nome: '',
+        sobrenome: '',
+        titulo: '',
+        departamento: '',
+        email: '',
+        telefone: '',
+        celular: '',
+        contaId: '',
+        descricao: '',
+        endereco: '',
+        cidade: '',
+        estado: '',
+        cep: '',
+        pais: 'Brasil'
+    });
+
+    const updateField = (field: keyof ContatoDTO, value: any) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+    const isValidEmail = (email: string) => {
+        if (!email) return true;
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
+    const isFormValid = () => {
+        if (!formData.nome?.trim()) return false;
+        if (!formData.sobrenome?.trim()) return false;
+        if (formData.email && !isValidEmail(formData.email)) return false;
+        return true;
+    };
+
+    const handleSave = async () => {
+        setSubmitted(true);
+        if (!isFormValid()) return;
+
+        setSaving(true);
+        try {
+            const payload: Partial<ContatoDTO> = { ...formData };
+
+            Object.keys(payload).forEach(key => {
+                const k = key as keyof ContatoDTO;
+                if (payload[k] === '' || payload[k] === undefined) {
+                    delete payload[k];
+                }
+            });
+
+            await ContatoService.criar(payload as ContatoDTO);
+
+            toast.current?.show({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Contato criado com sucesso!',
+                life: 3000
+            });
+
+            setTimeout(() => router.push('/crm/contatos'), 1000);
+        } catch (error: any) {
+            const detail = error?.response?.data?.message || 'Erro ao criar contato';
+            toast.current?.show({
+                severity: 'error',
+                summary: 'Erro',
+                detail,
+                life: 5000
+            });
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    return (
+        <div className="grid">
+            <div className="col-12">
+                <Toast ref={toast} />
+
+                <div className="card">
+                    {/* Header */}
+                    <div className="flex align-items-center justify-content-between mb-4">
+                        <div className="flex align-items-center gap-3">
+                            <Button
+                                icon="pi pi-arrow-left"
+                                rounded
+                                text
+                                severity="secondary"
+                                onClick={() => router.push('/crm/contatos')}
+                            />
+                            <h2 className="m-0 text-xl font-semibold">Novo Contato</h2>
+                        </div>
+                        <div className="flex gap-2">
+                            <Button
+                                label="Cancelar"
+                                icon="pi pi-times"
+                                outlined
+                                severity="secondary"
+                                onClick={() => router.push('/crm/contatos')}
+                            />
+                            <Button
+                                label="Salvar"
+                                icon="pi pi-check"
+                                severity="success"
+                                loading={saving}
+                                onClick={handleSave}
+                            />
+                        </div>
+                    </div>
+
+                    <Divider />
+
+                    {/* Informações Pessoais */}
+                    <h3 className="text-lg font-semibold mb-3">
+                        <i className="pi pi-user mr-2" />
+                        Informações Pessoais
+                    </h3>
+                    <div className="grid formgrid p-fluid">
+                        <div className="field col-12 md:col-2">
+                            <label htmlFor="saudacao" className="font-medium">Saudação</label>
+                            <Dropdown
+                                id="saudacao"
+                                value={formData.saudacao || null}
+                                options={SAUDACAO_OPTIONS}
+                                onChange={(e) => updateField('saudacao', e.value)}
+                                placeholder="—"
+                                showClear
+                            />
+                        </div>
+
+                        <div className="field col-12 md:col-5">
+                            <label htmlFor="nome" className="font-medium">
+                                Nome <span className="text-red-500">*</span>
+                            </label>
+                            <InputText
+                                id="nome"
+                                value={formData.nome || ''}
+                                onChange={(e) => updateField('nome', e.target.value)}
+                                className={classNames({ 'p-invalid': submitted && !formData.nome?.trim() })}
+                                placeholder="Nome"
+                            />
+                            {submitted && !formData.nome?.trim() && (
+                                <small className="p-error">Nome é obrigatório.</small>
+                            )}
+                        </div>
+
+                        <div className="field col-12 md:col-5">
+                            <label htmlFor="sobrenome" className="font-medium">
+                                Sobrenome <span className="text-red-500">*</span>
+                            </label>
+                            <InputText
+                                id="sobrenome"
+                                value={formData.sobrenome || ''}
+                                onChange={(e) => updateField('sobrenome', e.target.value)}
+                                className={classNames({ 'p-invalid': submitted && !formData.sobrenome?.trim() })}
+                                placeholder="Sobrenome"
+                            />
+                            {submitted && !formData.sobrenome?.trim() && (
+                                <small className="p-error">Sobrenome é obrigatório.</small>
+                            )}
+                        </div>
+
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="titulo" className="font-medium">Cargo</label>
+                            <InputText
+                                id="titulo"
+                                value={formData.titulo || ''}
+                                onChange={(e) => updateField('titulo', e.target.value)}
+                                placeholder="Cargo / Título"
+                            />
+                        </div>
+
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="departamento" className="font-medium">Departamento</label>
+                            <InputText
+                                id="departamento"
+                                value={formData.departamento || ''}
+                                onChange={(e) => updateField('departamento', e.target.value)}
+                                placeholder="Departamento"
+                            />
+                        </div>
+
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="contaId" className="font-medium">Conta (ID)</label>
+                            <InputText
+                                id="contaId"
+                                value={formData.contaId || ''}
+                                onChange={(e) => updateField('contaId', e.target.value)}
+                                placeholder="ID da conta vinculada"
+                            />
+                        </div>
+
+                        <div className="field col-12">
+                            <label htmlFor="descricao" className="font-medium">Descrição</label>
+                            <InputTextarea
+                                id="descricao"
+                                value={formData.descricao || ''}
+                                onChange={(e) => updateField('descricao', e.target.value)}
+                                rows={3}
+                                placeholder="Descrição do contato"
+                                autoResize
+                            />
+                        </div>
+                    </div>
+
+                    <Divider />
+
+                    {/* Informações de Contato */}
+                    <h3 className="text-lg font-semibold mb-3">
+                        <i className="pi pi-phone mr-2" />
+                        Informações de Contato
+                    </h3>
+                    <div className="grid formgrid p-fluid">
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="email" className="font-medium">Email</label>
+                            <InputText
+                                id="email"
+                                type="email"
+                                value={formData.email || ''}
+                                onChange={(e) => updateField('email', e.target.value)}
+                                className={classNames({
+                                    'p-invalid': submitted && formData.email && !isValidEmail(formData.email)
+                                })}
+                                placeholder="email@exemplo.com"
+                            />
+                            {submitted && formData.email && !isValidEmail(formData.email) && (
+                                <small className="p-error">Email inválido.</small>
+                            )}
+                        </div>
+
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="telefone" className="font-medium">Telefone</label>
+                            <InputText
+                                id="telefone"
+                                value={formData.telefone || ''}
+                                onChange={(e) => updateField('telefone', e.target.value)}
+                                placeholder="(11) 1234-5678"
+                            />
+                        </div>
+
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="celular" className="font-medium">Celular</label>
+                            <InputText
+                                id="celular"
+                                value={formData.celular || ''}
+                                onChange={(e) => updateField('celular', e.target.value)}
+                                placeholder="(11) 91234-5678"
+                            />
+                        </div>
+                    </div>
+
+                    <Divider />
+
+                    {/* Endereço */}
+                    <h3 className="text-lg font-semibold mb-3">
+                        <i className="pi pi-map-marker mr-2" />
+                        Endereço
+                    </h3>
+                    <div className="grid formgrid p-fluid">
+                        <div className="field col-12">
+                            <label htmlFor="endereco" className="font-medium">Endereço</label>
+                            <InputText
+                                id="endereco"
+                                value={formData.endereco || ''}
+                                onChange={(e) => updateField('endereco', e.target.value)}
+                                placeholder="Rua, número, complemento"
+                            />
+                        </div>
+                        <div className="field col-12 md:col-4">
+                            <label htmlFor="cidade" className="font-medium">Cidade</label>
+                            <InputText
+                                id="cidade"
+                                value={formData.cidade || ''}
+                                onChange={(e) => updateField('cidade', e.target.value)}
+                                placeholder="Cidade"
+                            />
+                        </div>
+                        <div className="field col-12 md:col-4">
+                            <label htmlFor="estado" className="font-medium">Estado</label>
+                            <InputText
+                                id="estado"
+                                value={formData.estado || ''}
+                                onChange={(e) => updateField('estado', e.target.value)}
+                                placeholder="Estado"
+                            />
+                        </div>
+                        <div className="field col-12 md:col-4">
+                            <label htmlFor="cep" className="font-medium">CEP</label>
+                            <InputText
+                                id="cep"
+                                value={formData.cep || ''}
+                                onChange={(e) => updateField('cep', e.target.value)}
+                                placeholder="00000-000"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Footer */}
+                    <Divider />
+                    <div className="flex justify-content-end gap-2">
+                        <Button
+                            label="Cancelar"
+                            icon="pi pi-times"
+                            outlined
+                            severity="secondary"
+                            onClick={() => router.push('/crm/contatos')}
+                        />
+                        <Button
+                            label="Salvar"
+                            icon="pi pi-check"
+                            severity="success"
+                            loading={saving}
+                            onClick={handleSave}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default NovoContatoPage;

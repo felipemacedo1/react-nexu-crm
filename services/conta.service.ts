@@ -1,4 +1,4 @@
-import { BaseService } from './base.service';
+import { BaseService, PaginatedResponse, PaginationParams } from './base.service';
 
 export interface ContaDTO {
     id?: string;
@@ -32,6 +32,26 @@ export interface ContaDTO {
 class ContaServiceClass extends BaseService<ContaDTO> {
     constructor() {
         super('/conta');
+    }
+
+    async listarPaginado(params?: PaginationParams): Promise<PaginatedResponse<ContaDTO>> {
+        return this.getPaginated(params);
+    }
+
+    async buscarPorId(id: string): Promise<ContaDTO> {
+        return this.getById(id);
+    }
+
+    async criar(data: Partial<ContaDTO>): Promise<ContaDTO> {
+        return this.create(data);
+    }
+
+    async atualizar(id: string, data: Partial<ContaDTO>): Promise<ContaDTO> {
+        return this.update(id, data);
+    }
+
+    async excluir(id: string): Promise<void> {
+        return this.delete(id);
     }
 
     async buscarPorNome(nome: string): Promise<ContaDTO[]> {

@@ -20,6 +20,7 @@ const RegisterPage = () => {
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const [loading, setLoading] = useState(false);
+    const [registroConcluido, setRegistroConcluido] = useState(false);
     const { layoutConfig } = useContext(LayoutContext);
     const { register } = useAuth();
     const router = useRouter();
@@ -55,17 +56,11 @@ const RegisterPage = () => {
         setLoading(true);
         try {
             await register({ nome, sobrenome, email, nomeUsuario, senha });
-            toast.current?.show({
-                severity: 'success',
-                summary: 'Conta criada!',
-                detail: 'Sua conta foi criada com sucesso. Faça login para continuar.',
-                life: 3000
-            });
-            setTimeout(() => router.push('/auth/login'), 1500);
+            setRegistroConcluido(true);
         } catch (error: any) {
             const message =
                 error?.response?.status === 409
-                    ? 'E-mail ou nome de usuário já cadastrado'
+                    ? error?.response?.data?.message || 'E-mail ou nome de usuário já cadastrado'
                     : error?.response?.data?.message || 'Erro ao criar conta. Tente novamente.';
             toast.current?.show({ severity: 'error', summary: 'Erro no cadastro', detail: message, life: 5000 });
         } finally {
@@ -78,6 +73,81 @@ const RegisterPage = () => {
             handleRegister();
         }
     };
+
+    // Tela de sucesso — pedir para verificar e-mail
+    if (registroConcluido) {
+        return (
+            <div className={containerClassName}>
+                <div className="flex flex-column align-items-center justify-content-center">
+                    <img
+                        src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`}
+                        alt="NexoCRM logo"
+                        className="mb-5 w-6rem flex-shrink-0"
+                    />
+                    <div
+                        style={{
+                            borderRadius: '56px',
+                            padding: '0.3rem',
+                            background: 'linear-gradient(180deg, var(--green-500) 10%, rgba(76, 175, 80, 0) 30%)'
+                        }}
+                    >
+                        <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
+                            <div className="text-center">
+                                <i className="pi pi-envelope text-green-500 mb-4" style={{ fontSize: '4rem' }}></i>
+                                <div className="text-900 text-3xl font-medium mb-3">Verifique seu e-mail</div>
+                                <p className="text-600 font-medium mb-3" style={{ lineHeight: '1.6' }}>
+                                    Enviamos um link de verificação para:
+                                </p>
+                                <p className="text-primary font-bold text-xl mb-4">{email}</p>
+                                <p className="text-600 mb-5" style={{ lineHeight: '1.6' }}>
+                                    Clique no link enviado ao seu e-mail para ativar sua conta.
+                                    <br />O link expira em <strong>24 horas</strong>.
+                                </p>
+                                <div className="flex flex-column gap-3 align-items-center">
+                                    <Button
+                                        label="Ir para o Login"
+                                        className="w-full p-3 text-xl"
+                                        icon="pi pi-sign-in"
+                                        onClick={() => router.push('/auth/login')}
+                                    />
+                                    <span className="text-600 text-sm">
+                                        Não recebeu? Verifique sua caixa de spam ou{' '}
+                                        <a
+                                            href="#"
+                                            className="text-primary cursor-pointer"
+                                            onClick={async (e) => {
+                                                e.preventDefault();
+                                                try {
+                                                    const { AuthService } = await import('@/services/auth.service');
+                                                    await AuthService.reenviarVerificacao(email);
+                                                    toast.current?.show({
+                                                        severity: 'success',
+                                                        summary: 'E-mail reenviado',
+                                                        detail: 'Um novo link de verificação foi enviado.',
+                                                        life: 5000
+                                                    });
+                                                } catch {
+                                                    toast.current?.show({
+                                                        severity: 'error',
+                                                        summary: 'Erro',
+                                                        detail: 'Não foi possível reenviar o e-mail.',
+                                                        life: 5000
+                                                    });
+                                                }
+                                            }}
+                                        >
+                                            reenvie o link
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <Toast ref={toast} />
+            </div>
+        );
+    }
 
     return (
         <div className={containerClassName}>

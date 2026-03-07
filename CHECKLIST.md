@@ -10,21 +10,21 @@
 ## 📦 FASE 1: Configuração Inicial e Branding
 
 ### 1.1 Configuração do Projeto
-- [ ] Alterar `name` em `package.json` para `"nexocrm-frontend"`
-- [ ] Atualizar `README.md` com informações do NexoCRM
-- [ ] Alterar título da aplicação no `layout/AppTopbar.tsx`
-- [ ] Adicionar logo NexoCRM em `public/layout/images/`
+- [x] Alterar `name` em `package.json` para `"nexocrm-frontend"`
+- [x] Atualizar `README.md` com informações do NexoCRM
+- [x] Alterar título da aplicação no `layout/AppTopbar.tsx`
+- [x] Adicionar logo NexoCRM em `public/layout/images/`
 - [ ] Atualizar favicon em `public/favicon.ico`
 - [ ] Atualizar `package.json` description e author
 
 ### 1.2 Configuração de Ambiente
-- [ ] Criar `.env.local` com variáveis de ambiente
+- [x] Criar `.env.local` com variáveis de ambiente
   - `NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/nexocrm/api`
   - `NEXT_PUBLIC_APP_NAME=NexoCRM`
   - `NEXT_PUBLIC_JWT_SECRET_KEY` (mesmo do backend)
-- [ ] Adicionar `.env.local` ao `.gitignore`
-- [ ] Criar `.env.example` com template das variáveis
-- [ ] Verificar dependências e atualizar se necessário
+- [x] Adicionar `.env.local` ao `.gitignore`
+- [x] Criar `.env.example` com template das variáveis
+- [x] Verificar dependências e atualizar se necessário
   ```bash
   npm install axios
   npm install js-cookie
@@ -32,7 +32,7 @@
   ```
 
 ### 1.3 Estrutura de Diretórios
-- [ ] Criar estrutura de pastas:
+- [x] Criar estrutura de pastas:
   ```
   app/
     (main)/
@@ -63,86 +63,86 @@
 ## 🔐 FASE 2: Autenticação e Segurança
 
 ### 2.1 Context de Autenticação
-- [ ] Criar `app/context/AuthContext.tsx`
+- [x] Criar `app/context/AuthContext.tsx`
   - Estado: `user`, `token`, `isAuthenticated`, `loading`
   - Métodos: `login()`, `logout()`, `register()`, `refreshToken()`
-- [ ] Implementar persistência de token (localStorage/sessionStorage)
-- [ ] Criar HOC/middleware de proteção de rotas
-- [ ] Implementar auto-logout em caso de token expirado
+- [x] Implementar persistência de token (localStorage/sessionStorage)
+- [x] Criar HOC/middleware de proteção de rotas
+- [x] Implementar auto-logout em caso de token expirado
 
 ### 2.2 Serviço de Autenticação
-- [ ] Criar `services/auth.service.ts`
+- [x] Criar `services/auth.service.ts`
   - `login(email, password)` → POST `/api/auth/login`
   - `register(data)` → POST `/api/auth/registrar`
   - `logout()` → Limpar token
   - `getCurrentUser()` → GET `/api/usuario/perfil`
   - `refreshToken()` → POST `/api/auth/refresh` (se existir)
-- [ ] Configurar interceptor Axios para adicionar token JWT nos headers
-- [ ] Configurar interceptor para refresh token automático (401)
-- [ ] Tratamento de erros de autenticação
+- [x] Configurar interceptor Axios para adicionar token JWT nos headers
+- [x] Configurar interceptor para refresh token automático (401)
+- [x] Tratamento de erros de autenticação
 
 ### 2.3 Páginas de Autenticação
-- [ ] Criar `app/(full-page)/auth/login/page.tsx`
+- [x] Criar `app/(full-page)/auth/login/page.tsx`
   - Formulário com email/senha
   - Validação de campos
   - Link para recuperação de senha
   - Feedback de erros
-- [ ] Criar `app/(full-page)/auth/register/page.tsx`
+- [x] Criar `app/(full-page)/auth/register/page.tsx`
   - Formulário de cadastro completo
   - Validação de senha forte
   - Confirmação de senha
-- [ ] Criar `app/(full-page)/auth/forgot-password/page.tsx`
-- [ ] Criar `app/(full-page)/auth/reset-password/page.tsx`
-- [ ] Estilizar páginas seguindo identidade NexoCRM
+- [x] Criar `app/(full-page)/auth/forgot-password/page.tsx`
+- [x] Criar `app/(full-page)/auth/reset-password/page.tsx`
+- [x] Estilizar páginas seguindo identidade NexoCRM
 
 ---
 
 ## 🛠️ FASE 3: Infraestrutura Base
 
 ### 3.1 Configuração de API Client
-- [ ] Criar `services/api.config.ts`
+- [x] Criar `services/api.config.ts`
   - Instância Axios configurada com baseURL
   - Request interceptor (adicionar token)
   - Response interceptor (tratamento de erros)
   - Timeout configuration
-- [ ] Criar `services/base.service.ts`
+- [x] Criar `services/base.service.ts`
   - Classe genérica com métodos CRUD padrão
   - `getAll()`, `getById(id)`, `create(data)`, `update(id, data)`, `delete(id)`
   - `search(params)`, `paginate(page, size, filters)`
 
 ### 3.2 TypeScript Types e Interfaces
-- [ ] Criar `types/entities.ts` com todas as entidades:
+- [x] Criar `types/entities.ts` com todas as entidades:
   - `Usuario`, `Conta`, `Lead`, `Contato`, `Oportunidade`, `Atividade`
   - `Evento`, `Lembrete`, `Tarefa`, `Caso`, `Produto`, etc.
-  - Espelhar DTOs do backend
-- [ ] Criar `types/api.ts`
+  - Espelhar DTOs do backend _(DTOs definidos nos service files)_
+- [x] Criar `types/api.ts`
   - `ApiResponse<T>`, `PaginatedResponse<T>`, `ApiError`
-  - `LoginRequest`, `LoginResponse`, `RegisterRequest`
+  - `LoginRequest`, `LoginResponse`, `RegisterRequest` _(definidos em base.service.ts)_
 - [ ] Criar `types/forms.ts` para tipos de formulários
 
 ### 3.3 Utilities e Helpers
-- [ ] Criar `utils/format.ts`
+- [x] Criar `utils/format.ts`
   - `formatDate()`, `formatCurrency()`, `formatPhone()`, `formatCPF()`
-- [ ] Criar `utils/validation.ts`
+- [x] Criar `utils/validation.ts`
   - `validateEmail()`, `validateCPF()`, `validatePhone()`
 - [ ] Criar `utils/storage.ts`
   - `saveToLocalStorage()`, `getFromLocalStorage()`, `removeFromLocalStorage()`
-- [ ] Criar `constants/api-routes.ts` com todas as rotas
-- [ ] Criar `constants/app-constants.ts`
+- [x] Criar `constants/api-routes.ts` com todas as rotas
+- [x] Criar `constants/app-constants.ts`
 
 ### 3.4 Custom Hooks
-- [ ] Criar `hooks/useAuth.ts` (wrapper do AuthContext)
+- [x] Criar `hooks/useAuth.ts` (wrapper do AuthContext)
 - [ ] Criar `hooks/useApi.ts` (generic hook para chamadas API)
-- [ ] Criar `hooks/useDebounce.ts` (para filtros de busca)
+- [x] Criar `hooks/useDebounce.ts` (para filtros de busca)
 - [ ] Criar `hooks/usePagination.ts`
-- [ ] Criar `hooks/useToast.ts` (wrapper do PrimeReact Toast)
+- [x] Criar `hooks/useToast.ts` (wrapper do PrimeReact Toast)
 
 ---
 
 ## 🎨 FASE 4: Componentes Globais e Layout
 
 ### 4.1 Atualizar Menu de Navegação
-- [ ] Atualizar `layout/AppMenu.tsx` com menu NexoCRM:
+- [x] Atualizar `layout/AppMenu.tsx` com menu NexoCRM:
   ```typescript
   - Dashboard
   - CRM
@@ -168,7 +168,7 @@
     - Grupos de Segurança
     - Configurações
   ```
-- [ ] Adicionar ícones apropriados (PrimeIcons)
+- [x] Adicionar ícones apropriados (PrimeIcons)
 - [ ] Configurar permissões de menu por perfil de usuário
 
 ### 4.2 Componentes Compartilhados
@@ -185,12 +185,12 @@
 - [ ] Criar `app/components/ErrorBoundary.tsx`
 
 ### 4.3 Layout Customization
-- [ ] Atualizar `layout/AppTopbar.tsx`
+- [x] Atualizar `layout/AppTopbar.tsx`
   - Logo NexoCRM
   - Nome do usuário logado
   - Avatar
   - Dropdown com perfil/configurações/logout
-- [ ] Atualizar `layout/AppFooter.tsx` com informações do NexoCRM
+- [x] Atualizar `layout/AppFooter.tsx` com informações do NexoCRM
 - [ ] Configurar tema padrão em `layout/context/layoutcontext.tsx`
 
 ---
@@ -198,7 +198,7 @@
 ## 📊 FASE 5: Dashboard
 
 ### 5.1 Dashboard Principal
-- [ ] Criar `app/(main)/page.tsx` (Dashboard)
+- [x] Criar `app/(main)/page.tsx` (Dashboard) _(layout completo, dados placeholder)_
 - [ ] Criar serviço `services/dashboard.service.ts`
   - `getKPIs()` → Métricas principais
   - `getRecentActivities()`
@@ -224,67 +224,67 @@
 ## 👥 FASE 6: Módulo CRM - CRUD Principal
 
 ### 6.1 Leads
-- [ ] Criar `services/lead.service.ts`
+- [x] Criar `services/lead.service.ts`
   - CRUD completo
   - `search(filters)`, `convertToContact(id)`, `assignTo(id, userId)`
-- [ ] Criar `types/lead.types.ts`
-- [ ] Criar `app/(main)/crm/leads/page.tsx` (listagem)
+- [x] Criar `types/lead.types.ts` _(DTOs definidos no service)_
+- [x] Criar `app/(main)/crm/leads/page.tsx` (listagem)
   - DataTable com filtros (nome, email, status, origem)
   - Paginação server-side
   - Ações: visualizar, editar, excluir, converter
-- [ ] Criar `app/(main)/crm/leads/[id]/page.tsx` (detalhes)
+- [x] Criar `app/(main)/crm/leads/[id]/page.tsx` (detalhes)
   - Informações completas do lead
   - Timeline de atividades
   - Botão de conversão para contato
-- [ ] Criar `app/(main)/crm/leads/create/page.tsx` (formulário)
-- [ ] Criar componente `LeadForm.tsx`
+- [x] Criar `app/(main)/crm/leads/create/page.tsx` (formulário)
+- [x] Criar componente `LeadForm.tsx`
   - Validação de campos obrigatórios
   - Campos: nome, email, telefone, empresa, cargo, origem, status
 - [ ] Implementar conversão de Lead → Contato/Conta
 
 ### 6.2 Contas
-- [ ] Criar `services/conta.service.ts`
-- [ ] Criar `types/conta.types.ts`
-- [ ] Criar `app/(main)/crm/contas/page.tsx` (listagem)
+- [x] Criar `services/conta.service.ts`
+- [x] Criar `types/conta.types.ts` _(DTOs definidos no service)_
+- [x] Criar `app/(main)/crm/contas/page.tsx` (listagem)
   - Filtros: nome, setor, tipo, cidade
-- [ ] Criar `app/(main)/crm/contas/[id]/page.tsx` (detalhes)
+- [x] Criar `app/(main)/crm/contas/[id]/page.tsx` (detalhes)
   - Aba de informações gerais
   - Aba de contatos relacionados
   - Aba de oportunidades
   - Aba de atividades
-- [ ] Criar `app/(main)/crm/contas/create/page.tsx`
-- [ ] Criar componente `ContaForm.tsx`
+- [x] Criar `app/(main)/crm/contas/create/page.tsx`
+- [x] Criar componente `ContaForm.tsx`
   - Campos: nome, CNPJ, setor, site, telefone, endereço
 
 ### 6.3 Contatos
-- [ ] Criar `services/contato.service.ts`
-- [ ] Criar `types/contato.types.ts`
-- [ ] Criar `app/(main)/crm/contatos/page.tsx` (listagem)
+- [x] Criar `services/contato.service.ts`
+- [x] Criar `types/contato.types.ts` _(DTOs definidos no service)_
+- [x] Criar `app/(main)/crm/contatos/page.tsx` (listagem)
   - Filtros: nome, email, cargo, conta
-- [ ] Criar `app/(main)/crm/contatos/[id]/page.tsx` (detalhes)
+- [x] Criar `app/(main)/crm/contatos/[id]/page.tsx` (detalhes)
   - Informações pessoais
   - Conta vinculada
   - Oportunidades relacionadas
   - Histórico de interações
-- [ ] Criar `app/(main)/crm/contatos/create/page.tsx`
-- [ ] Criar componente `ContatoForm.tsx`
+- [x] Criar `app/(main)/crm/contatos/create/page.tsx`
+- [x] Criar componente `ContatoForm.tsx`
   - AutoComplete para vincular conta
   - Campos: nome, email, telefone, cargo, departamento
 
 ### 6.4 Oportunidades (Pipeline de Vendas)
-- [ ] Criar `services/oportunidade.service.ts`
+- [x] Criar `services/oportunidade.service.ts`
   - `updateStage(id, newStage)`, `calculateProbability()`
-- [ ] Criar `types/oportunidade.types.ts`
-- [ ] Criar `app/(main)/crm/oportunidades/page.tsx` (listagem)
+- [x] Criar `types/oportunidade.types.ts` _(DTOs definidos no service)_
+- [x] Criar `app/(main)/crm/oportunidades/page.tsx` (listagem)
   - Filtros: nome, estágio, valor, probabilidade, data de fechamento
   - Visualização em cards (Kanban)
-- [ ] Criar `app/(main)/crm/oportunidades/[id]/page.tsx` (detalhes)
+- [x] Criar `app/(main)/crm/oportunidades/[id]/page.tsx` (detalhes)
   - Informações da oportunidade
   - Estágio do pipeline
   - Produtos/Serviços
   - Timeline de progresso
-- [ ] Criar `app/(main)/crm/oportunidades/create/page.tsx`
-- [ ] Criar componente `OportunidadeForm.tsx`
+- [x] Criar `app/(main)/crm/oportunidades/create/page.tsx`
+- [x] Criar componente `OportunidadeForm.tsx`
   - Campos: nome, valor, probabilidade, data de fechamento, estágio
   - Vincular conta e contato
 - [ ] Implementar visualização Kanban (arrastar entre estágios)
@@ -386,7 +386,7 @@
 ## ⚙️ FASE 11: Módulo Admin
 
 ### 11.1 Gestão de Usuários
-- [ ] Criar `services/usuario.service.ts`
+- [x] Criar `services/usuario.service.ts`
 - [ ] Criar `app/(main)/admin/usuarios/page.tsx` (listagem)
 - [ ] Criar `app/(main)/admin/usuarios/[id]/page.tsx`
 - [ ] Criar componente `UsuarioForm.tsx`
