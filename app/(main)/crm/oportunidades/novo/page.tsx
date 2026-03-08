@@ -5,12 +5,15 @@ import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
+import { AutoComplete, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
 
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { Divider } from 'primereact/divider';
 import { OportunidadeService, OportunidadeDTO } from '@/services/oportunidade.service';
+import { ContaService, ContaDTO } from '@/services/conta.service';
+import { ContatoService, ContatoDTO } from '@/services/contato.service';
 
 const ESTAGIO_OPTIONS = [
     { label: 'Prospecção', value: 'Prospecting' },
@@ -42,6 +45,10 @@ const NovaOportunidadePage = () => {
     const router = useRouter();
     const toast = useRef<Toast>(null);
     const [saving, setSaving] = useState(false);
+    const [contaSelecionada, setContaSelecionada] = useState<ContaDTO | null>(null);
+    const [contaSugestoes, setContaSugestoes] = useState<ContaDTO[]>([]);
+    const [contatoSelecionado, setContatoSelecionado] = useState<ContatoDTO | null>(null);
+    const [contatoSugestoes, setContatoSugestoes] = useState<ContatoDTO[]>([]);
     const [oportunidade, setOportunidade] = useState<Partial<OportunidadeDTO>>({
         nome: '',
         estagio: 'Prospecting',
@@ -53,6 +60,24 @@ const NovaOportunidadePage = () => {
         contaId: undefined,
         contatoId: undefined
     });
+
+    const buscarContas = async (event: AutoCompleteCompleteEvent) => {
+        try {
+            const resultados = await ContaService.buscarPorNome(event.query);
+            setContaSugestoes(resultados);
+        } catch {
+            setContaSugestoes([]);
+        }
+    };
+
+    const buscarContatos = async (event: AutoCompleteCompleteEvent) => {
+        try {
+            const resultados = await ContatoService.buscarPorNome(event.query);
+            setContatoSugestoes(resultados);
+        } catch {
+            setContatoSugestoes([]);
+        }
+    };
 
     const handleChange = (field: string, value: any) => {
         setOportunidade(prev => ({ ...prev, [field]: value }));
@@ -228,23 +253,55 @@ const NovaOportunidadePage = () => {
                                 />
                             </div>
                             <div className="field col-12 md:col-4">
-                                <label htmlFor="contaId" className="font-medium">ID da Conta</label>
-                                <InputText
+                                <label htmlFor="contaId" className="font-medium">Conta</label>
+                                <AutoComplete
                                     id="contaId"
-                                    value={oportunidade.contaId || ''}
-                                    onChange={(e) => handleChange('contaId', e.target.value)}
-                                    className="mt-1"
-                                    placeholder="ID da conta associada"
+                                    value={contaSelecionada}
+                                    suggestions={contaSugestoes}
+                                    completeMethod={buscarContas}
+                                    field="nome"
+                                    onChange={(e) => {
+                                        setContaSelecionada(e.value);
+                                        if (e.value && typeof e.value === 'object') {
+                                            handleChange('contaId', e.value.id);
+                                        } else {
+                                            handleChange('contaId', undefined);
+                                        }
+                                    }}
+                                    onClear={() => { setContaSelecionada(null); handleChange('contaId', undefined); }}
+                                    placeholder="Digite para buscar conta..."
+                                    dropdown
+                                    forceSelection
+                                    className="w-full mt-1"
                                 />
                             </div>
                             <div className="field col-12 md:col-4">
-                                <label htmlFor="contatoId" className="font-medium">ID do Contato</label>
-                                <InputText
+                                <label htmlFor="contatoId" className="font-medium">Contato</label>
+                                <AutoComplete
                                     id="contatoId"
-                                    value={oportunidade.contatoId || ''}
-                                    onChange={(e) => handleChange('contatoId', e.target.value)}
-                                    className="mt-1"
-                                    placeholder="ID do contato associado"
+                                    value={contatoSelecionado}
+                                    suggestions={contatoSugestoes}
+                                    completeMethod={buscarContatos}
+                                    field="nome"
+                                    itemTemplate={(item: ContatoDTO) => (
+                                        <span>{item.nome} {item.sobrenome || ''}</span>
+                                    )}
+                                    selectedItemTemplate={(item: ContatoDTO) => (
+                                        item ? `${item.nome} ${item.sobrenome || ''}` : ''
+                                    )}
+                                    onChange={(e) => {
+                                        setContatoSelecionado(e.value);
+                                        if (e.value && typeof e.value === 'object') {
+                                            handleChange('contatoId', e.value.id);
+                                        } else {
+                                            handleChange('contatoId', undefined);
+                                        }
+                                    }}
+                                    onClear={() => { setContatoSelecionado(null); handleChange('contatoId', undefined); }}
+                                    placeholder="Digite para buscar contato..."
+                                    dropdown
+                                    forceSelection
+                                    className="w-full mt-1"
                                 />
                             </div>
                         </div>

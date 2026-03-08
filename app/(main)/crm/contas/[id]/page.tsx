@@ -9,7 +9,11 @@ import { Divider } from 'primereact/divider';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { Timeline } from 'primereact/timeline';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 import { ContaService, ContaDTO } from '@/services/conta.service';
+import { ContatoDTO } from '@/services/contato.service';
+import { OportunidadeDTO } from '@/services/oportunidade.service';
 
 const ContaDetalhesPage = () => {
     const router = useRouter();
@@ -21,12 +25,29 @@ const ContaDetalhesPage = () => {
     const [loading, setLoading] = useState(true);
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [contatos, setContatos] = useState<ContatoDTO[]>([]);
+    const [oportunidades, setOportunidades] = useState<OportunidadeDTO[]>([]);
+    const [loadingRelated, setLoadingRelated] = useState(false);
 
     const fetchConta = useCallback(async () => {
         setLoading(true);
         try {
             const data = await ContaService.buscarPorId(id);
             setConta(data);
+            // Carregar entidades relacionadas
+            setLoadingRelated(true);
+            try {
+                const [contatosData, oportunidadesData] = await Promise.all([
+                    ContaService.listarContatos(id),
+                    ContaService.listarOportunidades(id)
+                ]);
+                setContatos(contatosData);
+                setOportunidades(oportunidadesData);
+            } catch {
+                // Silently handle - tabs will show empty
+            } finally {
+                setLoadingRelated(false);
+            }
         } catch (error: any) {
             toast.current?.show({
                 severity: 'error',
@@ -274,31 +295,74 @@ const ContaDetalhesPage = () => {
                         </TabPanel>
 
                         {/* Tab Contatos */}
-                        <TabPanel header="Contatos" leftIcon="pi pi-users mr-2">
-                            <div className="text-center text-500 py-6">
-                                <i className="pi pi-users text-4xl mb-3 block" />
-                                <p className="mb-3">Contatos relacionados a esta conta.</p>
-                                <Button
-                                    label="Ver Contatos"
-                                    icon="pi pi-external-link"
-                                    outlined
-                                    onClick={() => router.push('/crm/contatos')}
-                                />
-                            </div>
+                        <TabPanel header={`Contatos (${contatos.length})`} leftIcon="pi pi-users mr-2">
+                            {loadingRelated ? (
+                                <div className="flex justify-content-center py-4"><ProgressSpinner style={{ width: '40px', height: '40px' }} /></div>
+                            ) : contatos.length > 0 ? (
+                                <DataTable value={contatos} stripedRows size="small" paginator rows={5} emptyMessage="Nenhum contato encontrado.">
+                                    <Column
+                                        header="Nome"
+                                        body={(row: ContatoDTO) => (
+                                            <span
+                                                className="text-primary cursor-pointer hover:underline"
+                                                onClick={() => router.push(`/crm/contatos/${row.id}`)}
+                                            >
+                                                {row.nome} {row.sobrenome || ''}
+                                            </span>
+                                        )}
+                                    />
+                                    <Column field="titulo" header="Cargo" />
+                                    <Column field="email" header="Email" />
+                                    <Column field="telefone" header="Telefone" />
+                                </DataTable>
+                            ) : (
+                                <div className="text-center text-500 py-6">
+                                    <i className="pi pi-users text-4xl mb-3 block" />
+                                    <p className="mb-3">Nenhum contato vinculado a esta conta.</p>
+                                    <Button
+                                        label="Novo Contato"
+                                        icon="pi pi-plus"
+                                        outlined
+                                        onClick={() => router.push('/crm/contatos/novo')}
+                                    />
+                                </div>
+                            )}
                         </TabPanel>
 
                         {/* Tab Oportunidades */}
-                        <TabPanel header="Oportunidades" leftIcon="pi pi-dollar mr-2">
-                            <div className="text-center text-500 py-6">
-                                <i className="pi pi-chart-line text-4xl mb-3 block" />
-                                <p className="mb-3">Oportunidades vinculadas a esta conta.</p>
-                                <Button
-                                    label="Ver Oportunidades"
-                                    icon="pi pi-external-link"
-                                    outlined
-                                    onClick={() => router.push('/crm/oportunidades')}
-                                />
-                            </div>
+                        <TabPanel header={`Oportunidades (${oportunidades.length})`} leftIcon="pi pi-dollar mr-2">
+                            {loadingRelated ? (
+                                <div className="flex justify-content-center py-4"><ProgressSpinner style={{ width: '40px', height: '40px' }} /></div>
+                            ) : oportunidades.length > 0 ? (
+                                <DataTable value={oportunidades} stripedRows size="small" paginator rows={5} emptyMessage="Nenhuma oportunidade encontrada.">
+                                    <Column
+                                        header="Nome"
+                                        body={(row: OportunidadeDTO) => (
+                                            <span
+                                                className="text-primary cursor-pointer hover:underline"
+                                                onClick={() => router.push(`/crm/oportunidades/${row.id}`)}
+                                            >
+                                                {row.nome}
+                                            </span>
+                                        )}
+                                    />
+                                    <Column field="estagio" header="Estágio" body={(row: OportunidadeDTO) => <Tag value={row.estagio} severity={row.estagio === 'Closed Won' ? 'success' : row.estagio === 'Closed Lost' ? 'danger' : 'info'} />} />
+                                    <Column field="montante" header="Valor" body={(row: OportunidadeDTO) => row.montante ? row.montante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '—'} />
+                                    <Column field="probabilidade" header="Prob." body={(row: OportunidadeDTO) => row.probabilidade != null ? `${row.probabilidade}%` : '—'} />
+                                    <Column field="dataFechamento" header="Fechamento" body={(row: OportunidadeDTO) => row.dataFechamento ? new Date(row.dataFechamento).toLocaleDateString('pt-BR') : '—'} />
+                                </DataTable>
+                            ) : (
+                                <div className="text-center text-500 py-6">
+                                    <i className="pi pi-chart-line text-4xl mb-3 block" />
+                                    <p className="mb-3">Nenhuma oportunidade vinculada a esta conta.</p>
+                                    <Button
+                                        label="Nova Oportunidade"
+                                        icon="pi pi-plus"
+                                        outlined
+                                        onClick={() => router.push('/crm/oportunidades/novo')}
+                                    />
+                                </div>
+                            )}
                         </TabPanel>
 
                         {/* Tab Histórico */}

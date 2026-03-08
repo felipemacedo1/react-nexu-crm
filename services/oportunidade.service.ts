@@ -1,4 +1,5 @@
 import { BaseService, PaginatedResponse, PaginationParams } from './base.service';
+import api from './api.config';
 
 export interface OportunidadeDTO {
     id?: string;
@@ -45,12 +46,14 @@ class OportunidadeServiceClass extends BaseService<OportunidadeDTO> {
         return this.delete(id);
     }
 
-    async buscarPorEstagio(estagio: string): Promise<OportunidadeDTO[]> {
-        return this.search({ estagio });
+    async buscarPorNome(nome: string): Promise<OportunidadeDTO[]> {
+        const response = await api.get<OportunidadeDTO[]>(`${this.endpoint}/buscar`, { params: { nome } });
+        return response.data;
     }
 
     async buscarPorConta(contaId: string): Promise<OportunidadeDTO[]> {
-        return this.search({ contaId });
+        const response = await api.get<OportunidadeDTO[]>(`${this.endpoint}/por-conta/${contaId}`);
+        return response.data;
     }
 }
 

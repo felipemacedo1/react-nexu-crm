@@ -1,4 +1,5 @@
 import { BaseService, PaginatedResponse, PaginationParams } from './base.service';
+import api from './api.config';
 
 export interface ContatoDTO {
     id?: string;
@@ -50,11 +51,13 @@ class ContatoServiceClass extends BaseService<ContatoDTO> {
     }
 
     async buscarPorNome(nome: string): Promise<ContatoDTO[]> {
-        return this.search({ nome });
+        const response = await api.get<ContatoDTO[]>(`${this.endpoint}/buscar`, { params: { nome } });
+        return response.data;
     }
 
     async buscarPorConta(contaId: string): Promise<ContatoDTO[]> {
-        return this.search({ contaId });
+        const response = await api.get<ContatoDTO[]>(`${this.endpoint}/por-conta/${contaId}`);
+        return response.data;
     }
 }
 

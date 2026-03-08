@@ -4,11 +4,13 @@ import { useRouter } from 'next/navigation';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
+import { AutoComplete, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { Divider } from 'primereact/divider';
 import { classNames } from 'primereact/utils';
 import { ContatoService, ContatoDTO } from '@/services/contato.service';
+import { ContaService, ContaDTO } from '@/services/conta.service';
 
 const SAUDACAO_OPTIONS = [
     { label: 'Sr.', value: 'Sr.' },
@@ -25,6 +27,8 @@ const NovoContatoPage = () => {
 
     const [saving, setSaving] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [contaSelecionada, setContaSelecionada] = useState<ContaDTO | null>(null);
+    const [contaSugestoes, setContaSugestoes] = useState<ContaDTO[]>([]);
 
     const [formData, setFormData] = useState<Partial<ContatoDTO>>({
         saudacao: '',
@@ -43,6 +47,15 @@ const NovoContatoPage = () => {
         cep: '',
         pais: 'Brasil'
     });
+
+    const buscarContas = async (event: AutoCompleteCompleteEvent) => {
+        try {
+            const resultados = await ContaService.buscarPorNome(event.query);
+            setContaSugestoes(resultados);
+        } catch {
+            setContaSugestoes([]);
+        }
+    };
 
     const updateField = (field: keyof ContatoDTO, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -207,12 +220,26 @@ const NovoContatoPage = () => {
                         </div>
 
                         <div className="field col-12 md:col-6">
-                            <label htmlFor="contaId" className="font-medium">Conta (ID)</label>
-                            <InputText
+                            <label htmlFor="contaId" className="font-medium">Conta</label>
+                            <AutoComplete
                                 id="contaId"
-                                value={formData.contaId || ''}
-                                onChange={(e) => updateField('contaId', e.target.value)}
-                                placeholder="ID da conta vinculada"
+                                value={contaSelecionada}
+                                suggestions={contaSugestoes}
+                                completeMethod={buscarContas}
+                                field="nome"
+                                onChange={(e) => {
+                                    setContaSelecionada(e.value);
+                                    if (e.value && typeof e.value === 'object') {
+                                        updateField('contaId', e.value.id);
+                                    } else {
+                                        updateField('contaId', '');
+                                    }
+                                }}
+                                onClear={() => { setContaSelecionada(null); updateField('contaId', ''); }}
+                                placeholder="Digite para buscar conta..."
+                                dropdown
+                                forceSelection
+                                className="w-full"
                             />
                         </div>
 
