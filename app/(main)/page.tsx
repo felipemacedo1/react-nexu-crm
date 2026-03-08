@@ -31,7 +31,7 @@ const Dashboard = () => {
         labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
         datasets: [
             {
-                label: 'Leads',
+                label: 'Pré-Clientes',
                 data: [0, 0, 0, 0, 0, 0, 0],
                 fill: false,
                 backgroundColor: '#2f4860',
@@ -149,7 +149,7 @@ const Dashboard = () => {
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Leads</span>
+                            <span className="block text-500 font-medium mb-3">Pré-Clientes</span>
                             <div className="text-900 font-medium text-xl">{kpis.leads.total}</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
@@ -223,7 +223,7 @@ const Dashboard = () => {
             <div className="col-12 xl:col-6">
                 <div className="card">
                     <div className="flex justify-content-between align-items-center mb-4">
-                        <h5>Leads Recentes</h5>
+                        <h5>Pré-Clientes Recentes</h5>
                         <Link href="/crm/leads">
                             <Button label="Ver todos" icon="pi pi-arrow-right" iconPos="right" text size="small" />
                         </Link>
@@ -246,9 +246,9 @@ const Dashboard = () => {
                     ) : (
                         <div className="flex flex-column align-items-center justify-content-center py-5">
                             <i className="pi pi-inbox text-4xl text-300 mb-3"></i>
-                            <span className="text-600">Nenhum lead recente</span>
+                            <span className="text-600">Nenhum pré-cliente recente</span>
                             <Link href="/crm/leads">
-                                <Button label="Criar primeiro lead" icon="pi pi-plus" text className="mt-3" size="small" />
+                                <Button label="Criar primeiro pré-cliente" icon="pi pi-plus" text className="mt-3" size="small" />
                             </Link>
                         </div>
                     )}
@@ -285,7 +285,7 @@ const Dashboard = () => {
                     <h5>Ações Rápidas</h5>
                     <div className="flex flex-wrap gap-2">
                         <Link href="/crm/leads">
-                            <Button label="Novo Lead" icon="pi pi-user-plus" size="small" />
+                            <Button label="Novo Pré-Cliente" icon="pi pi-user-plus" size="small" />
                         </Link>
                         <Link href="/crm/contas">
                             <Button label="Nova Conta" icon="pi pi-building" size="small" severity="secondary" />

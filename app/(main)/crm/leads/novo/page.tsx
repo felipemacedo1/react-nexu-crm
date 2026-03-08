@@ -77,13 +77,13 @@ const NovoLeadPage = () => {
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: 'Lead criado com sucesso!',
+                detail: 'Pré-cliente criado com sucesso!',
                 life: 3000
             });
 
             setTimeout(() => router.push('/crm/leads'), 1000);
         } catch (error: any) {
-            const detail = error?.response?.data?.message || 'Erro ao criar lead';
+            const detail = error?.response?.data?.message || 'Erro ao criar pré-cliente';
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
@@ -111,7 +111,7 @@ const NovoLeadPage = () => {
                                 severity="secondary"
                                 onClick={() => router.push('/crm/leads')}
                             />
-                            <h2 className="m-0 text-xl font-semibold">Novo Lead</h2>
+                            <h2 className="m-0 text-xl font-semibold">Novo Pré-Cliente</h2>
                         </div>
                         <div className="flex gap-2">
                             <Button
@@ -148,7 +148,7 @@ const NovoLeadPage = () => {
                                 value={formData.nome}
                                 onChange={(e) => updateField('nome', e.target.value)}
                                 className={classNames({ 'p-invalid': submitted && !formData.nome.trim() })}
-                                placeholder="Nome do lead"
+                                placeholder="Nome do pré-cliente"
                             />
                             {submitted && !formData.nome.trim() && (
                                 <small className="p-error">Nome é obrigatório.</small>
@@ -215,7 +215,7 @@ const NovoLeadPage = () => {
                                 value={formData.descricao || ''}
                                 onChange={(e) => updateField('descricao', e.target.value)}
                                 rows={3}
-                                placeholder="Descrição do lead"
+                                placeholder="Descrição do pré-cliente"
                                 autoResize
                             />
                         </div>
@@ -302,7 +302,7 @@ const NovoLeadPage = () => {
                                 value={formData.descricaoOrigemLead || ''}
                                 onChange={(e) => updateField('descricaoOrigemLead', e.target.value)}
                                 rows={2}
-                                placeholder="Detalhes sobre a origem do lead"
+                                placeholder="Detalhes sobre a origem do pré-cliente"
                                 autoResize
                             />
                         </div>

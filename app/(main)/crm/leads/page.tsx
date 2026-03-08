@@ -48,7 +48,7 @@ const LeadsPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Erro ao carregar leads',
+                detail: 'Erro ao carregar pré-clientes',
                 life: 5000
             });
         } finally {
@@ -85,7 +85,7 @@ const LeadsPage = () => {
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: `Lead "${leadToDelete.nome}" excluído com sucesso`,
+                detail: `Pré-cliente "${leadToDelete.nome}" excluído com sucesso`,
                 life: 3000
             });
             setDeleteDialogVisible(false);
@@ -95,7 +95,7 @@ const LeadsPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Erro ao excluir lead',
+                detail: 'Erro ao excluir pré-cliente',
                 life: 5000
             });
         } finally {
@@ -156,14 +156,14 @@ const LeadsPage = () => {
     // Toolbar
     const startContent = (
         <div className="flex flex-wrap gap-2 align-items-center">
-            <h2 className="m-0 text-xl font-semibold">Leads</h2>
+            <h2 className="m-0 text-xl font-semibold">Pré-Clientes</h2>
             <Tag value={`${totalRecords} registros`} className="ml-2" />
         </div>
     );
 
     const endContent = (
         <Button
-            label="Novo Lead"
+            label="Novo Pré-Cliente"
             icon="pi pi-plus"
             severity="success"
             onClick={() => router.push('/crm/leads/novo')}
@@ -178,7 +178,7 @@ const LeadsPage = () => {
                 <InputText
                     value={globalFilter}
                     onChange={(e) => setGlobalFilter(e.target.value)}
-                    placeholder="Buscar leads..."
+                    placeholder="Buscar pré-clientes..."
                     className="w-full sm:w-auto"
                 />
             </span>
@@ -248,10 +248,10 @@ const LeadsPage = () => {
                         sortOrder={sortOrder}
                         loading={loading}
                         header={header}
-                        emptyMessage="Nenhum lead encontrado."
+                        emptyMessage="Nenhum pré-cliente encontrado."
                         rowsPerPageOptions={[10, 20, 50]}
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} leads"
+                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} pré-clientes"
                         globalFilter={globalFilter}
                         dataKey="id"
                         stripedRows
@@ -329,7 +329,7 @@ const LeadsPage = () => {
                     <div className="flex align-items-center gap-3">
                         <i className="pi pi-exclamation-triangle text-4xl text-orange-500" />
                         <span>
-                            Tem certeza que deseja excluir o lead{' '}
+                            Tem certeza que deseja excluir o pré-cliente{' '}
                             <strong>{leadToDelete?.nome}</strong>? Esta ação não pode ser desfeita.
                         </span>
                     </div>

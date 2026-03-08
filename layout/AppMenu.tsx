@@ -19,7 +19,7 @@ const AppMenu = () => {
             label: 'CRM',
             icon: 'pi pi-fw pi-briefcase',
             items: [
-                { label: 'Leads', icon: 'pi pi-fw pi-filter', to: '/crm/leads' },
+                { label: 'Pré-Clientes', icon: 'pi pi-fw pi-filter', to: '/crm/leads' },
                 { label: 'Contas', icon: 'pi pi-fw pi-building', to: '/crm/contas' },
                 { label: 'Contatos', icon: 'pi pi-fw pi-users', to: '/crm/contatos' },
                 { label: 'Oportunidades', icon: 'pi pi-fw pi-dollar', to: '/crm/oportunidades' },

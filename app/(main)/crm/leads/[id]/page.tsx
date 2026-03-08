@@ -31,7 +31,7 @@ const LeadDetalhesPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Lead não encontrado',
+                detail: 'Pré-cliente não encontrado',
                 life: 5000
             });
             setTimeout(() => router.push('/crm/leads'), 2000);
@@ -54,7 +54,7 @@ const LeadDetalhesPage = () => {
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: `Lead "${lead.nome}" excluído com sucesso`,
+                detail: `Pré-cliente "${lead.nome}" excluído com sucesso`,
                 life: 3000
             });
             setTimeout(() => router.push('/crm/leads'), 1000);
@@ -62,7 +62,7 @@ const LeadDetalhesPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Erro ao excluir lead',
+                detail: 'Erro ao excluir pré-cliente',
                 life: 5000
             });
         } finally {
@@ -104,8 +104,8 @@ const LeadDetalhesPage = () => {
         return (
             <div className="card text-center py-6">
                 <i className="pi pi-exclamation-circle text-6xl text-orange-500 mb-3" />
-                <h3>Lead não encontrado</h3>
-                <Button label="Voltar para Leads" icon="pi pi-arrow-left" onClick={() => router.push('/crm/leads')} />
+                <h3>Pré-cliente não encontrado</h3>
+                <Button label="Voltar para Pré-Clientes" icon="pi pi-arrow-left" onClick={() => router.push('/crm/leads')} />
             </div>
         );
     }
@@ -123,7 +123,7 @@ const LeadDetalhesPage = () => {
     // Timeline de atividades (placeholder)
     const timelineEvents = [
         {
-            status: 'Lead Criado',
+            status: 'Pré-Cliente Criado',
             date: formatDate(lead.dataCriacao),
             icon: 'pi pi-plus-circle',
             color: '#22C55E'
@@ -352,7 +352,7 @@ const LeadDetalhesPage = () => {
                     <div className="flex align-items-center gap-3">
                         <i className="pi pi-exclamation-triangle text-4xl text-orange-500" />
                         <span>
-                            Tem certeza que deseja excluir o lead{' '}
+                            Tem certeza que deseja excluir o pré-cliente{' '}
                             <strong>{lead.nome}</strong>? Esta ação não pode ser desfeita.
                         </span>
                     </div>
