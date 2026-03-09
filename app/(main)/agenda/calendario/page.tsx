@@ -8,8 +8,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
-import { Card } from 'primereact/card';
-import { FullCalendar } from 'primereact/fullcalendar';
+import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -110,25 +109,6 @@ const CalendarioPage = () => {
         }
     };
 
-    const calendarOptions = {
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        initialView: 'dayGridMonth',
-        locale: ptBrLocale,
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        events,
-        editable: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true,
-        dateClick: (info: any) => openNew(info.dateStr),
-        eventClick: (info: any) => openEdit(info.event),
-        height: 680
-    };
-
     return (
         <div className="grid">
             <Toast ref={toast} />
@@ -158,7 +138,24 @@ const CalendarioPage = () => {
                             </div>
                         }
                     />
-                    <FullCalendar options={calendarOptions} />
+                    <FullCalendar
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        initialView="dayGridMonth"
+                        locale={ptBrLocale}
+                        headerToolbar={{
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        }}
+                        events={events}
+                        editable={true}
+                        selectable={true}
+                        selectMirror={true}
+                        dayMaxEvents={true}
+                        dateClick={(info: any) => openNew(info.dateStr)}
+                        eventClick={(info: any) => openEdit(info.event)}
+                        height={680}
+                    />
                 </div>
             </div>
 
