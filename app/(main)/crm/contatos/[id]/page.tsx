@@ -219,7 +219,7 @@ const ContatoDetalhesPage = () => {
                                 <InfoItem label="Nome Completo" value={nomeCompleto} icon="pi pi-user" />
                                 <InfoItem label="Cargo" value={contato.titulo} icon="pi pi-briefcase" />
                                 <InfoItem label="Departamento" value={contato.departamento} icon="pi pi-sitemap" />
-                                <InfoItem label="Conta" value={contato.contaNome} icon="pi pi-building" />
+                                <InfoItem label="Empresa" value={contato.contaNome} icon="pi pi-building" />
                             </div>
 
                             <Divider />

@@ -18,7 +18,6 @@ import { LEAD_STATUS_LABELS, LEAD_STATUS_SEVERITY } from '@/services/lead.servic
 const PIPELINE_COLORS = ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#26C6DA', '#EF5350', '#78909C'];
 
 const Dashboard = () => {
-    const [lineOptions, setLineOptions] = useState<ChartOptions>({});
     const [pipelineOptions, setPipelineOptions] = useState<ChartOptions>({});
     const { layoutConfig } = useContext(LayoutContext);
     const { user } = useAuth();
@@ -43,24 +42,10 @@ const Dashboard = () => {
     }, [fetchResumo]);
 
     const applyLightTheme = () => {
-        setLineOptions({
-            plugins: { legend: { labels: { color: '#495057' } } },
-            scales: {
-                x: { ticks: { color: '#495057' }, grid: { color: '#ebedef' } },
-                y: { ticks: { color: '#495057' }, grid: { color: '#ebedef' } }
-            }
-        });
         setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: '#495057' } } } });
     };
 
     const applyDarkTheme = () => {
-        setLineOptions({
-            plugins: { legend: { labels: { color: '#ebedef' } } },
-            scales: {
-                x: { ticks: { color: '#ebedef' }, grid: { color: 'rgba(160, 167, 181, .3)' } },
-                y: { ticks: { color: '#ebedef' }, grid: { color: 'rgba(160, 167, 181, .3)' } }
-            }
-        });
         setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: '#ebedef' } } } });
     };
 
@@ -153,16 +138,16 @@ const Dashboard = () => {
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Contas</span>
+                            <span className="block text-500 font-medium mb-3">Empresas</span>
                             <div className="text-900 font-medium text-xl">
-                                {loading ? <ProgressSpinner style={{ width: '1.5rem', height: '1.5rem' }} strokeWidth="4" /> : (kpis?.contas.total ?? 0)}
+                                {loading ? <ProgressSpinner style={{ width: '1.5rem', height: '1.5rem' }} strokeWidth="4" /> : (kpis?.empresas.total ?? 0)}
                             </div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-building text-cyan-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-500">empresas cadastradas</span>
+                    <span className="text-500">cadastradas no CRM</span>
                 </div>
             </div>
 
@@ -201,7 +186,7 @@ const Dashboard = () => {
                             <Button label="Novo Pré-Cliente" icon="pi pi-user-plus" size="small" />
                         </Link>
                         <Link href="/crm/contas/novo">
-                            <Button label="Nova Conta" icon="pi pi-building" size="small" severity="secondary" />
+                            <Button label="Nova Empresa" icon="pi pi-building" size="small" severity="secondary" />
                         </Link>
                         <Link href="/crm/oportunidades/novo">
                             <Button label="Nova Oportunidade" icon="pi pi-dollar" size="small" severity="success" />

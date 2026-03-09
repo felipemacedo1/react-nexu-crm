@@ -93,7 +93,7 @@ const ContasPage = () => {
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: `Conta "${contaToDelete.nome}" excluída com sucesso`,
+                detail: `Empresa "${contaToDelete.nome}" excluída com sucesso`,
                 life: 3000
             });
             setDeleteDialogVisible(false);
@@ -103,7 +103,7 @@ const ContasPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Erro ao excluir conta',
+                detail: 'Erro ao excluir empresa',
                 life: 5000
             });
         } finally {
@@ -163,14 +163,14 @@ const ContasPage = () => {
     // Toolbar
     const startContent = (
         <div className="flex flex-wrap gap-2 align-items-center">
-            <h2 className="m-0 text-xl font-semibold">Contas</h2>
+            <h2 className="m-0 text-xl font-semibold">Empresas</h2>
             <Tag value={`${totalRecords} registros`} className="ml-2" />
         </div>
     );
 
     const endContent = (
         <Button
-            label="Nova Conta"
+            label="Nova Empresa"
             icon="pi pi-plus"
             severity="success"
             onClick={() => router.push('/crm/contas/novo')}
@@ -185,7 +185,7 @@ const ContasPage = () => {
                 <InputText
                     value={globalFilter}
                     onChange={(e) => setGlobalFilter(e.target.value)}
-                    placeholder="Buscar contas..."
+                    placeholder="Buscar empresas..."
                     className="w-full sm:w-auto"
                 />
             </span>
@@ -255,10 +255,10 @@ const ContasPage = () => {
                         sortOrder={sortOrder}
                         loading={loading}
                         header={header}
-                        emptyMessage="Nenhuma conta encontrada."
+                        emptyMessage="Nenhuma empresa encontrada."
                         rowsPerPageOptions={[10, 20, 50]}
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} contas"
+                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} empresas"
                         globalFilter={globalFilter}
                         dataKey="id"
                         stripedRows
@@ -342,7 +342,7 @@ const ContasPage = () => {
                     <div className="flex align-items-center gap-3">
                         <i className="pi pi-exclamation-triangle text-4xl text-orange-500" />
                         <span>
-                            Tem certeza que deseja excluir a conta{' '}
+                            Tem certeza que deseja excluir a empresa{' '}
                             <strong>{contaToDelete?.nome}</strong>? Esta ação não pode ser desfeita.
                         </span>
                     </div>

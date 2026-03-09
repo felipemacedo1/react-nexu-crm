@@ -253,7 +253,7 @@ const NovaOportunidadePage = () => {
                                 />
                             </div>
                             <div className="field col-12 md:col-4">
-                                <label htmlFor="contaId" className="font-medium">Conta</label>
+                                <label htmlFor="contaId" className="font-medium">Empresa</label>
                                 <AutoComplete
                                     id="contaId"
                                     value={contaSelecionada}
@@ -269,7 +269,7 @@ const NovaOportunidadePage = () => {
                                         }
                                     }}
                                     onClear={() => { setContaSelecionada(null); handleChange('contaId', undefined); }}
-                                    placeholder="Digite para buscar conta..."
+                                    placeholder="Digite para buscar empresa..."
                                     dropdown
                                     forceSelection
                                     className="w-full mt-1"

@@ -17,7 +17,7 @@ export interface DashboardKpiSimples {
 export interface DashboardKpis {
     leads: DashboardKpiLeads;
     oportunidades: DashboardKpiOportunidades;
-    contas: DashboardKpiSimples;
+    empresas: DashboardKpiSimples;
     contatos: DashboardKpiSimples;
 }
 

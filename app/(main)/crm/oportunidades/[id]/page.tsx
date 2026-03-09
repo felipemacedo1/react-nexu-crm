@@ -295,7 +295,7 @@ const OportunidadeDetailPage = () => {
                             </Divider>
                             <div className="grid">
                                 <InfoItem
-                                    label="Conta"
+                                    label="Empresa"
                                     value={
                                         oportunidade.contaNome ? (
                                             <span

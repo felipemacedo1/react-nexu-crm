@@ -278,7 +278,7 @@ const ContatosPage = () => {
                         />
                         <Column
                             field="contaNome"
-                            header="Conta"
+                            header="Empresa"
                             sortable
                             style={{ minWidth: '150px' }}
                             body={(rowData: ContatoDTO) =>

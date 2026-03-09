@@ -52,7 +52,7 @@ const ContaDetalhesPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Conta não encontrada',
+                detail: 'Empresa não encontrada',
                 life: 5000
             });
             setTimeout(() => router.push('/crm/contas'), 2000);
@@ -75,7 +75,7 @@ const ContaDetalhesPage = () => {
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: `Conta "${conta.nome}" excluída com sucesso`,
+                detail: `Empresa "${conta.nome}" excluída com sucesso`,
                 life: 3000
             });
             setTimeout(() => router.push('/crm/contas'), 1000);
@@ -83,7 +83,7 @@ const ContaDetalhesPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Erro ao excluir conta',
+                detail: 'Erro ao excluir empresa',
                 life: 5000
             });
         } finally {
@@ -130,8 +130,8 @@ const ContaDetalhesPage = () => {
         return (
             <div className="card text-center py-6">
                 <i className="pi pi-exclamation-circle text-6xl text-orange-500 mb-3" />
-                <h3>Conta não encontrada</h3>
-                <Button label="Voltar para Contas" icon="pi pi-arrow-left" onClick={() => router.push('/crm/contas')} />
+                <h3>Empresa não encontrada</h3>
+                <Button label="Voltar para Empresas" icon="pi pi-arrow-left" onClick={() => router.push('/crm/contas')} />
             </div>
         );
     }
@@ -145,7 +145,7 @@ const ContaDetalhesPage = () => {
 
     const timelineEvents = [
         {
-            status: 'Conta Criada',
+            status: 'Empresa Criada',
             date: formatDate(conta.criadoEm),
             icon: 'pi pi-plus-circle',
             color: '#22C55E'
@@ -318,7 +318,7 @@ const ContaDetalhesPage = () => {
                             ) : (
                                 <div className="text-center text-500 py-6">
                                     <i className="pi pi-users text-4xl mb-3 block" />
-                                    <p className="mb-3">Nenhum contato vinculado a esta conta.</p>
+                                    <p className="mb-3">Nenhum contato vinculado a esta empresa.</p>
                                     <Button
                                         label="Novo Contato"
                                         icon="pi pi-plus"
@@ -354,7 +354,7 @@ const ContaDetalhesPage = () => {
                             ) : (
                                 <div className="text-center text-500 py-6">
                                     <i className="pi pi-chart-line text-4xl mb-3 block" />
-                                    <p className="mb-3">Nenhuma oportunidade vinculada a esta conta.</p>
+                                    <p className="mb-3">Nenhuma oportunidade vinculada a esta empresa.</p>
                                     <Button
                                         label="Nova Oportunidade"
                                         icon="pi pi-plus"
@@ -414,7 +414,7 @@ const ContaDetalhesPage = () => {
                     <div className="flex align-items-center gap-3">
                         <i className="pi pi-exclamation-triangle text-4xl text-orange-500" />
                         <span>
-                            Tem certeza que deseja excluir a conta{' '}
+                            Tem certeza que deseja excluir a empresa{' '}
                             <strong>{conta.nome}</strong>? Esta ação não pode ser desfeita.
                         </span>
                     </div>

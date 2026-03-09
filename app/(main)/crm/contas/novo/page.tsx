@@ -104,13 +104,13 @@ const NovaContaPage = () => {
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: 'Conta criada com sucesso!',
+                detail: 'Empresa criada com sucesso!',
                 life: 3000
             });
 
             setTimeout(() => router.push('/crm/contas'), 1000);
         } catch (error: any) {
-            const detail = error?.response?.data?.message || 'Erro ao criar conta';
+            const detail = error?.response?.data?.message || 'Erro ao criar empresa';
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
@@ -138,7 +138,7 @@ const NovaContaPage = () => {
                                 severity="secondary"
                                 onClick={() => router.push('/crm/contas')}
                             />
-                            <h2 className="m-0 text-xl font-semibold">Nova Conta</h2>
+                            <h2 className="m-0 text-xl font-semibold">Nova Empresa</h2>
                         </div>
                         <div className="flex gap-2">
                             <Button

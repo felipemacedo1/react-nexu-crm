@@ -20,7 +20,7 @@ const AppMenu = () => {
             icon: 'pi pi-fw pi-briefcase',
             items: [
                 { label: 'Pré-Clientes', icon: 'pi pi-fw pi-filter', to: '/crm/leads' },
-                { label: 'Contas', icon: 'pi pi-fw pi-building', to: '/crm/contas' },
+                { label: 'Empresas', icon: 'pi pi-fw pi-building', to: '/crm/contas' },
                 { label: 'Contatos', icon: 'pi pi-fw pi-users', to: '/crm/contatos' },
                 { label: 'Oportunidades', icon: 'pi pi-fw pi-dollar', to: '/crm/oportunidades' },
                 { label: 'Atividades', icon: 'pi pi-fw pi-clock', to: '/crm/atividades' }

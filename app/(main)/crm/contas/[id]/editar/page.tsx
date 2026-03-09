@@ -102,7 +102,7 @@ const EditarContaPage = () => {
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Conta não encontrada',
+                detail: 'Empresa não encontrada',
                 life: 5000
             });
             setTimeout(() => router.push('/crm/contas'), 2000);
@@ -152,13 +152,13 @@ const EditarContaPage = () => {
             toast.current?.show({
                 severity: 'success',
                 summary: 'Sucesso',
-                detail: 'Conta atualizada com sucesso!',
+                detail: 'Empresa atualizada com sucesso!',
                 life: 3000
             });
 
             setTimeout(() => router.push(`/crm/contas/${id}`), 1000);
         } catch (error: any) {
-            const detail = error?.response?.data?.message || 'Erro ao atualizar conta';
+            const detail = error?.response?.data?.message || 'Erro ao atualizar empresa';
             toast.current?.show({
                 severity: 'error',
                 summary: 'Erro',
@@ -194,7 +194,7 @@ const EditarContaPage = () => {
                                 severity="secondary"
                                 onClick={() => router.push(`/crm/contas/${id}`)}
                             />
-                            <h2 className="m-0 text-xl font-semibold">Editar Conta</h2>
+                            <h2 className="m-0 text-xl font-semibold">Editar Empresa</h2>
                         </div>
                         <div className="flex gap-2">
                             <Button

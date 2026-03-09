@@ -278,7 +278,7 @@ const EditarContatoPage = () => {
                         </div>
 
                         <div className="field col-12 md:col-6">
-                            <label htmlFor="contaId" className="font-medium">Conta</label>
+                            <label htmlFor="contaId" className="font-medium">Empresa</label>
                             <AutoComplete
                                 id="contaId"
                                 value={contaSelecionada}
@@ -294,7 +294,7 @@ const EditarContatoPage = () => {
                                     }
                                 }}
                                 onClear={() => { setContaSelecionada(null); updateField('contaId', ''); }}
-                                placeholder="Digite para buscar conta..."
+                                placeholder="Digite para buscar empresa..."
                                 dropdown
                                 forceSelection
                                 className="w-full"
