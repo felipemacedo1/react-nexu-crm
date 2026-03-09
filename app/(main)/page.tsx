@@ -5,115 +5,82 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
-import React, { useContext, useEffect, useState } from 'react';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { LayoutContext } from '../../layout/context/layoutcontext';
 import { useAuth } from '@/hooks/useAuth';
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import DashboardService, { DashboardResumo, FASE_LABELS } from '@/services/dashboard.service';
+import { LEAD_STATUS_LABELS, LEAD_STATUS_SEVERITY } from '@/services/lead.service';
+
+const PIPELINE_COLORS = ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#26C6DA', '#EF5350', '#78909C'];
 
 const Dashboard = () => {
     const [lineOptions, setLineOptions] = useState<ChartOptions>({});
+    const [pipelineOptions, setPipelineOptions] = useState<ChartOptions>({});
     const { layoutConfig } = useContext(LayoutContext);
     const { user } = useAuth();
+    const router = useRouter();
 
-    // Dados placeholder - serão substituídos por dados reais da API
-    const kpis = {
-        leads: { total: 0, novos: 0 },
-        oportunidades: { total: 0, valor: 0 },
-        contas: { total: 0, ativas: 0 },
-        tarefas: { total: 0, pendentes: 0 }
-    };
+    const [resumo, setResumo] = useState<DashboardResumo | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const leadsRecentes: any[] = [];
-    const atividadesRecentes: any[] = [];
+    const fetchResumo = useCallback(async () => {
+        try {
+            const data = await DashboardService.getResumo();
+            setResumo(data);
+        } catch {
+            // silently fail
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
-    const lineData: ChartData = {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
-        datasets: [
-            {
-                label: 'Pré-Clientes',
-                data: [0, 0, 0, 0, 0, 0, 0],
-                fill: false,
-                backgroundColor: '#2f4860',
-                borderColor: '#2f4860',
-                tension: 0.4
-            },
-            {
-                label: 'Oportunidades',
-                data: [0, 0, 0, 0, 0, 0, 0],
-                fill: false,
-                backgroundColor: '#00bb7e',
-                borderColor: '#00bb7e',
-                tension: 0.4
-            }
-        ]
-    };
-
-    const pipelineData: ChartData = {
-        labels: ['Prospecção', 'Qualificação', 'Proposta', 'Negociação', 'Fechamento'],
-        datasets: [
-            {
-                data: [0, 0, 0, 0, 0],
-                backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#26C6DA']
-            }
-        ]
-    };
+    useEffect(() => {
+        fetchResumo();
+    }, [fetchResumo]);
 
     const applyLightTheme = () => {
         setLineOptions({
-            plugins: {
-                legend: { labels: { color: '#495057' } }
-            },
+            plugins: { legend: { labels: { color: '#495057' } } },
             scales: {
                 x: { ticks: { color: '#495057' }, grid: { color: '#ebedef' } },
                 y: { ticks: { color: '#495057' }, grid: { color: '#ebedef' } }
             }
         });
+        setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: '#495057' } } } });
     };
 
     const applyDarkTheme = () => {
         setLineOptions({
-            plugins: {
-                legend: { labels: { color: '#ebedef' } }
-            },
+            plugins: { legend: { labels: { color: '#ebedef' } } },
             scales: {
                 x: { ticks: { color: '#ebedef' }, grid: { color: 'rgba(160, 167, 181, .3)' } },
                 y: { ticks: { color: '#ebedef' }, grid: { color: 'rgba(160, 167, 181, .3)' } }
             }
         });
+        setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: '#ebedef' } } } });
     };
 
     useEffect(() => {
-        if (layoutConfig.colorScheme === 'light') {
-            applyLightTheme();
-        } else {
-            applyDarkTheme();
-        }
+        if (layoutConfig.colorScheme === 'light') applyLightTheme();
+        else applyDarkTheme();
     }, [layoutConfig.colorScheme]);
 
-    // TODO: Buscar dados reais da API
-    // useEffect(() => {
-    //     Promise.all([
-    //         LeadService.getAll(),
-    //         OportunidadeService.getAll(),
-    //         ContaService.getAll(),
-    //     ]).then(([leads, oportunidades, contas]) => { ... });
-    // }, []);
+    const pipelineChartData = resumo?.pipeline?.length
+        ? {
+              labels: resumo.pipeline.map(p => FASE_LABELS[p.fase] || p.fase),
+              datasets: [{
+                  data: resumo.pipeline.map(p => p.quantidade),
+                  backgroundColor: PIPELINE_COLORS.slice(0, resumo.pipeline.length)
+              }]
+          }
+        : { labels: ['Sem dados'], datasets: [{ data: [1], backgroundColor: ['#e0e0e0'] }] };
 
-    const getStatusLeadSeverity = (status: string) => {
-        switch (status) {
-            case 'NOVO': return 'info';
-            case 'QUALIFICADO': return 'success';
-            case 'EM_ANDAMENTO': return 'warning';
-            case 'CONVERTIDO': return 'success';
-            case 'PERDIDO': return 'danger';
-            default: return 'info';
-        }
-    };
-
-    const formatCurrency = (value: number) => {
-        return value?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    };
+    const formatCurrency = (value: number) =>
+        (value ?? 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     const saudacao = () => {
         const hora = new Date().getHours();
@@ -121,6 +88,9 @@ const Dashboard = () => {
         if (hora < 18) return 'Boa tarde';
         return 'Boa noite';
     };
+
+    const kpis = resumo?.kpis;
+    const leadsRecentes = resumo?.leadsRecentes ?? [];
 
     return (
         <div className="grid">
@@ -135,9 +105,7 @@ const Dashboard = () => {
                             {user ? `${user.nome?.charAt(0) || ''}${user.sobrenome?.charAt(0) || ''}`.toUpperCase() : 'U'}
                         </div>
                         <div>
-                            <div className="text-900 font-bold text-2xl">
-                                {saudacao()}, {user?.nome || 'Usuário'}!
-                            </div>
+                            <div className="text-900 font-bold text-2xl">{saudacao()}, {user?.nome || 'Usuário'}!</div>
                             <span className="text-600">Aqui está o resumo do seu CRM</span>
                         </div>
                     </div>
@@ -150,154 +118,170 @@ const Dashboard = () => {
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Pré-Clientes</span>
-                            <div className="text-900 font-medium text-xl">{kpis.leads.total}</div>
+                            <div className="text-900 font-medium text-xl">
+                                {loading ? <ProgressSpinner style={{ width: '1.5rem', height: '1.5rem' }} strokeWidth="4" /> : (kpis?.leads.total ?? 0)}
+                            </div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-users text-blue-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">{kpis.leads.novos} novos </span>
-                    <span className="text-500">este mês</span>
+                    <span className="text-green-500 font-medium">{kpis?.leads.novos ?? 0} novos </span>
+                    <span className="text-500">(status "Novo")</span>
                 </div>
             </div>
+
             <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Oportunidades</span>
-                            <div className="text-900 font-medium text-xl">{formatCurrency(kpis.oportunidades.valor)}</div>
+                            <div className="text-900 font-medium text-xl">
+                                {loading ? <ProgressSpinner style={{ width: '1.5rem', height: '1.5rem' }} strokeWidth="4" /> : formatCurrency(kpis?.oportunidades.valorPipeline ?? 0)}
+                            </div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-dollar text-orange-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">{kpis.oportunidades.total} ativas </span>
+                    <span className="text-green-500 font-medium">{kpis?.oportunidades.total ?? 0} ativas </span>
                     <span className="text-500">no pipeline</span>
                 </div>
             </div>
+
             <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">Contas</span>
-                            <div className="text-900 font-medium text-xl">{kpis.contas.total}</div>
+                            <div className="text-900 font-medium text-xl">
+                                {loading ? <ProgressSpinner style={{ width: '1.5rem', height: '1.5rem' }} strokeWidth="4" /> : (kpis?.contas.total ?? 0)}
+                            </div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className="pi pi-building text-cyan-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">{kpis.contas.ativas} ativas </span>
-                    <span className="text-500">no sistema</span>
+                    <span className="text-500">empresas cadastradas</span>
                 </div>
             </div>
+
             <div className="col-12 lg:col-6 xl:col-3">
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         <div>
-                            <span className="block text-500 font-medium mb-3">Tarefas Pendentes</span>
-                            <div className="text-900 font-medium text-xl">{kpis.tarefas.pendentes}</div>
+                            <span className="block text-500 font-medium mb-3">Contatos</span>
+                            <div className="text-900 font-medium text-xl">
+                                {loading ? <ProgressSpinner style={{ width: '1.5rem', height: '1.5rem' }} strokeWidth="4" /> : (kpis?.contatos.total ?? 0)}
+                            </div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
-                            <i className="pi pi-check-square text-purple-500 text-xl" />
+                            <i className="pi pi-id-card text-purple-500 text-xl" />
                         </div>
                     </div>
-                    <span className="text-orange-500 font-medium">{kpis.tarefas.total} total </span>
-                    <span className="text-500">de tarefas</span>
+                    <span className="text-500">pessoas cadastradas</span>
                 </div>
             </div>
 
-            {/* Gráfico de Leads e Oportunidades */}
-            <div className="col-12 xl:col-6">
-                <div className="card">
-                    <h5>Evolução Mensal</h5>
-                    <Chart type="line" data={lineData} options={lineOptions} />
-                </div>
-
+            {/* Pipeline doughnut + Ações */}
+            <div className="col-12 xl:col-5">
                 <div className="card">
                     <h5>Pipeline de Vendas</h5>
-                    <Chart type="doughnut" data={pipelineData} options={{ plugins: { legend: { position: 'bottom' } } }} />
+                    {loading ? (
+                        <div className="flex justify-content-center py-6"><ProgressSpinner /></div>
+                    ) : (
+                        <Chart type="doughnut" data={pipelineChartData} options={pipelineOptions} />
+                    )}
+                </div>
+
+                <div className="card">
+                    <h5>Ações Rápidas</h5>
+                    <div className="flex flex-wrap gap-2">
+                        <Link href="/crm/leads/novo">
+                            <Button label="Novo Pré-Cliente" icon="pi pi-user-plus" size="small" />
+                        </Link>
+                        <Link href="/crm/contas/novo">
+                            <Button label="Nova Conta" icon="pi pi-building" size="small" severity="secondary" />
+                        </Link>
+                        <Link href="/crm/oportunidades/novo">
+                            <Button label="Nova Oportunidade" icon="pi pi-dollar" size="small" severity="success" />
+                        </Link>
+                        <Link href="/crm/contatos/novo">
+                            <Button label="Novo Contato" icon="pi pi-id-card" size="small" severity="info" />
+                        </Link>
+                    </div>
                 </div>
             </div>
 
-            {/* Leads Recentes e Atividades */}
-            <div className="col-12 xl:col-6">
+            {/* Pré-Clientes Recentes + Pipeline tabela */}
+            <div className="col-12 xl:col-7">
                 <div className="card">
                     <div className="flex justify-content-between align-items-center mb-4">
-                        <h5>Pré-Clientes Recentes</h5>
+                        <h5 className="m-0">Pré-Clientes Recentes</h5>
                         <Link href="/crm/leads">
                             <Button label="Ver todos" icon="pi pi-arrow-right" iconPos="right" text size="small" />
                         </Link>
                     </div>
-                    {leadsRecentes.length > 0 ? (
+                    {loading ? (
+                        <div className="flex justify-content-center py-6"><ProgressSpinner /></div>
+                    ) : leadsRecentes.length > 0 ? (
                         <DataTable value={leadsRecentes} rows={5} responsiveLayout="scroll">
-                            <Column field="nome" header="Nome" sortable />
-                            <Column field="empresa" header="Empresa" sortable />
+                            <Column
+                                field="nome"
+                                header="Nome"
+                                body={(row) => (
+                                    <span
+                                        className="font-semibold text-primary cursor-pointer hover:underline"
+                                        onClick={() => router.push(`/crm/leads/${row.id}`)}
+                                    >
+                                        {row.nome}
+                                    </span>
+                                )}
+                            />
+                            <Column field="empresa" header="Empresa" body={(row) => row.empresa || '—'} />
                             <Column
                                 field="status"
                                 header="Status"
-                                body={(data) => <Tag value={data.status} severity={getStatusLeadSeverity(data.status)} />}
+                                body={(row) => {
+                                    const label = LEAD_STATUS_LABELS[row.status || ''] || row.status || '—';
+                                    const severity = (LEAD_STATUS_SEVERITY[row.status || ''] || 'secondary') as any;
+                                    return <Tag value={label} severity={severity} />;
+                                }}
                             />
                             <Column
-                                header="Ações"
-                                body={() => <Button icon="pi pi-eye" text rounded size="small" />}
-                                style={{ width: '5rem' }}
+                                header=""
+                                style={{ width: '4rem' }}
+                                body={(row) => (
+                                    <Button icon="pi pi-eye" text rounded size="small" onClick={() => router.push(`/crm/leads/${row.id}`)} />
+                                )}
                             />
                         </DataTable>
                     ) : (
                         <div className="flex flex-column align-items-center justify-content-center py-5">
                             <i className="pi pi-inbox text-4xl text-300 mb-3"></i>
-                            <span className="text-600">Nenhum pré-cliente recente</span>
-                            <Link href="/crm/leads">
-                                <Button label="Criar primeiro pré-cliente" icon="pi pi-plus" text className="mt-3" size="small" />
+                            <span className="text-600 mb-3">Nenhum pré-cliente cadastrado ainda</span>
+                            <Link href="/crm/leads/novo">
+                                <Button label="Criar primeiro pré-cliente" icon="pi pi-plus" text size="small" />
                             </Link>
                         </div>
                     )}
                 </div>
 
-                <div className="card">
-                    <div className="flex justify-content-between align-items-center mb-4">
-                        <h5>Atividades Recentes</h5>
-                        <Link href="/crm/atividades">
-                            <Button label="Ver todas" icon="pi pi-arrow-right" iconPos="right" text size="small" />
-                        </Link>
-                    </div>
-                    {atividadesRecentes.length > 0 ? (
-                        <ul className="p-0 m-0 list-none">
-                            {atividadesRecentes.map((atividade, index) => (
-                                <li key={index} className="flex align-items-center py-2 border-bottom-1 surface-border">
-                                    <div className="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
-                                        <i className={`pi ${atividade.icone || 'pi-clock'} text-xl text-blue-500`} />
-                                    </div>
-                                    <span className="text-900 line-height-3">{atividade.descricao}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <div className="flex flex-column align-items-center justify-content-center py-5">
-                            <i className="pi pi-clock text-4xl text-300 mb-3"></i>
-                            <span className="text-600">Nenhuma atividade recente</span>
+                {!loading && resumo?.pipeline && resumo.pipeline.length > 0 && (
+                    <div className="card">
+                        <div className="flex justify-content-between align-items-center mb-4">
+                            <h5 className="m-0">Oportunidades por Fase</h5>
+                            <Link href="/crm/oportunidades">
+                                <Button label="Ver todas" icon="pi pi-arrow-right" iconPos="right" text size="small" />
+                            </Link>
                         </div>
-                    )}
-                </div>
-
-                {/* Atalhos Rápidos */}
-                <div className="card">
-                    <h5>Ações Rápidas</h5>
-                    <div className="flex flex-wrap gap-2">
-                        <Link href="/crm/leads">
-                            <Button label="Novo Pré-Cliente" icon="pi pi-user-plus" size="small" />
-                        </Link>
-                        <Link href="/crm/contas">
-                            <Button label="Nova Conta" icon="pi pi-building" size="small" severity="secondary" />
-                        </Link>
-                        <Link href="/crm/oportunidades">
-                            <Button label="Nova Oportunidade" icon="pi pi-dollar" size="small" severity="success" />
-                        </Link>
-                        <Link href="/agenda/eventos">
-                            <Button label="Novo Evento" icon="pi pi-calendar-plus" size="small" severity="info" />
-                        </Link>
+                        <DataTable value={resumo.pipeline} responsiveLayout="scroll">
+                            <Column field="fase" header="Fase" body={(row) => FASE_LABELS[row.fase] || row.fase} />
+                            <Column field="quantidade" header="Qtd." style={{ width: '5rem', textAlign: 'center' }} />
+                            <Column field="valor" header="Valor Total" body={(row) => formatCurrency(row.valor)} />
+                        </DataTable>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );
