@@ -11,6 +11,18 @@
 			"type": "shell",
 			"command": "cd /home/felipe-macedo/projects/react-crm-frontend && git add -A && git commit -m \"feat: add utils/storage, hooks/useApi+usePagination, types/forms, shared components, Atividades module, Admin/Usuarios CRUD pages; tick checklist\"",
 			"isBackground": false
+		},
+		{
+			"label": "Git push frontend",
+			"type": "shell",
+			"command": "cd /home/felipe-macedo/projects/react-crm-frontend && git push",
+			"isBackground": false
+		},
+		{
+			"label": "Git Commit and Push Modules",
+			"type": "shell",
+			"command": "cd /home/felipe-macedo/projects/react-crm-frontend && git add -A && git commit -m 'feat: add Agenda (Eventos/Lembretes/Tarefas), Suporte (Casos), Financeiro (Orcamentos/Produtos) modules; add shared ConfirmDialog+ErrorBoundary services; tick checklist' && git push",
+			"isBackground": false
 		}
 	]
 }

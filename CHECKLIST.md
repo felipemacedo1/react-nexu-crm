@@ -178,11 +178,11 @@
   - Confirmação de exclusão
   - Export (CSV, Excel, PDF)
 - [ ] Criar `app/components/FormDialog.tsx` (modal genérico para formulários)
-- [ ] Criar `app/components/ConfirmDialog.tsx`
+- [x] Criar `app/components/ConfirmDialog.tsx`
 - [x] Criar `app/components/PageHeader.tsx` (breadcrumb + título)
 - [x] Criar `app/components/EmptyState.tsx`
 - [x] Criar `app/components/LoadingSpinner.tsx`
-- [ ] Criar `app/components/ErrorBoundary.tsx`
+- [x] Criar `app/components/ErrorBoundary.tsx`
 
 ### 4.3 Layout Customization
 - [x] Atualizar `layout/AppTopbar.tsx`
@@ -304,7 +304,7 @@
 ## 📅 FASE 7: Módulo Agenda
 
 ### 7.1 Calendário
-- [ ] Criar `services/evento.service.ts`
+- [x] Criar `services/evento.service.ts`
 - [ ] Criar `app/(main)/agenda/calendario/page.tsx`
   - Integrar PrimeReact FullCalendar
   - Visualizações: mês, semana, dia
@@ -315,14 +315,14 @@
   - Lembretes configuráveis
 
 ### 7.2 Eventos e Lembretes
-- [ ] Criar `app/(main)/agenda/eventos/page.tsx` (listagem)
-- [ ] Criar `services/lembrete.service.ts`
-- [ ] Criar `app/(main)/agenda/lembretes/page.tsx`
+- [x] Criar `app/(main)/agenda/eventos/page.tsx` (listagem)
+- [x] Criar `services/lembrete.service.ts`
+- [x] Criar `app/(main)/agenda/lembretes/page.tsx`
 - [ ] Implementar notificações de lembretes
 
 ### 7.3 Tarefas
-- [ ] Criar `services/tarefa.service.ts`
-- [ ] Criar `app/(main)/agenda/tarefas/page.tsx`
+- [x] Criar `services/tarefa.service.ts`
+- [x] Criar `app/(main)/agenda/tarefas/page.tsx`
   - Lista de tarefas com checkbox
   - Filtros: status, prioridade, data
   - Marcar como concluída
@@ -332,14 +332,14 @@
 ## 🛡️ FASE 8: Módulo Suporte
 
 ### 8.1 Casos
-- [ ] Criar `services/caso.service.ts`
-- [ ] Criar `app/(main)/suporte/casos/page.tsx` (listagem)
+- [x] Criar `services/caso.service.ts`
+- [x] Criar `app/(main)/suporte/casos/page.tsx` (listagem)
   - Filtros: status, prioridade, categoria
-- [ ] Criar `app/(main)/suporte/casos/[id]/page.tsx` (detalhes)
+- [x] Criar `app/(main)/suporte/casos/[id]/page.tsx` (detalhes)
   - Informações do caso
   - Comentários/Atualizações
   - Anexos
-- [ ] Criar componente `CasoForm.tsx`
+- [x] Criar componente `CasoForm.tsx` _(form inline em novo/page.tsx)_
 
 ### 8.2 Base de Conhecimento
 - [ ] Criar `services/base-conhecimento.service.ts`
@@ -353,16 +353,16 @@
 ## 💼 FASE 9: Módulo Financeiro
 
 ### 9.1 Orçamentos
-- [ ] Criar `services/orcamento.service.ts`
-- [ ] Criar `app/(main)/financeiro/orcamentos/page.tsx`
-- [ ] Criar componente `OrcamentoForm.tsx`
+- [x] Criar `services/orcamento.service.ts`
+- [x] Criar `app/(main)/financeiro/orcamentos/page.tsx`
+- [x] Criar componente `OrcamentoForm.tsx` _(form inline em novo/page.tsx)_
   - Adicionar produtos com quantidade e desconto
   - Cálculo automático de totais
 
 ### 9.2 Produtos/Serviços
-- [ ] Criar `services/produto.service.ts`
-- [ ] Criar `app/(main)/financeiro/produtos/page.tsx`
-- [ ] Criar componente `ProdutoForm.tsx`
+- [x] Criar `services/produto.service.ts`
+- [x] Criar `app/(main)/financeiro/produtos/page.tsx`
+- [x] Criar componente `ProdutoForm.tsx` _(form inline em novo/page.tsx)_
 
 ---
 
