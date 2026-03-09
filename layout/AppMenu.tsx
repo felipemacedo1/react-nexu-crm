@@ -83,6 +83,21 @@ const AppMenu = () => {
                 { label: 'Grupos de Segurança', icon: 'pi pi-fw pi-shield', to: '/admin/grupos' },
                 { label: 'Configurações', icon: 'pi pi-fw pi-sliders-h', to: '/admin/configuracoes' }
             ]
+        },
+        {
+            label: 'Integrações',
+            icon: 'pi pi-fw pi-link',
+            items: [
+                { label: 'OAuth / APIs', icon: 'pi pi-fw pi-key', to: '/integracao/oauth' },
+                { label: 'Webhooks', icon: 'pi pi-fw pi-bolt', to: '/integracao/webhooks' }
+            ]
+        },
+        {
+            label: 'Ferramentas',
+            icon: 'pi pi-fw pi-wrench',
+            items: [
+                { label: 'Exportar / Importar', icon: 'pi pi-fw pi-arrows-h', to: '/exportacao' }
+            ]
         }
     ];
 

@@ -422,26 +422,26 @@
 ## 🎯 FASE 13: Funcionalidades Avançadas
 
 ### 13.1 Busca Global
-- [ ] Implementar busca global no AppTopbar
-- [ ] Criar `services/search.service.ts`
-- [ ] Buscar em todas as entidades (leads, contas, contatos, etc.)
-- [ ] Exibir resultados em Overlay/Dialog
+- [x] Implementar busca global no AppTopbar
+- [x] Criar `services/search.service.ts`
+- [x] Buscar em todas as entidades (leads, contas, contatos, etc.)
+- [x] Exibir resultados em Overlay/Dialog
 
 ### 13.2 Notificações em Tempo Real
-- [ ] Implementar WebSocket/SSE para notificações
-- [ ] Criar componente de notificações no Topbar
-- [ ] Badge de notificações não lidas
+- [ ] Implementar WebSocket/SSE para notificações _(pendente backend)_
+- [x] Criar componente de notificações no Topbar
+- [x] Badge de notificações não lidas
 
 ### 13.3 Upload de Arquivos
-- [ ] Criar `services/upload.service.ts`
-- [ ] Criar componente `FileUpload.tsx`
-- [ ] Implementar preview de imagens
-- [ ] Galeria de anexos
+- [x] Criar `services/upload.service.ts`
+- [x] Criar componente `FileUpload.tsx`
+- [x] Implementar preview de imagens
+- [x] Galeria de anexos
 
 ### 13.4 Exportação e Importação
-- [ ] Implementar exportação em massa (CSV, Excel)
-- [ ] Implementar importação de dados (CSV)
-- [ ] Validação de dados importados
+- [x] Implementar exportação em massa (CSV, JSON)
+- [x] Implementar importação de dados (CSV)
+- [x] Validação de dados importados
 
 ### 13.5 Favoritos e Filtros Salvos
 - [ ] Adicionar funcionalidade de favoritar registros
