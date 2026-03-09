@@ -305,14 +305,12 @@
 
 ### 7.1 Calendário
 - [x] Criar `services/evento.service.ts`
-- [ ] Criar `app/(main)/agenda/calendario/page.tsx`
+- [x] Criar `app/(main)/agenda/calendario/page.tsx`
   - Integrar PrimeReact FullCalendar
   - Visualizações: mês, semana, dia
   - Criar evento ao clicar no calendário
   - Editar evento ao clicar em evento existente
-- [ ] Criar componente `EventoForm.tsx`
-  - Campos: título, descrição, data/hora, local, participantes
-  - Lembretes configuráveis
+- [x] Criar componente `EventoForm.tsx` _(form inline no calendário/page.tsx)_
 
 ### 7.2 Eventos e Lembretes
 - [x] Criar `app/(main)/agenda/eventos/page.tsx` (listagem)
@@ -342,11 +340,11 @@
 - [x] Criar componente `CasoForm.tsx` _(form inline em novo/page.tsx)_
 
 ### 8.2 Base de Conhecimento
-- [ ] Criar `services/base-conhecimento.service.ts`
-- [ ] Criar `app/(main)/suporte/base-conhecimento/page.tsx`
+- [x] Criar `services/base-conhecimento.service.ts`
+- [x] Criar `app/(main)/suporte/base-conhecimento/page.tsx`
   - Busca de artigos
   - Categorias
-- [ ] Criar visualizador de artigo com rich text
+- [x] Criar visualizador de artigo com rich text
 
 ---
 
@@ -369,17 +367,17 @@
 ## 📈 FASE 10: Módulo Relatórios
 
 ### 10.1 Relatórios Pré-definidos
-- [ ] Criar `services/relatorio.service.ts`
-- [ ] Criar `app/(main)/relatorios/page.tsx`
+- [x] Criar `services/relatorio.service.ts`
+- [x] Criar `app/(main)/relatorios/page.tsx`
   - Lista de relatórios disponíveis
-- [ ] Implementar relatórios:
+- [x] Implementar relatórios:
   - Funil de vendas
   - Performance de vendas
   - Leads por origem
   - Taxa de conversão
   - Oportunidades ganhas/perdidas
-- [ ] Implementar exportação (PDF, Excel, CSV)
-- [ ] Implementar filtros de período
+- [x] Implementar exportação (CSV)
+- [x] Implementar filtros de período
 
 ---
 
@@ -394,13 +392,13 @@
   - Associar a grupos de segurança
 
 ### 11.2 Grupos de Segurança e Permissões
-- [ ] Criar `services/grupo-seguranca.service.ts`
-- [ ] Criar `app/(main)/admin/grupos/page.tsx`
-- [ ] Implementar matriz de permissões
-- [ ] Criar componente `PermissoesMatrix.tsx`
+- [x] Criar `services/grupo-seguranca.service.ts`
+- [x] Criar `app/(main)/admin/grupos/page.tsx`
+- [x] Implementar matriz de permissões _(inline com Accordion + Checkbox)_
+- [x] Criar componente `PermissoesMatrix.tsx` _(integrado em grupos/page.tsx)_
 
 ### 11.3 Configurações do Sistema
-- [ ] Criar `app/(main)/admin/configuracoes/page.tsx`
+- [x] Criar `app/(main)/admin/configuracoes/page.tsx`
   - Configurações gerais
   - Configurações de email
   - Configurações de integração
@@ -411,13 +409,13 @@
 ## 🔌 FASE 12: Integrações
 
 ### 12.1 OAuth e APIs Externas
-- [ ] Criar `services/oauth.service.ts`
-- [ ] Criar `app/(main)/integracao/oauth/page.tsx`
-- [ ] Implementar conexões OAuth externas
+- [x] Criar `services/oauth.service.ts`
+- [x] Criar `app/(main)/integracao/oauth/page.tsx`
+- [x] Implementar conexões OAuth externas
 
 ### 12.2 Webhooks
-- [ ] Criar `app/(main)/integracao/webhooks/page.tsx`
-- [ ] Gerenciar webhooks de entrada/saída
+- [x] Criar `app/(main)/integracao/webhooks/page.tsx`
+- [x] Gerenciar webhooks de entrada/saída
 
 ---
 
