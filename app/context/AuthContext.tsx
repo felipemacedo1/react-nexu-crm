@@ -1,6 +1,7 @@
 'use client';
 import React, { createContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { AuthService, LoginRequest, LoginResponse, RegisterRequest, UsuarioLogado } from '@/services/auth.service';
+import { broadcastLogout } from '@/services/api.config';
 import { useRouter } from 'next/navigation';
 
 interface AuthContextProps {
@@ -50,6 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const logout = useCallback(() => {
         setToken(undefined);
         setUser(null);
+        broadcastLogout();   // notifica outras abas
         AuthService.logout();
     }, []);
 

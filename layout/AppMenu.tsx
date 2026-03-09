@@ -96,6 +96,7 @@ const AppMenu = () => {
             label: 'Ferramentas',
             icon: 'pi pi-fw pi-wrench',
             items: [
+                { label: 'Favoritos', icon: 'pi pi-fw pi-star', to: '/favoritos' },
                 { label: 'Exportar / Importar', icon: 'pi pi-fw pi-arrows-h', to: '/exportacao' }
             ]
         }

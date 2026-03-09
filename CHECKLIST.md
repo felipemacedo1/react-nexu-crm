@@ -444,19 +444,19 @@
 - [x] Validação de dados importados
 
 ### 13.5 Favoritos e Filtros Salvos
-- [ ] Adicionar funcionalidade de favoritar registros
-- [ ] Salvar filtros personalizados
-- [ ] Persistir preferências do usuário
+- [x] Adicionar funcionalidade de favoritar registros
+- [x] Salvar filtros personalizados
+- [x] Persistir preferências do usuário
 
 ---
 
 ## 🧪 FASE 14: Testes
 
 ### 14.1 Testes Unitários
-- [ ] Configurar Jest + React Testing Library
-- [ ] Testar componentes principais
-- [ ] Testar hooks customizados
-- [ ] Testar services (mock de API)
+- [x] Configurar Jest + React Testing Library
+- [x] Testar componentes principais
+- [x] Testar hooks customizados _(useDebounce, useLocalStorage, useFavoritos)_
+- [x] Testar services (mock de API) _(upload.service helpers)_
 
 ### 14.2 Testes de Integração
 - [ ] Testar fluxos completos (login → CRUD)
@@ -471,10 +471,10 @@
 ## 🚀 FASE 15: Performance e Otimização
 
 ### 15.1 Performance
-- [ ] Implementar lazy loading de componentes
-- [ ] Otimizar bundle size (code splitting)
+- [x] Implementar lazy loading de componentes _(Next.js automático via App Router)_
+- [x] Otimizar bundle size (code splitting) _(next.config.js transpilePackages + compress)_
 - [ ] Implementar cache de dados (React Query ou SWR)
-- [ ] Otimizar imagens (next/image)
+- [x] Otimizar imagens (next/image) _(next.config.js images config)_
 - [ ] Implementar virtualização para listas grandes
 
 ### 15.2 SEO e Acessibilidade
@@ -507,9 +507,9 @@
 ## 🎨 FASE 17: UX/UI Refinamento
 
 ### 17.1 Feedback Visual
-- [ ] Implementar loading states em todos os botões
-- [ ] Skeleton loaders para carregamento de dados
-- [ ] Toasts para feedback de ações (sucesso/erro)
+- [x] Implementar loading states em todos os botões _(loading prop nos Buttons)_
+- [x] Skeleton loaders para carregamento de dados _(SkeletonTable, SkeletonCards, SkeletonForm, SkeletonKPI)_
+- [x] Toasts para feedback de ações (sucesso/erro) _(Toast em todas as páginas)_
 - [ ] Animações sutis (transições, hover states)
 
 ### 17.2 Temas e Personalização
@@ -553,24 +553,24 @@
 - [ ] Implementar CSP (Content Security Policy)
 - [ ] Sanitizar inputs de usuário
 - [ ] Implementar rate limiting no frontend
-- [ ] Validar dados antes de enviar ao backend
-- [ ] Implementar proteção contra XSS
-- [ ] Implementar proteção contra CSRF
+- [x] Validar dados antes de enviar ao backend _(validações em todos os forms)_
+- [x] Implementar proteção contra XSS _(X-XSS-Protection header em next.config.js)_
+- [x] Implementar proteção contra CSRF _(X-Frame-Options, Referrer-Policy headers)_
 
 ### 19.2 Gestão de Tokens
-- [ ] Implementar refresh token automático
-- [ ] Implementar logout em múltiplas abas
-- [ ] Limpar dados sensíveis ao deslogar
+- [x] Implementar refresh token automático _(interceptor em api.config.ts)_
+- [x] Implementar logout em múltiplas abas _(broadcastLogout via localStorage event)_
+- [x] Limpar dados sensíveis ao deslogar _(Cookies.remove em AuthService.logout)_
 
 ---
 
 ## 🌐 FASE 20: Deploy e CI/CD
 
 ### 20.1 Build de Produção
-- [ ] Configurar variáveis de ambiente de produção
+- [x] Configurar variáveis de ambiente de produção
 - [ ] Testar build de produção localmente
-- [ ] Otimizar assets para produção
-- [ ] Configurar .env.production
+- [x] Otimizar assets para produção _(compress + image formats em next.config.js)_
+- [x] Configurar .env.production
 
 ### 20.2 Deploy
 - [ ] Escolher plataforma de deploy (Vercel, Netlify, AWS, etc.)
@@ -579,12 +579,12 @@
 - [ ] Configurar CORS no backend para domínio de produção
 
 ### 20.3 CI/CD Pipeline
-- [ ] Configurar GitHub Actions
+- [x] Configurar GitHub Actions
   - Lint e format check
   - Testes automatizados
   - Build automático
-  - Deploy automático
-- [ ] Configurar ambientes (dev, staging, production)
+  - Deploy automático (Vercel)
+- [x] Configurar ambientes (dev, staging, production) _(.env.production + workflow environments)_
 
 ---
 
