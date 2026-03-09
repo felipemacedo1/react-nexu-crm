@@ -5,6 +5,12 @@
 			"label": "Git Commit Frontend",
 			"type": "shell",
 			"command": "cd /home/felipe-macedo/projects/react-crm-frontend && git add -A && git commit -m 'feat: rename Contas -> Empresas across all UI labels; clean dashboard unused state' && git push && echo 'FRONTEND_PUSHED'"
+		},
+		{
+			"label": "Git commit frontend",
+			"type": "shell",
+			"command": "cd /home/felipe-macedo/projects/react-crm-frontend && git add -A && git commit -m \"feat: add utils/storage, hooks/useApi+usePagination, types/forms, shared components, Atividades module, Admin/Usuarios CRUD pages; tick checklist\"",
+			"isBackground": false
 		}
 	]
 }

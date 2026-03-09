@@ -118,23 +118,23 @@
 - [x] Criar `types/api.ts`
   - `ApiResponse<T>`, `PaginatedResponse<T>`, `ApiError`
   - `LoginRequest`, `LoginResponse`, `RegisterRequest` _(definidos em base.service.ts)_
-- [ ] Criar `types/forms.ts` para tipos de formulários
+- [x] Criar `types/forms.ts` para tipos de formulários
 
 ### 3.3 Utilities e Helpers
 - [x] Criar `utils/format.ts`
   - `formatDate()`, `formatCurrency()`, `formatPhone()`, `formatCPF()`
 - [x] Criar `utils/validation.ts`
   - `validateEmail()`, `validateCPF()`, `validatePhone()`
-- [ ] Criar `utils/storage.ts`
+- [x] Criar `utils/storage.ts`
   - `saveToLocalStorage()`, `getFromLocalStorage()`, `removeFromLocalStorage()`
 - [x] Criar `constants/api-routes.ts` com todas as rotas
 - [x] Criar `constants/app-constants.ts`
 
 ### 3.4 Custom Hooks
 - [x] Criar `hooks/useAuth.ts` (wrapper do AuthContext)
-- [ ] Criar `hooks/useApi.ts` (generic hook para chamadas API)
+- [x] Criar `hooks/useApi.ts` (generic hook para chamadas API)
 - [x] Criar `hooks/useDebounce.ts` (para filtros de busca)
-- [ ] Criar `hooks/usePagination.ts`
+- [x] Criar `hooks/usePagination.ts`
 - [x] Criar `hooks/useToast.ts` (wrapper do PrimeReact Toast)
 
 ---
@@ -179,9 +179,9 @@
   - Export (CSV, Excel, PDF)
 - [ ] Criar `app/components/FormDialog.tsx` (modal genérico para formulários)
 - [ ] Criar `app/components/ConfirmDialog.tsx`
-- [ ] Criar `app/components/PageHeader.tsx` (breadcrumb + título)
-- [ ] Criar `app/components/EmptyState.tsx`
-- [ ] Criar `app/components/LoadingSpinner.tsx`
+- [x] Criar `app/components/PageHeader.tsx` (breadcrumb + título)
+- [x] Criar `app/components/EmptyState.tsx`
+- [x] Criar `app/components/LoadingSpinner.tsx`
 - [ ] Criar `app/components/ErrorBoundary.tsx`
 
 ### 4.3 Layout Customization
@@ -199,12 +199,12 @@
 
 ### 5.1 Dashboard Principal
 - [x] Criar `app/(main)/page.tsx` (Dashboard) _(layout completo, dados placeholder)_
-- [ ] Criar serviço `services/dashboard.service.ts`
+- [x] Criar serviço `services/dashboard.service.ts`
   - `getKPIs()` → Métricas principais
   - `getRecentActivities()`
   - `getLeadsByStatus()`
   - `getOpportunitiesByStage()`
-- [ ] Implementar cards de KPIs:
+- [x] Implementar cards de KPIs:
   - Total de Leads
   - Total de Contas
   - Oportunidades em aberto
@@ -215,7 +215,7 @@
   - Leads por origem
   - Oportunidades por estágio
   - Evolução mensal
-- [ ] Criar widget de atividades recentes
+- [x] Criar widget de atividades recentes
 - [ ] Criar widget de lembretes/tarefas do dia
 - [ ] Implementar filtros de período (hoje, semana, mês, ano)
 
@@ -290,11 +290,11 @@
 - [ ] Implementar visualização Kanban (arrastar entre estágios)
 
 ### 6.5 Atividades
-- [ ] Criar `services/atividade.service.ts`
-- [ ] Criar `types/atividade.types.ts`
-- [ ] Criar `app/(main)/crm/atividades/page.tsx` (listagem)
+- [x] Criar `services/atividade.service.ts`
+- [x] Criar `types/atividade.types.ts`
+- [x] Criar `app/(main)/crm/atividades/page.tsx` (listagem)
   - Filtros: tipo, status, data, responsável
-- [ ] Criar componente `AtividadeForm.tsx`
+- [x] Criar componente `AtividadeForm.tsx`
   - Tipos: chamada, email, reunião, tarefa
   - Vincular com lead/contato/oportunidade
 - [ ] Criar timeline de atividades (componente reutilizável)
@@ -387,9 +387,9 @@
 
 ### 11.1 Gestão de Usuários
 - [x] Criar `services/usuario.service.ts`
-- [ ] Criar `app/(main)/admin/usuarios/page.tsx` (listagem)
-- [ ] Criar `app/(main)/admin/usuarios/[id]/page.tsx`
-- [ ] Criar componente `UsuarioForm.tsx`
+- [x] Criar `app/(main)/admin/usuarios/page.tsx` (listagem)
+- [x] Criar `app/(main)/admin/usuarios/[id]/page.tsx`
+- [x] Criar componente `UsuarioForm.tsx`
   - Campos: nome, email, senha, papéis, ativo
   - Associar a grupos de segurança
 
