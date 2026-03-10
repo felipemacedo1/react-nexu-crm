@@ -12,6 +12,18 @@ const nextConfig = {
 
     // Headers de segurança (CSP, XSS, etc.)
     async headers() {
+        const cspDirectives = [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",   // unsafe-eval needed by PrimeReact
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+            "font-src 'self' https://fonts.gstatic.com data:",
+            "img-src 'self' data: blob: https:",
+            "connect-src 'self' http://localhost:* https:",
+            "frame-ancestors 'none'",
+            "base-uri 'self'",
+            "form-action 'self'",
+        ].join('; ');
+
         return [
             {
                 source: '/(.*)',
@@ -23,6 +35,10 @@ const nextConfig = {
                     {
                         key: 'Permissions-Policy',
                         value: 'camera=(), microphone=(), geolocation=()',
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: cspDirectives,
                     },
                 ],
             },

@@ -473,7 +473,7 @@
 ### 15.1 Performance
 - [x] Implementar lazy loading de componentes _(Next.js automático via App Router)_
 - [x] Otimizar bundle size (code splitting) _(next.config.js transpilePackages + compress)_
-- [ ] Implementar cache de dados (React Query ou SWR)
+- [x] Implementar cache de dados (React Query ou SWR) _(QueryClientProvider em app/layout.tsx, staleTime 1min, gcTime 5min)_
 - [x] Otimizar imagens (next/image) _(next.config.js images config)_
 - [ ] Implementar virtualização para listas grandes
 
@@ -510,7 +510,7 @@
 - [x] Implementar loading states em todos os botões _(loading prop nos Buttons)_
 - [x] Skeleton loaders para carregamento de dados _(SkeletonTable, SkeletonCards, SkeletonForm, SkeletonKPI)_
 - [x] Toasts para feedback de ações (sucesso/erro) _(Toast em todas as páginas)_
-- [ ] Animações sutis (transições, hover states)
+- [x] Animações sutis (transições, hover states) _(.card hover shadow, .p-button active scale, row transition, grabbing cursor)_
 
 ### 17.2 Temas e Personalização
 - [x] Implementar dark mode completo
@@ -550,7 +550,7 @@
 ## 🔒 FASE 19: Segurança
 
 ### 19.1 Boas Práticas de Segurança
-- [ ] Implementar CSP (Content Security Policy)
+- [x] Implementar CSP (Content Security Policy) _(Content-Security-Policy header em next.config.js)_
 - [x] Sanitizar inputs de usuário _(utils/sanitize.ts: sanitizeString, sanitizeFormData, sanitizeUrl, truncate)_
 - [ ] Implementar rate limiting no frontend
 - [x] Validar dados antes de enviar ao backend _(validações em todos os forms)_
@@ -593,7 +593,7 @@
 ### 21.1 Error Tracking
 - [ ] Integrar Sentry ou similar
 - [ ] Configurar alertas de erro
-- [ ] Implementar error boundaries globais
+- [x] Implementar error boundaries globais _(ErrorBoundary em app/layout.tsx envolvendo todo o children)_
 
 ### 21.2 Analytics
 - [ ] Integrar Google Analytics ou Plausible

@@ -2,6 +2,9 @@
 import { LayoutProvider } from '../layout/context/layoutcontext';
 import { PrimeReactProvider } from 'primereact/api';
 import { AuthProvider } from './context/AuthContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
+import ErrorBoundary from './components/ErrorBoundary';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
@@ -13,6 +16,17 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+    const [queryClient] = useState(() => new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 60 * 1000,      // 1 min
+                gcTime: 5 * 60 * 1000,     // 5 min garbage collect
+                retry: 1,
+                refetchOnWindowFocus: false,
+            },
+        },
+    }));
+
     return (
         <html lang="pt-BR" suppressHydrationWarning>
             <head>
@@ -42,11 +56,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <link id="theme-css" href={`/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>
             </head>
             <body>
-                <PrimeReactProvider>
-                    <AuthProvider>
-                        <LayoutProvider>{children}</LayoutProvider>
-                    </AuthProvider>
-                </PrimeReactProvider>
+                <QueryClientProvider client={queryClient}>
+                    <PrimeReactProvider>
+                        <AuthProvider>
+                            <LayoutProvider>
+                                <ErrorBoundary>
+                                    {children}
+                                </ErrorBoundary>
+                            </LayoutProvider>
+                        </AuthProvider>
+                    </PrimeReactProvider>
+                </QueryClientProvider>
             </body>
         </html>
     );
