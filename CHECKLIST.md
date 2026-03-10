@@ -494,13 +494,13 @@
 ## 📱 FASE 16: Responsividade
 
 ### 16.1 Mobile Optimization
-- [ ] Testar e ajustar layout em mobile (< 768px)
-- [ ] Implementar menu mobile (hamburger)
-- [ ] Ajustar DataTables para mobile (responsive cards)
-- [ ] Testar formulários em telas pequenas
+- [x] Testar e ajustar layout em mobile (< 768px) _(_responsive.scss: card padding, form full-width, Kanban vertical)_
+- [x] Implementar menu mobile (hamburger) _(já implementado no layout-wrapper.layout-mobile-active)_
+- [x] Ajustar DataTables para mobile (responsive cards) _(p-datatable-responsive-stack com ::before data-label)_
+- [x] Testar formulários em telas pequenas _(p-fluid full-width para inputs/dropdowns/multiselects)_
 
 ### 16.2 Tablet Optimization
-- [ ] Testar e ajustar layout em tablet (768px - 1024px)
+- [x] Testar e ajustar layout em tablet (768px - 1024px) _(media query 768-1024: card padding + Kanban min-width)_
 
 ---
 

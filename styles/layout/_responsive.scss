@@ -97,3 +97,80 @@
         }
     }
 }
+
+// ── Mobile (<768px): DataTables, forms, cards ─────────────────────────────────
+
+@media (max-width: 767px) {
+
+    // DataTables: stack columns as cards
+    .p-datatable.p-datatable-responsive-stack {
+        .p-datatable-thead > tr > th,
+        .p-datatable-tfoot > tr > td {
+            display: none !important;
+        }
+
+        .p-datatable-tbody > tr > td {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            border: none;
+            padding: 0.5rem 1rem;
+
+            &:first-child { padding-top: 1rem; border-top: 1px solid var(--surface-border); }
+            &:last-child  { padding-bottom: 1rem; }
+
+            &::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--text-color-secondary);
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                flex: 0 0 40%;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    // General card padding reduction on mobile
+    .card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    // Action buttons in DataTable: smaller on mobile
+    .p-datatable .p-button.p-button-rounded.p-button-icon-only {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    // Form fields full-width
+    .p-fluid .p-inputtext,
+    .p-fluid .p-dropdown,
+    .p-fluid .p-multiselect,
+    .p-fluid .p-calendar {
+        width: 100% !important;
+    }
+
+    // Kanban columns: stacked vertically on mobile
+    .kanban-board {
+        flex-direction: column !important;
+
+        .kanban-column {
+            min-width: unset !important;
+            width: 100% !important;
+        }
+    }
+}
+
+// ── Tablet (768px – 1024px) ───────────────────────────────────────────────────
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .card {
+        padding: 1.25rem;
+    }
+
+    .kanban-board .kanban-column {
+        min-width: 200px !important;
+    }
+}
