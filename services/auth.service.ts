@@ -19,6 +19,7 @@ export interface UsuarioLogado {
     email: string;
     nomeUsuario: string;
     ativo: boolean;
+    administrador?: boolean;
 }
 
 export interface RegisterRequest {

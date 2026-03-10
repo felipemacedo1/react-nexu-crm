@@ -169,7 +169,7 @@
     - Configurações
   ```
 - [x] Adicionar ícones apropriados (PrimeIcons)
-- [ ] Configurar permissões de menu por perfil de usuário
+- [x] Configurar permissões de menu por perfil de usuário _(Admin/Integrações ocultos para não-admins via user.administrador)_
 
 ### 4.2 Componentes Compartilhados
 - [x] Criar `app/components/DataTableCrud.tsx` (componente reutilizável)

@@ -1,16 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import AppMenuitem from './AppMenuitem';
 import { LayoutContext } from './context/layoutcontext';
 import { MenuProvider } from './context/menucontext';
 import Link from 'next/link';
 import { AppMenuItem } from '@/types';
+import { useAuth } from '@/hooks/useAuth';
 
 const AppMenu = () => {
     const { layoutConfig } = useContext(LayoutContext);
+    const { user } = useAuth();
+    const isAdmin = Boolean(user?.administrador);
 
-    const model: AppMenuItem[] = [
+    const model: AppMenuItem[] = useMemo(() => {
+        const allItems: AppMenuItem[] = [
         {
             label: 'Home',
             items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
@@ -75,6 +79,8 @@ const AppMenu = () => {
                 { label: 'Relatórios', icon: 'pi pi-fw pi-chart-bar', to: '/relatorios' }
             ]
         },
+        // ── Admin-only sections ───────────────────────────────────────────────
+        ...(isAdmin ? [
         {
             label: 'Admin',
             icon: 'pi pi-fw pi-cog',
@@ -92,6 +98,7 @@ const AppMenu = () => {
                 { label: 'Webhooks', icon: 'pi pi-fw pi-bolt', to: '/integracao/webhooks' }
             ]
         },
+        ] : []),
         {
             label: 'Ferramentas',
             icon: 'pi pi-fw pi-wrench',
@@ -101,10 +108,12 @@ const AppMenu = () => {
             ]
         }
     ];
+        return allItems;
+    }, [isAdmin]);
 
     return (
         <MenuProvider>
-            <ul className="layout-menu">
+            <ul className="layout-menu" role="navigation" aria-label="Menu principal">
                 {model.map((item, i) => {
                     return !item?.seperator ? <AppMenuitem item={item} root={true} index={i} key={item.label} /> : <li className="menu-separator"></li>;
                 })}
