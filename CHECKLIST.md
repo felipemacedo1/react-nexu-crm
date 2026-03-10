@@ -480,7 +480,7 @@
 ### 15.2 SEO e Acessibilidade
 - [x] Configurar meta tags (Next.js Metadata API)
 - [x] Implementar semantic HTML
-- [ ] Garantir navegação por teclado
+- [x] Garantir navegação por teclado _(:focus-visible outline em _utils.scss, skip-to-content link em layout.tsx)_
 - [x] Adicionar ARIA labels _(aria-label, aria-haspopup, aria-pressed, aria-hidden em AppTopbar; role=combobox na busca)_
 
 ### 15.3 PWA (Progressive Web App)
@@ -519,8 +519,8 @@
 - [ ] Criar temas customizados do NexoCRM
 
 ### 17.3 Internacionalização (i18n)
-- [ ] Configurar next-intl ou react-intl
-- [ ] Traduzir interface para PT-BR (padrão)
+- [x] Configurar next-intl ou react-intl _(addLocale+locale('pt-BR') via PrimeReact API em app/layout.tsx)_
+- [x] Traduzir interface para PT-BR (padrão) _(todos os labels PrimeReact em português: meses, dias, pãginacao, aria)_
 - [ ] Adicionar suporte para EN-US
 - [ ] Adicionar suporte para ES-ES
 
