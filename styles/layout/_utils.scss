@@ -12,9 +12,14 @@
     margin-bottom: 2rem;
     box-shadow: var(--card-shadow);
     border-radius: $borderRadius;
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
 
     &:last-child {
         margin-bottom: 0;
+    }
+
+    &:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
     }
 }
 
@@ -23,5 +28,34 @@
     &.p-toast-top-left,
     &.p-toast-top-center {
         top: 100px;
+    }
+}
+
+// ── Subtle global transitions ─────────────────────────────────────────────────
+
+.p-button {
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease, transform 0.1s ease !important;
+
+    &:not(:disabled):active {
+        transform: scale(0.97);
+    }
+}
+
+.p-datatable .p-datatable-tbody > tr {
+    transition: background-color 0.15s ease;
+}
+
+.layout-topbar-button {
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+
+// ── Kanban drag styles ────────────────────────────────────────────────────────
+
+[draggable="true"] {
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
     }
 }

@@ -1,6 +1,8 @@
 {
   "name": "nexocrm-frontend",
   "version": "1.0.0",
+  "description": "NexoCRM — Plataforma moderna de CRM (Next.js + PrimeReact + TypeScript)",
+  "author": "Felipe Macedo <felipemacedo1@github>",
   "private": true,
   "scripts": {
     "dev": "next dev",

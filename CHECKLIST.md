@@ -15,7 +15,7 @@
 - [x] Alterar título da aplicação no `layout/AppTopbar.tsx`
 - [x] Adicionar logo NexoCRM em `public/layout/images/`
 - [ ] Atualizar favicon em `public/favicon.ico`
-- [ ] Atualizar `package.json` description e author
+- [x] Atualizar `package.json` description e author
 
 ### 1.2 Configuração de Ambiente
 - [x] Criar `.env.local` com variáveis de ambiente
@@ -172,12 +172,12 @@
 - [ ] Configurar permissões de menu por perfil de usuário
 
 ### 4.2 Componentes Compartilhados
-- [ ] Criar `app/components/DataTableCrud.tsx` (componente reutilizável)
+- [x] Criar `app/components/DataTableCrud.tsx` (componente reutilizável)
   - DataTable com filtros, ordenação, paginação
   - Botões de ação (criar, editar, excluir)
   - Confirmação de exclusão
   - Export (CSV, Excel, PDF)
-- [ ] Criar `app/components/FormDialog.tsx` (modal genérico para formulários)
+- [x] Criar `app/components/FormDialog.tsx` (modal genérico para formulários)
 - [x] Criar `app/components/ConfirmDialog.tsx`
 - [x] Criar `app/components/PageHeader.tsx` (breadcrumb + título)
 - [x] Criar `app/components/EmptyState.tsx`
@@ -191,7 +191,7 @@
   - Avatar
   - Dropdown com perfil/configurações/logout
 - [x] Atualizar `layout/AppFooter.tsx` com informações do NexoCRM
-- [ ] Configurar tema padrão em `layout/context/layoutcontext.tsx`
+- [x] Configurar tema padrão em `layout/context/layoutcontext.tsx`
 
 ---
 
@@ -210,14 +210,14 @@
   - Oportunidades em aberto
   - Receita projetada
   - Taxa de conversão
-- [ ] Implementar gráficos (Chart.js):
+- [x] Implementar gráficos (Chart.js):
   - Funil de vendas
   - Leads por origem
   - Oportunidades por estágio
   - Evolução mensal
 - [x] Criar widget de atividades recentes
-- [ ] Criar widget de lembretes/tarefas do dia
-- [ ] Implementar filtros de período (hoje, semana, mês, ano)
+- [x] Criar widget de lembretes/tarefas do dia
+- [x] Implementar filtros de período (hoje, semana, mês, ano)
 
 ---
 
@@ -240,7 +240,7 @@
 - [x] Criar componente `LeadForm.tsx`
   - Validação de campos obrigatórios
   - Campos: nome, email, telefone, empresa, cargo, origem, status
-- [ ] Implementar conversão de Lead → Contato/Conta
+- [x] Implementar conversão de Lead → Contato/Conta
 
 ### 6.2 Contas
 - [x] Criar `services/conta.service.ts`
@@ -287,7 +287,7 @@
 - [x] Criar componente `OportunidadeForm.tsx`
   - Campos: nome, valor, probabilidade, data de fechamento, estágio
   - Vincular conta e contato
-- [ ] Implementar visualização Kanban (arrastar entre estágios)
+- [x] Implementar visualização Kanban (arrastar entre estágios)
 
 ### 6.5 Atividades
 - [x] Criar `services/atividade.service.ts`
@@ -297,7 +297,7 @@
 - [x] Criar componente `AtividadeForm.tsx`
   - Tipos: chamada, email, reunião, tarefa
   - Vincular com lead/contato/oportunidade
-- [ ] Criar timeline de atividades (componente reutilizável)
+- [x] Criar timeline de atividades (componente reutilizável)
 
 ---
 
@@ -478,15 +478,15 @@
 - [ ] Implementar virtualização para listas grandes
 
 ### 15.2 SEO e Acessibilidade
-- [ ] Configurar meta tags (Next.js Metadata API)
-- [ ] Implementar semantic HTML
+- [x] Configurar meta tags (Next.js Metadata API)
+- [x] Implementar semantic HTML
 - [ ] Garantir navegação por teclado
-- [ ] Adicionar ARIA labels
+- [x] Adicionar ARIA labels _(aria-label, aria-haspopup, aria-pressed, aria-hidden em AppTopbar; role=combobox na busca)_
 
 ### 15.3 PWA (Progressive Web App)
 - [ ] Configurar Service Worker
 - [ ] Implementar offline mode
-- [ ] Adicionar manifest.json
+- [x] Adicionar manifest.json
 - [ ] Implementar instalação como app
 
 ---
@@ -513,9 +513,9 @@
 - [ ] Animações sutis (transições, hover states)
 
 ### 17.2 Temas e Personalização
-- [ ] Implementar dark mode completo
-- [ ] Permitir troca de tema (light/dark)
-- [ ] Persistir preferência de tema
+- [x] Implementar dark mode completo
+- [x] Permitir troca de tema (light/dark)
+- [x] Persistir preferência de tema
 - [ ] Criar temas customizados do NexoCRM
 
 ### 17.3 Internacionalização (i18n)
@@ -529,16 +529,16 @@
 ## 📚 FASE 18: Documentação
 
 ### 18.1 Documentação Técnica
-- [ ] Documentar arquitetura do projeto
-- [ ] Documentar padrões de código
-- [ ] Documentar estrutura de pastas
-- [ ] Documentar services e API integration
+- [x] Documentar arquitetura do projeto
+- [x] Documentar padrões de código
+- [x] Documentar estrutura de pastas
+- [x] Documentar services e API integration
 
 ### 18.2 Documentação de Uso
-- [ ] Criar guia de instalação (README.md)
-- [ ] Criar guia de desenvolvimento
-- [ ] Documentar variáveis de ambiente
-- [ ] Criar guia de deploy
+- [x] Criar guia de instalação (README.md)
+- [x] Criar guia de desenvolvimento
+- [x] Documentar variáveis de ambiente
+- [x] Criar guia de deploy
 
 ### 18.3 Storybook (Opcional)
 - [ ] Configurar Storybook
@@ -551,7 +551,7 @@
 
 ### 19.1 Boas Práticas de Segurança
 - [ ] Implementar CSP (Content Security Policy)
-- [ ] Sanitizar inputs de usuário
+- [x] Sanitizar inputs de usuário _(utils/sanitize.ts: sanitizeString, sanitizeFormData, sanitizeUrl, truncate)_
 - [ ] Implementar rate limiting no frontend
 - [x] Validar dados antes de enviar ao backend _(validações em todos os forms)_
 - [x] Implementar proteção contra XSS _(X-XSS-Protection header em next.config.js)_

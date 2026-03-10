@@ -199,12 +199,21 @@ const OportunidadesPage = () => {
     );
 
     const endContent = (
-        <Button
-            label="Nova Oportunidade"
-            icon="pi pi-plus"
-            severity="success"
-            onClick={() => router.push('/crm/oportunidades/novo')}
-        />
+        <div className="flex gap-2">
+            <Button
+                label="Kanban"
+                icon="pi pi-th-large"
+                severity="secondary"
+                outlined
+                onClick={() => router.push('/crm/oportunidades/kanban')}
+            />
+            <Button
+                label="Nova Oportunidade"
+                icon="pi pi-plus"
+                severity="success"
+                onClick={() => router.push('/crm/oportunidades/novo')}
+            />
+        </div>
     );
 
     // Header da DataTable

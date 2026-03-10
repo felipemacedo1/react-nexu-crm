@@ -90,6 +90,24 @@ export const LEAD_STATUS_SEVERITY: Record<string, string> = {
     'Dead': 'danger'
 };
 
+// ─── Conversão de Lead ────────────────────────────────────────────────────────
+
+export interface LeadConversionPayload {
+    criarContato: boolean;
+    criarConta: boolean;
+    criarOportunidade: boolean;
+    nomeOportunidade?: string;
+}
+
+export interface LeadConversionResult {
+    leadId: string;
+    status: string;
+    contatoId?: string;
+    contaId?: string;
+    oportunidadeId?: string;
+    mensagem?: string;
+}
+
 class LeadServiceClass extends BaseService<LeadResponseDTO> {
     constructor() {
         super('/lead');
@@ -113,6 +131,12 @@ class LeadServiceClass extends BaseService<LeadResponseDTO> {
 
     async excluir(id: string): Promise<void> {
         return this.delete(id);
+    }
+
+    /** Converte um lead em contato + conta + oportunidade */
+    async converter(id: string, payload: LeadConversionPayload): Promise<LeadConversionResult> {
+        const response = await api.post<LeadConversionResult>(`/lead/${id}/converter`, payload);
+        return response.data;
     }
 }
 

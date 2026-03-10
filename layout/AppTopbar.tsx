@@ -17,7 +17,14 @@ import { SearchService, SearchResultItem, SEARCH_TIPO_LABELS } from '@/services/
 import { useDebounce } from '@/hooks/useDebounce';
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
-    const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
+    const { layoutConfig, setLayoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
+
+    const toggleDarkMode = useCallback(() => {
+        const isDark = layoutConfig.colorScheme === 'dark';
+        const newScheme = isDark ? 'light' : 'dark';
+        const newTheme = isDark ? 'lara-light-indigo' : 'lara-dark-indigo';
+        setLayoutConfig((prev: any) => ({ ...prev, colorScheme: newScheme, theme: newTheme }));
+    }, [layoutConfig.colorScheme, setLayoutConfig]);
     const { user, logout } = useAuth();
     const router = useRouter();
     const menubuttonRef = useRef(null);
@@ -144,6 +151,10 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                         onKeyDown={handleSearchKeyDown}
                         placeholder="Buscar leads, contas, contatos..."
                         className="w-full"
+                        aria-label="Busca global"
+                        role="combobox"
+                        aria-autocomplete="list"
+                        aria-expanded={searchResults.length > 0}
                         style={{ borderRadius: '2rem', paddingLeft: '2.5rem', fontSize: '0.875rem' }}
                     />
                     {searching && (
@@ -195,11 +206,23 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                         <span>Calendário</span>
                     </button>
                 </Link>
-                <Link href="/notificacoes">
-                    <button type="button" className="p-link layout-topbar-button p-overlay-badge" style={{ position: 'relative' }}>
-                        <i className="pi pi-bell"></i>
+                <button
+                    type="button"
+                    className="p-link layout-topbar-button"
+                    onClick={toggleDarkMode}
+                    title={layoutConfig.colorScheme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+                    aria-label={layoutConfig.colorScheme === 'dark' ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+                    aria-pressed={layoutConfig.colorScheme === 'dark'}
+                >
+                    <i className={layoutConfig.colorScheme === 'dark' ? 'pi pi-sun' : 'pi pi-moon'} aria-hidden="true" />
+                    <span>{layoutConfig.colorScheme === 'dark' ? 'Claro' : 'Escuro'}</span>
+                </button>
+
+                <Link href="/notificacoes" aria-label={`Notificações${notificacoes > 0 ? ` (${notificacoes} não lidas)` : ''}`}>
+                    <button type="button" className="p-link layout-topbar-button p-overlay-badge" style={{ position: 'relative' }} aria-label={`Notificações${notificacoes > 0 ? ` (${notificacoes} não lidas)` : ''}`}>
+                        <i className="pi pi-bell" aria-hidden="true"></i>
                         {notificacoes > 0 && (
-                            <Badge value={notificacoes > 9 ? '9+' : String(notificacoes)} severity="danger" style={{ position: 'absolute', top: '4px', right: '4px', fontSize: '0.6rem', minWidth: '1.1rem', height: '1.1rem' }} />
+                            <Badge value={notificacoes > 9 ? '9+' : String(notificacoes)} severity="danger" style={{ position: 'absolute', top: '4px', right: '4px', fontSize: '0.6rem', minWidth: '1.1rem', height: '1.1rem' }} aria-hidden="true" />
                         )}
                         <span>Notificações</span>
                     </button>
@@ -210,6 +233,8 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                     type="button"
                     className="p-link layout-topbar-button flex align-items-center gap-2"
                     onClick={(e) => profileMenuRef.current?.toggle(e)}
+                    aria-label={`Menu do usuário ${user?.nome || 'Usuário'}`}
+                    aria-haspopup="true"
                 >
                     <div
                         className="flex align-items-center justify-content-center bg-primary border-circle font-bold text-white"

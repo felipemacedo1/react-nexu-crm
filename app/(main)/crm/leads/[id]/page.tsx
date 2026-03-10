@@ -8,8 +8,11 @@ import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { TabView, TabPanel } from 'primereact/tabview';
-import { Timeline } from 'primereact/timeline';
-import { LeadService, LeadResponseDTO, LEAD_STATUS_LABELS, LEAD_STATUS_SEVERITY } from '@/services/lead.service';
+import { Checkbox } from 'primereact/checkbox';
+import { InputText } from 'primereact/inputtext';
+import { Message } from 'primereact/message';
+import { LeadService, LeadResponseDTO, LEAD_STATUS_LABELS, LEAD_STATUS_SEVERITY, LeadConversionPayload } from '@/services/lead.service';
+import ActivityTimeline, { TimelineEvent } from '@/components/shared/ActivityTimeline';
 
 const LeadDetalhesPage = () => {
     const router = useRouter();
@@ -21,6 +24,16 @@ const LeadDetalhesPage = () => {
     const [loading, setLoading] = useState(true);
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [deleting, setDeleting] = useState(false);
+
+    // Conversão de lead
+    const [convertDialogVisible, setConvertDialogVisible] = useState(false);
+    const [converting, setConverting] = useState(false);
+    const [conversionPayload, setConversionPayload] = useState<LeadConversionPayload>({
+        criarContato: true,
+        criarConta: true,
+        criarOportunidade: false,
+        nomeOportunidade: ''
+    });
 
     const fetchLead = useCallback(async () => {
         setLoading(true);
@@ -68,6 +81,32 @@ const LeadDetalhesPage = () => {
         } finally {
             setDeleting(false);
             setDeleteDialogVisible(false);
+        }
+    };
+
+    const handleConvert = async () => {
+        if (!lead) return;
+        setConverting(true);
+        try {
+            const result = await LeadService.converter(lead.id, conversionPayload);
+            toast.current?.show({
+                severity: 'success',
+                summary: 'Lead Convertido!',
+                detail: result.mensagem || 'Lead convertido com sucesso.',
+                life: 4000
+            });
+            setConvertDialogVisible(false);
+            // Reload lead to reflect new status and linked IDs
+            await fetchLead();
+        } catch (error: any) {
+            toast.current?.show({
+                severity: 'error',
+                summary: 'Erro na conversão',
+                detail: error?.response?.data?.message || 'Não foi possível converter o lead.',
+                life: 5000
+            });
+        } finally {
+            setConverting(false);
         }
     };
 
@@ -120,20 +159,29 @@ const LeadDetalhesPage = () => {
         </div>
     );
 
-    // Timeline de atividades (placeholder)
-    const timelineEvents = [
+    // Timeline de atividades
+    const timelineEvents: TimelineEvent[] = [
         {
-            status: 'Pré-Cliente Criado',
-            date: formatDate(lead.dataCriacao),
-            icon: 'pi pi-plus-circle',
-            color: '#22C55E'
+            id: 'criacao',
+            titulo: 'Pré-Cliente Criado',
+            data: lead.dataCriacao,
+            tipo: 'criacao',
+            usuario: lead.criadoPor
         },
         ...(lead.dataModificacao && lead.dataModificacao !== lead.dataCriacao
             ? [{
-                status: 'Última Atualização',
-                date: formatDate(lead.dataModificacao),
-                icon: 'pi pi-pencil',
-                color: '#F59E0B'
+                id: 'atualizacao',
+                titulo: 'Última Atualização',
+                data: lead.dataModificacao,
+                tipo: 'atualizacao' as const
+            }]
+            : []),
+        ...(lead.status === 'Converted'
+            ? [{
+                id: 'conversao',
+                titulo: 'Lead Convertido',
+                descricao: 'Este lead foi convertido em contato/conta/oportunidade.',
+                tipo: 'conversao' as const
             }]
             : [])
     ];
@@ -170,6 +218,14 @@ const LeadDetalhesPage = () => {
                             </div>
                         </div>
                         <div className="flex gap-2">
+                            {lead.status !== 'Converted' && (
+                                <Button
+                                    label="Converter Lead"
+                                    icon="pi pi-sync"
+                                    severity="success"
+                                    onClick={() => setConvertDialogVisible(true)}
+                                />
+                            )}
                             <Button
                                 label="Editar"
                                 icon="pi pi-pencil"
@@ -296,36 +352,8 @@ const LeadDetalhesPage = () => {
 
                         {/* Tab Histórico */}
                         <TabPanel header="Histórico" leftIcon="pi pi-history mr-2">
-                            <div className="py-4">
-                                {timelineEvents.length > 0 ? (
-                                    <Timeline
-                                        value={timelineEvents}
-                                        content={(item) => (
-                                            <div>
-                                                <span className="font-semibold">{item.status}</span>
-                                                <div className="text-500 text-sm mt-1">{item.date}</div>
-                                            </div>
-                                        )}
-                                        marker={(item) => (
-                                            <span
-                                                className="flex align-items-center justify-content-center border-circle"
-                                                style={{
-                                                    width: '2rem',
-                                                    height: '2rem',
-                                                    backgroundColor: item.color,
-                                                    color: '#fff'
-                                                }}
-                                            >
-                                                <i className={item.icon} style={{ fontSize: '0.8rem' }} />
-                                            </span>
-                                        )}
-                                    />
-                                ) : (
-                                    <div className="text-center text-500 py-6">
-                                        <i className="pi pi-clock text-4xl mb-3 block" />
-                                        <p>Nenhum registro de atividade encontrado.</p>
-                                    </div>
-                                )}
+                            <div className="py-2">
+                                <ActivityTimeline events={timelineEvents} />
                             </div>
                         </TabPanel>
 
@@ -355,6 +383,94 @@ const LeadDetalhesPage = () => {
                             Tem certeza que deseja excluir o pré-cliente{' '}
                             <strong>{lead.nome}</strong>? Esta ação não pode ser desfeita.
                         </span>
+                    </div>
+                </Dialog>
+
+                {/* Dialog de conversão de lead */}
+                <Dialog
+                    visible={convertDialogVisible}
+                    style={{ width: '480px' }}
+                    header={
+                        <div className="flex align-items-center gap-2">
+                            <i className="pi pi-sync text-primary text-xl" />
+                            <span>Converter Pré-Cliente</span>
+                        </div>
+                    }
+                    modal
+                    onHide={() => setConvertDialogVisible(false)}
+                    footer={
+                        <div className="flex justify-content-end gap-2">
+                            <Button label="Cancelar" icon="pi pi-times" outlined onClick={() => setConvertDialogVisible(false)} disabled={converting} />
+                            <Button label="Converter" icon="pi pi-sync" severity="success" loading={converting} onClick={handleConvert} />
+                        </div>
+                    }
+                >
+                    <div className="flex flex-column gap-4">
+                        <Message
+                            severity="info"
+                            text="Selecione o que deseja criar a partir deste pré-cliente:"
+                            className="w-full"
+                        />
+
+                        <div className="flex flex-column gap-3">
+                            <div className="flex align-items-center gap-3 p-3 surface-100 border-round">
+                                <Checkbox
+                                    inputId="chk-contato"
+                                    checked={conversionPayload.criarContato}
+                                    onChange={(e) => setConversionPayload(prev => ({ ...prev, criarContato: !!e.checked }))}
+                                />
+                                <label htmlFor="chk-contato" className="flex align-items-center gap-2 cursor-pointer">
+                                    <i className="pi pi-id-card text-primary" />
+                                    <div>
+                                        <div className="font-semibold">Criar Contato</div>
+                                        <div className="text-500 text-sm">Novo contato vinculado a este lead</div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div className="flex align-items-center gap-3 p-3 surface-100 border-round">
+                                <Checkbox
+                                    inputId="chk-conta"
+                                    checked={conversionPayload.criarConta}
+                                    onChange={(e) => setConversionPayload(prev => ({ ...prev, criarConta: !!e.checked }))}
+                                />
+                                <label htmlFor="chk-conta" className="flex align-items-center gap-2 cursor-pointer">
+                                    <i className="pi pi-building text-primary" />
+                                    <div>
+                                        <div className="font-semibold">Criar Empresa</div>
+                                        <div className="text-500 text-sm">{lead.nomeConta ? `"${lead.nomeConta}"` : 'Nova empresa a partir dos dados do lead'}</div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div className="flex flex-column gap-2 p-3 surface-100 border-round">
+                                <div className="flex align-items-center gap-3">
+                                    <Checkbox
+                                        inputId="chk-oportunidade"
+                                        checked={conversionPayload.criarOportunidade}
+                                        onChange={(e) => setConversionPayload(prev => ({ ...prev, criarOportunidade: !!e.checked }))}
+                                    />
+                                    <label htmlFor="chk-oportunidade" className="flex align-items-center gap-2 cursor-pointer">
+                                        <i className="pi pi-dollar text-primary" />
+                                        <div>
+                                            <div className="font-semibold">Criar Oportunidade</div>
+                                            <div className="text-500 text-sm">Iniciar pipeline de vendas</div>
+                                        </div>
+                                    </label>
+                                </div>
+                                {conversionPayload.criarOportunidade && (
+                                    <div className="mt-2 ml-6">
+                                        <label className="block text-sm text-600 mb-1">Nome da Oportunidade</label>
+                                        <InputText
+                                            value={conversionPayload.nomeOportunidade || ''}
+                                            onChange={(e) => setConversionPayload(prev => ({ ...prev, nomeOportunidade: e.target.value }))}
+                                            placeholder={`Oportunidade - ${lead.nome}`}
+                                            className="w-full"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </Dialog>
             </div>

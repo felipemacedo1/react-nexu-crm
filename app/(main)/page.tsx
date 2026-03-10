@@ -6,6 +6,9 @@ import { DataTable } from 'primereact/datatable';
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { Badge } from 'primereact/badge';
+import { Divider } from 'primereact/divider';
+import { SelectButton } from 'primereact/selectbutton';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { LayoutContext } from '../../layout/context/layoutcontext';
 import { useAuth } from '@/hooks/useAuth';
@@ -13,18 +16,29 @@ import { ChartOptions } from 'chart.js';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import DashboardService, { DashboardResumo, FASE_LABELS } from '@/services/dashboard.service';
+import { LembreteService, LembreteResponseDTO } from '@/services/evento.service';
 import { LEAD_STATUS_LABELS, LEAD_STATUS_SEVERITY } from '@/services/lead.service';
 
 const PIPELINE_COLORS = ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#26C6DA', '#EF5350', '#78909C'];
+const PERIOD_OPTIONS = [
+    { label: 'Hoje', value: 'hoje' },
+    { label: 'Semana', value: 'semana' },
+    { label: 'Mês', value: 'mes' },
+    { label: 'Ano', value: 'ano' }
+];
 
 const Dashboard = () => {
     const [pipelineOptions, setPipelineOptions] = useState<ChartOptions>({});
+    const [barOptions, setBarOptions] = useState<ChartOptions>({});
     const { layoutConfig } = useContext(LayoutContext);
     const { user } = useAuth();
     const router = useRouter();
 
     const [resumo, setResumo] = useState<DashboardResumo | null>(null);
     const [loading, setLoading] = useState(true);
+    const [period, setPeriod] = useState<string>('mes');
+    const [lembretes, setLembretes] = useState<LembreteResponseDTO[]>([]);
+    const [loadingLembretes, setLoadingLembretes] = useState(true);
 
     const fetchResumo = useCallback(async () => {
         try {
@@ -37,16 +51,47 @@ const Dashboard = () => {
         }
     }, []);
 
+    const fetchLembretes = useCallback(async () => {
+        setLoadingLembretes(true);
+        try {
+            const data = await LembreteService.listarPaginado({ page: 0, size: 5, sort: 'dataExecucao', direction: 'asc' });
+            setLembretes(data.content || []);
+        } catch {
+            setLembretes([]);
+        } finally {
+            setLoadingLembretes(false);
+        }
+    }, []);
+
     useEffect(() => {
         fetchResumo();
-    }, [fetchResumo]);
+        fetchLembretes();
+    }, [fetchResumo, fetchLembretes]);
 
     const applyLightTheme = () => {
-        setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: '#495057' } } } });
+        const textColor = '#495057';
+        const gridColor = 'rgba(160, 167, 181, 0.3)';
+        setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: textColor } } } });
+        setBarOptions({
+            plugins: { legend: { labels: { color: textColor } } },
+            scales: {
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor }, grid: { color: gridColor }, beginAtZero: true }
+            }
+        });
     };
 
     const applyDarkTheme = () => {
-        setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: '#ebedef' } } } });
+        const textColor = '#ebedef';
+        const gridColor = 'rgba(160, 167, 181, 0.2)';
+        setPipelineOptions({ plugins: { legend: { position: 'bottom', labels: { color: textColor } } } });
+        setBarOptions({
+            plugins: { legend: { labels: { color: textColor } } },
+            scales: {
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor }, grid: { color: gridColor }, beginAtZero: true }
+            }
+        });
     };
 
     useEffect(() => {
@@ -64,8 +109,26 @@ const Dashboard = () => {
           }
         : { labels: ['Sem dados'], datasets: [{ data: [1], backgroundColor: ['#e0e0e0'] }] };
 
+    // Bar chart: oportunidades por estágio (valor)
+    const barChartData = resumo?.pipeline?.length
+        ? {
+              labels: resumo.pipeline.map(p => FASE_LABELS[p.fase] || p.fase),
+              datasets: [{
+                  label: 'Valor (R$)',
+                  backgroundColor: PIPELINE_COLORS.slice(0, resumo.pipeline.length),
+                  borderRadius: 6,
+                  data: resumo.pipeline.map(p => p.valor ?? 0)
+              }]
+          }
+        : { labels: ['Sem dados'], datasets: [{ label: 'Valor (R$)', data: [0], backgroundColor: ['#e0e0e0'] }] };
+
     const formatCurrency = (value: number) =>
         (value ?? 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    const formatLembreteDate = (ts?: number) => {
+        if (!ts) return '—';
+        return new Date(ts).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    };
 
     const saudacao = () => {
         const hora = new Date().getHours();
@@ -79,20 +142,28 @@ const Dashboard = () => {
 
     return (
         <div className="grid">
-            {/* Saudação */}
+            {/* Saudação + filtro de período */}
             <div className="col-12">
                 <div className="card mb-0">
-                    <div className="flex align-items-center gap-3">
-                        <div
-                            className="flex align-items-center justify-content-center bg-primary border-circle font-bold text-white"
-                            style={{ width: '3rem', height: '3rem', fontSize: '1.2rem' }}
-                        >
-                            {user ? `${user.nome?.charAt(0) || ''}${user.sobrenome?.charAt(0) || ''}`.toUpperCase() : 'U'}
+                    <div className="flex flex-wrap align-items-center justify-content-between gap-3">
+                        <div className="flex align-items-center gap-3">
+                            <div
+                                className="flex align-items-center justify-content-center bg-primary border-circle font-bold text-white"
+                                style={{ width: '3rem', height: '3rem', fontSize: '1.2rem' }}
+                            >
+                                {user ? `${user.nome?.charAt(0) || ''}${user.sobrenome?.charAt(0) || ''}`.toUpperCase() : 'U'}
+                            </div>
+                            <div>
+                                <div className="text-900 font-bold text-2xl">{saudacao()}, {user?.nome || 'Usuário'}!</div>
+                                <span className="text-600">Aqui está o resumo do seu CRM</span>
+                            </div>
                         </div>
-                        <div>
-                            <div className="text-900 font-bold text-2xl">{saudacao()}, {user?.nome || 'Usuário'}!</div>
-                            <span className="text-600">Aqui está o resumo do seu CRM</span>
-                        </div>
+                        <SelectButton
+                            value={period}
+                            onChange={(e) => e.value && setPeriod(e.value)}
+                            options={PERIOD_OPTIONS}
+                            className="text-sm"
+                        />
                     </div>
                 </div>
             </div>
@@ -267,6 +338,73 @@ const Dashboard = () => {
                         </DataTable>
                     </div>
                 )}
+            </div>
+
+            {/* Gráfico de barras: valor por estágio */}
+            <div className="col-12 xl:col-8">
+                <div className="card">
+                    <div className="flex justify-content-between align-items-center mb-4">
+                        <h5 className="m-0">Valor por Estágio do Pipeline</h5>
+                        <Link href="/crm/oportunidades">
+                            <Button label="Ver oportunidades" icon="pi pi-arrow-right" iconPos="right" text size="small" />
+                        </Link>
+                    </div>
+                    {loading ? (
+                        <div className="flex justify-content-center py-6"><ProgressSpinner /></div>
+                    ) : (
+                        <Chart type="bar" data={barChartData} options={barOptions} style={{ height: '280px' }} />
+                    )}
+                </div>
+            </div>
+
+            {/* Widget Lembretes do dia */}
+            <div className="col-12 xl:col-4">
+                <div className="card h-full">
+                    <div className="flex justify-content-between align-items-center mb-4">
+                        <div className="flex align-items-center gap-2">
+                            <h5 className="m-0">Lembretes</h5>
+                            {lembretes.length > 0 && (
+                                <Badge value={lembretes.length} severity="warning" />
+                            )}
+                        </div>
+                        <Link href="/agenda/lembretes">
+                            <Button label="Ver todos" icon="pi pi-arrow-right" iconPos="right" text size="small" />
+                        </Link>
+                    </div>
+                    {loadingLembretes ? (
+                        <div className="flex justify-content-center py-4"><ProgressSpinner style={{ width: '2rem', height: '2rem' }} strokeWidth="4" /></div>
+                    ) : lembretes.length === 0 ? (
+                        <div className="flex flex-column align-items-center justify-content-center py-5 text-center">
+                            <i className="pi pi-bell text-4xl text-300 mb-3" />
+                            <span className="text-600">Nenhum lembrete pendente</span>
+                        </div>
+                    ) : (
+                        <div className="flex flex-column gap-3">
+                            {lembretes.map((l, idx) => (
+                                <div key={l.id}>
+                                    <div className="flex align-items-start gap-2">
+                                        <i className="pi pi-bell text-orange-500 mt-1 flex-shrink-0" />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-semibold text-900 text-sm white-space-nowrap overflow-hidden text-overflow-ellipsis">
+                                                {l.nome}
+                                            </div>
+                                            <div className="text-500 text-xs mt-1">
+                                                {formatLembreteDate(l.dataExecucao)}
+                                            </div>
+                                            {l.moduloEventoRelacionado && (
+                                                <Tag value={l.moduloEventoRelacionado} severity="info" className="mt-1 text-xs" />
+                                            )}
+                                        </div>
+                                    </div>
+                                    {idx < lembretes.length - 1 && <Divider className="my-2" />}
+                                </div>
+                            ))}
+                            <Link href="/agenda/lembretes">
+                                <Button label="Gerenciar lembretes" icon="pi pi-cog" text size="small" className="w-full mt-2" />
+                            </Link>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
