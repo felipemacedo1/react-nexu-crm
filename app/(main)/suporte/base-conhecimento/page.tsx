@@ -20,10 +20,10 @@ import {
     CATEGORIA_ARTIGO_OPTIONS
 } from '@/services/base-conhecimento.service';
 
-const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'secondary'> = {
+const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'info'> = {
     Draft: 'warning',
     Published: 'success',
-    Archived: 'secondary'
+    Archived: 'info'
 };
 
 const STATUS_LABEL: Record<string, string> = {

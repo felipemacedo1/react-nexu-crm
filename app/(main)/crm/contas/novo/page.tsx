@@ -135,7 +135,7 @@ const NovaContaPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/contas')}
                             />
                             <h2 className="m-0 text-xl font-semibold">Nova Empresa</h2>
@@ -145,7 +145,7 @@ const NovaContaPage = () => {
                                 label="Cancelar"
                                 icon="pi pi-times"
                                 outlined
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/contas')}
                             />
                             <Button
@@ -399,7 +399,7 @@ const NovaContaPage = () => {
                             label="Cancelar"
                             icon="pi pi-times"
                             outlined
-                            severity="secondary"
+                            severity="info"
                             onClick={() => router.push('/crm/contas')}
                         />
                         <Button

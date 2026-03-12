@@ -186,7 +186,7 @@ const EditarContatoPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push(`/crm/contatos/${id}`)}
                             />
                             <h2 className="m-0 text-xl font-semibold">Editar Contato</h2>
@@ -196,7 +196,7 @@ const EditarContatoPage = () => {
                                 label="Cancelar"
                                 icon="pi pi-times"
                                 outlined
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push(`/crm/contatos/${id}`)}
                             />
                             <Button
@@ -405,7 +405,7 @@ const EditarContatoPage = () => {
                             label="Cancelar"
                             icon="pi pi-times"
                             outlined
-                            severity="secondary"
+                            severity="info"
                             onClick={() => router.push(`/crm/contatos/${id}`)}
                         />
                         <Button

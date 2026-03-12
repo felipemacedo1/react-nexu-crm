@@ -309,7 +309,7 @@ const ConfiguracoesPage = () => {
                                         <i className="pi pi-history text-3xl text-green-500 mb-3" />
                                         <h6 className="font-bold mb-2">Backup Automático</h6>
                                         <p className="text-500 text-sm mb-3">Configure backups automáticos agendados</p>
-                                        <Tag value="Em breve" severity="secondary" />
+                                        <Tag value="Em breve" severity="info" />
                                     </Card>
                                 </div>
                             </div>

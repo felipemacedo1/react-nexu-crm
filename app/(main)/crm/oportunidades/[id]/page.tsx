@@ -196,7 +196,7 @@ const OportunidadeDetailPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/oportunidades')}
                             />
                             <div>
@@ -204,7 +204,7 @@ const OportunidadeDetailPage = () => {
                                 <div className="flex align-items-center gap-2 mt-1">
                                     <Tag
                                         value={ESTAGIO_LABELS[oportunidade.estagio || ''] || oportunidade.estagio || 'Sem estágio'}
-                                        severity={(ESTAGIO_SEVERITY[oportunidade.estagio || ''] || 'secondary') as any}
+                                        severity={(ESTAGIO_SEVERITY[oportunidade.estagio || ''] || 'info') as any}
                                     />
                                     <span className="text-500">|</span>
                                     <span className="text-lg font-bold text-primary">
@@ -275,7 +275,7 @@ const OportunidadeDetailPage = () => {
                                     value={
                                         <Tag
                                             value={ESTAGIO_LABELS[oportunidade.estagio || ''] || oportunidade.estagio || '—'}
-                                            severity={(ESTAGIO_SEVERITY[oportunidade.estagio || ''] || 'secondary') as any}
+                                            severity={(ESTAGIO_SEVERITY[oportunidade.estagio || ''] || 'info') as any}
                                         />
                                     }
                                     icon="pi pi-chart-bar"

@@ -42,7 +42,7 @@ const FileUploadComponent: React.FC<FileUploadComponentProps> = ({
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
     const handleSelect = (e: FileUploadSelectEvent) => {
-        const files = Array.from(e.files as FileList);
+        const files = Array.from(e.files as unknown as FileList);
         setSelectedFiles(files);
         if (showPreview && files.length > 0 && isImagem(files[0].type)) {
             setPreviewFile(files[0]);
@@ -149,7 +149,7 @@ const FileUploadComponent: React.FC<FileUploadComponentProps> = ({
                                     <i className="pi pi-file-pdf text-red-400" />
                                 )}
                                 <span className="text-sm flex-1 text-overflow-ellipsis overflow-hidden white-space-nowrap">{a.nomeOriginal}</span>
-                                <Tag value={formatarTamanho(a.tamanho)} severity="secondary" className="text-xs" />
+                                <Tag value={formatarTamanho(a.tamanho)} severity="info" className="text-xs" />
                                 <Button icon="pi pi-trash" className="p-button-text p-button-danger p-button-sm" onClick={() => handleExcluir(a.id)} tooltip="Excluir" tooltipOptions={{ position: 'top' }} />
                             </li>
                         ))}

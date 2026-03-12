@@ -191,7 +191,7 @@ const EditarContaPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push(`/crm/contas/${id}`)}
                             />
                             <h2 className="m-0 text-xl font-semibold">Editar Empresa</h2>
@@ -201,7 +201,7 @@ const EditarContaPage = () => {
                                 label="Cancelar"
                                 icon="pi pi-times"
                                 outlined
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push(`/crm/contas/${id}`)}
                             />
                             <Button
@@ -451,7 +451,7 @@ const EditarContaPage = () => {
                             label="Cancelar"
                             icon="pi pi-times"
                             outlined
-                            severity="secondary"
+                            severity="info"
                             onClick={() => router.push(`/crm/contas/${id}`)}
                         />
                         <Button

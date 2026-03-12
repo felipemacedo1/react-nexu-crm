@@ -13,15 +13,15 @@ import { Dropdown } from 'primereact/dropdown';
 import { OrcamentoService, OrcamentoResponseDTO, FASE_ORCAMENTO_OPTIONS } from '@/services/financeiro.service';
 import { formatCurrency } from '@/utils/format';
 
-const FASE_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'secondary'> = {
-    Draft: 'secondary',
+const FASE_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'info'> = {
+    Draft: 'info',
     'Needs Analysis': 'info',
     'Value Proposition': 'info',
     Negotiation: 'warning',
     'Closed Won': 'success',
     'Closed Lost': 'danger',
     Delivered: 'success',
-    Closed: 'secondary'
+    Closed: 'info'
 };
 
 const OrcamentosPage = () => {
@@ -92,7 +92,7 @@ const OrcamentosPage = () => {
 
     const filtered = orcamentos.filter(o => {
         const q = globalFilter.toLowerCase();
-        const matchText = !globalFilter || o.numero?.toLowerCase().includes(q) || o.contaCobrancaNome?.toLowerCase().includes(q) || o.oportunidadeNome?.toLowerCase().includes(q);
+        const matchText = !globalFilter || String(o.numero ?? '').toLowerCase().includes(q) || o.contaCobrancaNome?.toLowerCase().includes(q) || o.oportunidadeNome?.toLowerCase().includes(q);
         const matchFase = !faseFilter || o.fase === faseFilter;
         return matchText && matchFase;
     });

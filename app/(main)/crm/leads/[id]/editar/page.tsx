@@ -159,7 +159,7 @@ const EditarLeadPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push(`/crm/leads/${id}`)}
                             />
                             <h2 className="m-0 text-xl font-semibold">Editar Pré-Cliente</h2>
@@ -169,7 +169,7 @@ const EditarLeadPage = () => {
                                 label="Cancelar"
                                 icon="pi pi-times"
                                 outlined
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push(`/crm/leads/${id}`)}
                             />
                             <Button
@@ -378,7 +378,7 @@ const EditarLeadPage = () => {
                             label="Cancelar"
                             icon="pi pi-times"
                             outlined
-                            severity="secondary"
+                            severity="info"
                             onClick={() => router.push(`/crm/leads/${id}`)}
                         />
                         <Button

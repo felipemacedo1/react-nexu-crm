@@ -150,7 +150,7 @@ const LeadDetalhesPage = () => {
     }
 
     const statusLabel = LEAD_STATUS_LABELS[lead.status || ''] || lead.status || '—';
-    const statusSeverity = (LEAD_STATUS_SEVERITY[lead.status || ''] || 'secondary') as any;
+    const statusSeverity = (LEAD_STATUS_SEVERITY[lead.status || ''] || 'info') as any;
 
     const deleteDialogFooter = (
         <div className="flex justify-content-end gap-2">
@@ -199,7 +199,7 @@ const LeadDetalhesPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/leads')}
                                 tooltip="Voltar"
                                 tooltipOptions={{ position: 'top' }}

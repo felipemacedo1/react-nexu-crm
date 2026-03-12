@@ -63,7 +63,7 @@ class SearchServiceClass {
             endpoint: string,
             tipo: string,
             labelFn: (item: T) => string,
-            subFn?: (item: T) => string
+            subFn?: (item: T) => string | undefined
         ): Promise<SearchResultItem[]> => {
             try {
                 const { data } = await apiClient.get<{ content?: T[]; data?: T[] } | T[]>(endpoint, {

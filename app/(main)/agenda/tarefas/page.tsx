@@ -20,8 +20,8 @@ import {
     PRIORIDADE_TAREFA_OPTIONS
 } from '@/services/tarefa.service';
 
-const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'secondary'> = {
-    'Not Started': 'secondary',
+const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'info'> = {
+    'Not Started': 'info',
     'In Progress': 'info',
     Completed: 'success',
     Pending: 'warning',
@@ -50,7 +50,7 @@ const TarefasPage = () => {
     const [formVisible, setFormVisible] = useState(false);
     const [saving, setSaving] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [form, setForm] = useState<TarefaRequestDTO>({ status: 'Not Started', prioridade: 'Medium' });
+    const [form, setForm] = useState<TarefaRequestDTO>({ nome: '', status: 'Not Started', prioridade: 'Medium' });
 
     // Delete
     const [deleteVisible, setDeleteVisible] = useState(false);
@@ -75,17 +75,17 @@ const TarefasPage = () => {
 
     const openNew = () => {
         setEditingId(null);
-        setForm({ status: 'Not Started', prioridade: 'Medium' });
+        setForm({ nome: '', status: 'Not Started', prioridade: 'Medium' });
         setFormVisible(true);
     };
 
     const openEdit = (t: TarefaResponseDTO) => {
         setEditingId(t.id);
         setForm({
+            nome: t.nome ?? '',
             status: t.status,
             prioridade: t.prioridade,
             dataVencimento: t.dataVencimento,
-            horaVencimento: t.horaVencimento,
             descricao: (t as any).descricao,
             contatoId: t.contatoId,
             responsavelId: t.responsavelId
@@ -212,7 +212,6 @@ const TarefasPage = () => {
                         <Column body={prioridadeTemplate} header="Prioridade" style={{ width: '110px' }} />
                         <Column field="contatoNome" header="Contato" style={{ minWidth: '180px' }} />
                         <Column body={vencimentoTemplate} header="Vencimento" style={{ width: '130px' }} />
-                        <Column field="horaVencimento" header="Hora" style={{ width: '90px' }} />
                         <Column field="tipoResponsavel" header="Responsável" style={{ minWidth: '140px' }} />
                         <Column body={acoesTemplate} header="Ações" style={{ width: '130px' }} />
                     </DataTable>
@@ -245,11 +244,7 @@ const TarefasPage = () => {
                             onChange={e => update('dataVencimento', e.value ? (e.value as Date).toISOString().split('T')[0] : undefined)}
                             dateFormat="dd/mm/yy" className="w-full" />
                     </div>
-                    <div className="field col-12 md:col-6">
-                        <label className="font-semibold">Hora Vencimento</label>
-                        <InputText value={form.horaVencimento ?? ''} onChange={e => update('horaVencimento', e.target.value)}
-                            className="w-full" placeholder="HH:mm" />
-                    </div>
+
                     <div className="field col-12">
                         <label className="font-semibold">Descrição</label>
                         <InputTextarea value={(form as any).descricao ?? ''} onChange={e => update('descricao' as any, e.target.value)}

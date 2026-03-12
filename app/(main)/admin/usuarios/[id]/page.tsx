@@ -137,7 +137,7 @@ const UsuarioDetalhesPage = () => {
                         {usuario.ativo !== false ? (
                             <Tag value="Ativo" severity="success" icon="pi pi-check" />
                         ) : (
-                            <Tag value="Inativo" severity="secondary" />
+                            <Tag value="Inativo" severity="info" />
                         )}
                         {usuario.administrador && (
                             <Tag value="Administrador" severity="danger" icon="pi pi-shield" />

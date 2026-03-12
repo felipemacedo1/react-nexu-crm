@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
+import { useServiceWorker } from '@/hooks/useServiceWorker';
 import 'primereact/resources/primereact.css';
 
 // Register Brazilian Portuguese locale globally for all PrimeReact components
@@ -83,6 +84,7 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+    useServiceWorker();
     const [queryClient] = useState(() => new QueryClient({
         defaultOptions: {
             queries: {

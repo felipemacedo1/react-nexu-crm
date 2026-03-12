@@ -160,7 +160,7 @@ const OAuthPage = () => {
                                                     <div className="text-500 text-sm">{p.tipo}</div>
                                                 </div>
                                             </div>
-                                            <Tag value={p.ativo ? 'Ativo' : 'Inativo'} severity={p.ativo ? 'success' : 'secondary'} />
+                                            <Tag value={p.ativo ? 'Ativo' : 'Inativo'} severity={p.ativo ? 'success' : 'info'} />
                                         </div>
                                         <div className="text-500 text-sm mb-1"><span className="font-semibold">Client ID:</span> {p.clientId.substring(0, 20)}...</div>
                                         <div className="text-500 text-sm mb-3"><span className="font-semibold">Scopes:</span> {p.scopes || '-'}</div>

@@ -27,7 +27,7 @@ export interface FormDialogProps {
     /** Label for the cancel button */
     cancelLabel?: string;
     /** Severity / colour of save button */
-    saveSeverity?: 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'help';
+    saveSeverity?: 'info' | 'success' | 'info' | 'warning' | 'danger' | 'help';
     /** Extra content shown before the action buttons */
     footerExtra?: React.ReactNode;
 }
@@ -55,7 +55,7 @@ const FormDialog: React.FC<FormDialogProps> = ({
                     label={cancelLabel}
                     icon="pi pi-times"
                     outlined
-                    severity="secondary"
+                    severity="info"
                     onClick={onHide}
                     disabled={saving}
                 />

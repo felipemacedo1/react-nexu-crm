@@ -201,7 +201,7 @@ const ContasPage = () => {
                     icon="pi pi-refresh"
                     rounded
                     text
-                    severity="secondary"
+                    severity="info"
                     tooltip="Atualizar"
                     tooltipOptions={{ position: 'top' }}
                     onClick={fetchContas}

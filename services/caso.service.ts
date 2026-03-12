@@ -15,6 +15,7 @@ export interface CasoResponseDTO {
     status?: string;
     prioridade?: string;
     resolucao?: string;
+    textoAtualizacao?: string;
     interno?: boolean;
     contaId?: string;
     contaNome?: string;
@@ -32,6 +33,7 @@ export interface CasoRequestDTO {
     status?: string;
     prioridade?: string;
     resolucao?: string;
+    textoAtualizacao?: string;
     interno?: boolean;
 }
 
@@ -71,6 +73,10 @@ class CasoServiceClass extends BaseService<CasoResponseDTO> {
 
     async atualizar(id: string, data: CasoRequestDTO): Promise<CasoResponseDTO> {
         return this.update(id, data);
+    }
+
+    async buscarPorId(id: string): Promise<CasoResponseDTO> {
+        return this.getById(id);
     }
 }
 

@@ -15,12 +15,12 @@ const TIPO_ICON: Record<FavoritoItem['tipo'], string> = {
     evento:       'pi-calendar',
 };
 
-const TIPO_COLOR: Record<FavoritoItem['tipo'], 'info' | 'success' | 'warning' | 'danger' | 'secondary'> = {
+const TIPO_COLOR: Record<FavoritoItem['tipo'], 'info' | 'success' | 'warning' | 'danger' | 'info'> = {
     lead:         'info',
     conta:        'success',
     contato:      'warning',
     oportunidade: 'danger',
-    caso:         'secondary',
+    caso:         'info',
     evento:       'info',
 };
 

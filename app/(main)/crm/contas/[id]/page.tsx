@@ -173,7 +173,7 @@ const ContaDetalhesPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/contas')}
                                 tooltip="Voltar"
                                 tooltipOptions={{ position: 'top' }}

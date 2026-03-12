@@ -13,7 +13,7 @@ const NovoProdutoPage = () => {
     const router = useRouter();
     const toast = useRef<Toast>(null);
     const [saving, setSaving] = useState(false);
-    const [form, setForm] = useState<ProdutoRequestDTO>({ tipo: 'Good' });
+    const [form, setForm] = useState<ProdutoRequestDTO>({ nome: '', tipo: 'Good' });
 
     const update = (field: keyof ProdutoRequestDTO, value: any) =>
         setForm(prev => ({ ...prev, [field]: value }));
@@ -88,7 +88,7 @@ const NovoProdutoPage = () => {
                         </div>
                         <div className="field col-12 md:col-3">
                             <label className="font-semibold">Custo (USD)</label>
-                            <InputText type="number" value={String(form.custoDolar ?? '')} onChange={e => update('custoDolar', Number(e.target.value))} className="w-full" placeholder="0.00" />
+                            <InputText type="number" value={String((form as any).custoDolar ?? '')} onChange={e => update('custoDolar' as any, Number(e.target.value))} className="w-full" placeholder="0.00" />
                         </div>
                         <div className="field col-12 md:col-3">
                             <label className="font-semibold">Preço (R$)</label>
@@ -96,7 +96,7 @@ const NovoProdutoPage = () => {
                         </div>
                         <div className="field col-12 md:col-3">
                             <label className="font-semibold">Preço (USD)</label>
-                            <InputText type="number" value={String(form.precoDolar ?? '')} onChange={e => update('precoDolar', Number(e.target.value))} className="w-full" placeholder="0.00" />
+                            <InputText type="number" value={String((form as any).precoDolar ?? '')} onChange={e => update('precoDolar' as any, Number(e.target.value))} className="w-full" placeholder="0.00" />
                         </div>
 
                         <Divider className="col-12 my-2" />

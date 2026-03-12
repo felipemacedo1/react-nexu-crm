@@ -49,9 +49,11 @@ export interface OrcamentoRequestDTO {
     oportunidadeId?: string;
     nomeContaCobranca?: string;
     nomeContatoCobranca?: string;
+    valorSubtotal?: number;
     valorDesconto?: number;
     valorImposto?: number;
     valorFrete?: number;
+    moedaId?: string;
 }
 
 export const FASE_ORCAMENTO_OPTIONS = [

@@ -167,7 +167,7 @@ const ContatoDetalhesPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/contatos')}
                                 tooltip="Voltar"
                                 tooltipOptions={{ position: 'top' }}

@@ -138,7 +138,7 @@ const OportunidadesPage = () => {
 
     const estagioBodyTemplate = (rowData: OportunidadeDTO) => {
         const label = ESTAGIO_LABELS[rowData.estagio || ''] || rowData.estagio || '—';
-        const severity = (ESTAGIO_SEVERITY[rowData.estagio || ''] || 'secondary') as any;
+        const severity = (ESTAGIO_SEVERITY[rowData.estagio || ''] || 'info') as any;
         return <Tag value={label} severity={severity} />;
     };
 
@@ -203,7 +203,7 @@ const OportunidadesPage = () => {
             <Button
                 label="Kanban"
                 icon="pi pi-th-large"
-                severity="secondary"
+                severity="info"
                 outlined
                 onClick={() => router.push('/crm/oportunidades/kanban')}
             />
@@ -240,7 +240,7 @@ const OportunidadesPage = () => {
                     icon="pi pi-refresh"
                     rounded
                     text
-                    severity="secondary"
+                    severity="info"
                     tooltip="Atualizar"
                     tooltipOptions={{ position: 'top' }}
                     onClick={fetchOportunidades}

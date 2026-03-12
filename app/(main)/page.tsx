@@ -183,7 +183,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <span className="text-green-500 font-medium">{kpis?.leads.novos ?? 0} novos </span>
-                    <span className="text-500">(status "Novo")</span>
+                    <span className="text-500">(status &quot;Novo&quot;)</span>
                 </div>
             </div>
 
@@ -257,7 +257,7 @@ const Dashboard = () => {
                             <Button label="Novo Pré-Cliente" icon="pi pi-user-plus" size="small" />
                         </Link>
                         <Link href="/crm/contas/novo">
-                            <Button label="Nova Empresa" icon="pi pi-building" size="small" severity="secondary" />
+                            <Button label="Nova Empresa" icon="pi pi-building" size="small" severity="info" />
                         </Link>
                         <Link href="/crm/oportunidades/novo">
                             <Button label="Nova Oportunidade" icon="pi pi-dollar" size="small" severity="success" />
@@ -300,7 +300,7 @@ const Dashboard = () => {
                                 header="Status"
                                 body={(row) => {
                                     const label = LEAD_STATUS_LABELS[row.status || ''] || row.status || '—';
-                                    const severity = (LEAD_STATUS_SEVERITY[row.status || ''] || 'secondary') as any;
+                                    const severity = (LEAD_STATUS_SEVERITY[row.status || ''] || 'info') as any;
                                     return <Tag value={label} severity={severity} />;
                                 }}
                             />

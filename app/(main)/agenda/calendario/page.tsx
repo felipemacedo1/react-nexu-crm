@@ -56,6 +56,7 @@ const CalendarioPage = () => {
         }
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { fetchEventos(); }, []);
 
     const update = (field: keyof EventoRequestDTO, value: any) =>

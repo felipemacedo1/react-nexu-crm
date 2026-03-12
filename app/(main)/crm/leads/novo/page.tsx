@@ -108,7 +108,7 @@ const NovoLeadPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/leads')}
                             />
                             <h2 className="m-0 text-xl font-semibold">Novo Pré-Cliente</h2>
@@ -118,7 +118,7 @@ const NovoLeadPage = () => {
                                 label="Cancelar"
                                 icon="pi pi-times"
                                 outlined
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/leads')}
                             />
                             <Button
@@ -327,7 +327,7 @@ const NovoLeadPage = () => {
                             label="Cancelar"
                             icon="pi pi-times"
                             outlined
-                            severity="secondary"
+                            severity="info"
                             onClick={() => router.push('/crm/leads')}
                         />
                         <Button

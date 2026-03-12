@@ -40,7 +40,7 @@ const LembretesPage = () => {
     const [formVisible, setFormVisible] = useState(false);
     const [saving, setSaving] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [form, setForm] = useState<LembreteRequestDTO>({ email: false });
+    const [form, setForm] = useState<LembreteRequestDTO>({ nome: '', email: false });
 
     // Delete
     const [deleteVisible, setDeleteVisible] = useState(false);
@@ -65,13 +65,14 @@ const LembretesPage = () => {
 
     const openNew = () => {
         setEditingId(null);
-        setForm({ email: false });
+        setForm({ nome: '', email: false });
         setFormVisible(true);
     };
 
     const openEdit = (l: LembreteResponseDTO) => {
         setEditingId(l.id);
         setForm({
+            nome: l.nome ?? '',
             email: l.email ?? false,
             dataExecucao: l.dataExecucao,
             temporizadorPopup: l.temporizadorPopup,
@@ -120,13 +121,13 @@ const LembretesPage = () => {
         setForm(prev => ({ ...prev, [field]: value }));
 
     const emailTemplate = (row: LembreteResponseDTO) =>
-        <Tag value={row.email ? 'Sim' : 'Não'} severity={row.email ? 'success' : 'secondary'} />;
+        <Tag value={row.email ? 'Sim' : 'Não'} severity={row.email ? 'success' : 'info'} />;
 
     const popupTemplate = (row: LembreteResponseDTO) =>
         <Tag value={row.popupVisualizado ? 'Visto' : 'Pendente'} severity={row.popupVisualizado ? 'info' : 'warning'} />;
 
     const dataTemplate = (row: LembreteResponseDTO) =>
-        row.dataExecucao ? formatDateTime(row.dataExecucao) : '-';
+        row.dataExecucao ? formatDateTime(new Date(row.dataExecucao)) : '-';
 
     const acoesTemplate = (row: LembreteResponseDTO) => (
         <div className="flex gap-2">

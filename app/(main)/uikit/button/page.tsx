@@ -74,7 +74,7 @@ const ButtonDemo = () => {
                     <h5>Severities</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button label="Primary" />
-                        <Button label="Secondary" severity="secondary" />
+                        <Button label="Secondary" severity="info" />
                         <Button label="Success" severity="success" />
                         <Button label="Info" severity="info" />
                         <Button label="Warning" severity="warning" />
@@ -87,7 +87,7 @@ const ButtonDemo = () => {
                     <h5>Text</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button label="Primary" text />
-                        <Button label="Secondary" severity="secondary" text />
+                        <Button label="Secondary" severity="info" text />
                         <Button label="Success" severity="success" text />
                         <Button label="Info" severity="info" text />
                         <Button label="Warning" severity="warning" text />
@@ -101,7 +101,7 @@ const ButtonDemo = () => {
                     <h5>Outlined</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button label="Primary" outlined />
-                        <Button label="Secondary" severity="secondary" outlined />
+                        <Button label="Secondary" severity="info" outlined />
                         <Button label="Success" severity="success" outlined />
                         <Button label="Info" severity="info" outlined />
                         <Button label="Warning" severity="warning" outlined />
@@ -122,7 +122,7 @@ const ButtonDemo = () => {
                 <div className="card">
                     <h5>SplitButton</h5>
                     <div className="flex flex-wrap gap-2">
-                        <SplitButton label="Save" icon="pi pi-check" model={items} severity="secondary"></SplitButton>
+                        <SplitButton label="Save" icon="pi pi-check" model={items} severity="info"></SplitButton>
                         <SplitButton label="Save" icon="pi pi-check" model={items} severity="success"></SplitButton>
                         <SplitButton label="Save" icon="pi pi-check" model={items} severity="info"></SplitButton>
                         <SplitButton label="Save" icon="pi pi-check" model={items} severity="warning"></SplitButton>
@@ -169,7 +169,7 @@ const ButtonDemo = () => {
                     <h5>Raised</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button label="Primary" raised />
-                        <Button label="Secondary" raised severity="secondary" />
+                        <Button label="Secondary" raised severity="info" />
                         <Button label="Success" raised severity="success" />
                         <Button label="Info" raised severity="info" />
                         <Button label="Warning" raised severity="warning" />
@@ -182,7 +182,7 @@ const ButtonDemo = () => {
                     <h5>Rounded</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button label="Primary" rounded />
-                        <Button label="Secondary" rounded severity="secondary" />
+                        <Button label="Secondary" rounded severity="info" />
                         <Button label="Success" rounded severity="success" />
                         <Button label="Info" rounded severity="info" />
                         <Button label="Warning" rounded severity="warning" />
@@ -195,7 +195,7 @@ const ButtonDemo = () => {
                     <h5>Rounded Icons</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button icon="pi pi-check" rounded />
-                        <Button icon="pi pi-bookmark" rounded severity="secondary" />
+                        <Button icon="pi pi-bookmark" rounded severity="info" />
                         <Button icon="pi pi-search" rounded severity="success" />
                         <Button icon="pi pi-user" rounded severity="info" />
                         <Button icon="pi pi-bell" rounded severity="warning" />
@@ -208,7 +208,7 @@ const ButtonDemo = () => {
                     <h5>Rounded Text</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button icon="pi pi-check" rounded text />
-                        <Button icon="pi pi-bookmark" rounded text severity="secondary" />
+                        <Button icon="pi pi-bookmark" rounded text severity="info" />
                         <Button icon="pi pi-search" rounded text severity="success" />
                         <Button icon="pi pi-user" rounded text severity="info" />
                         <Button icon="pi pi-bell" rounded text severity="warning" />
@@ -222,7 +222,7 @@ const ButtonDemo = () => {
                     <h5>Rounded Outlined</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button icon="pi pi-check" rounded outlined />
-                        <Button icon="pi pi-bookmark" rounded outlined severity="secondary" />
+                        <Button icon="pi pi-bookmark" rounded outlined severity="info" />
                         <Button icon="pi pi-search" rounded outlined severity="success" />
                         <Button icon="pi pi-user" rounded outlined severity="info" />
                         <Button icon="pi pi-bell" rounded outlined severity="warning" />

@@ -159,7 +159,7 @@ const TableDemo = () => {
     };
 
     const filterClearTemplate = (options: ColumnFilterClearTemplateOptions) => {
-        return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>;
+        return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="info"></Button>;
     };
 
     const filterApplyTemplate = (options: ColumnFilterApplyTemplateOptions) => {

@@ -39,7 +39,7 @@ const PanelDemo = () => {
         return (
             <>
                 <Button label="New" icon="pi pi-plus" style={{ marginRight: '.5em' }} />
-                <Button label="Open" icon="pi pi-folder-open" severity="secondary" />
+                <Button label="Open" icon="pi pi-folder-open" severity="info" />
 
                 <i className="pi pi-bars p-toolbar-separator" style={{ marginRight: '.5em' }}></i>
 

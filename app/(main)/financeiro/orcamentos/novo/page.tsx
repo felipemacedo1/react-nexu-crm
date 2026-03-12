@@ -13,7 +13,7 @@ const NovoOrcamentoPage = () => {
     const router = useRouter();
     const toast = useRef<Toast>(null);
     const [saving, setSaving] = useState(false);
-    const [form, setForm] = useState<OrcamentoRequestDTO>({ fase: 'Draft' });
+    const [form, setForm] = useState<OrcamentoRequestDTO>({ nome: '', fase: 'Draft' });
 
     const update = (field: keyof OrcamentoRequestDTO, value: any) =>
         setForm(prev => ({ ...prev, [field]: value }));

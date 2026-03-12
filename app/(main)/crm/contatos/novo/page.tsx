@@ -124,7 +124,7 @@ const NovoContatoPage = () => {
                                 icon="pi pi-arrow-left"
                                 rounded
                                 text
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/contatos')}
                             />
                             <h2 className="m-0 text-xl font-semibold">Novo Contato</h2>
@@ -134,7 +134,7 @@ const NovoContatoPage = () => {
                                 label="Cancelar"
                                 icon="pi pi-times"
                                 outlined
-                                severity="secondary"
+                                severity="info"
                                 onClick={() => router.push('/crm/contatos')}
                             />
                             <Button
@@ -355,7 +355,7 @@ const NovoContatoPage = () => {
                             label="Cancelar"
                             icon="pi pi-times"
                             outlined
-                            severity="secondary"
+                            severity="info"
                             onClick={() => router.push('/crm/contatos')}
                         />
                         <Button

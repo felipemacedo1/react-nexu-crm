@@ -116,7 +116,7 @@ const KanbanPage = () => {
                     <div className="flex align-items-center gap-3">
                         <Button
                             icon="pi pi-arrow-left"
-                            rounded text severity="secondary"
+                            rounded text severity="info"
                             onClick={() => router.push('/crm/oportunidades')}
                             tooltip="Voltar para lista"
                             tooltipOptions={{ position: 'top' }}
@@ -130,7 +130,7 @@ const KanbanPage = () => {
                         <Button
                             label="Vista em Lista"
                             icon="pi pi-list"
-                            severity="secondary"
+                            severity="info"
                             outlined
                             size="small"
                             onClick={() => router.push('/crm/oportunidades')}

@@ -10,8 +10,8 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { CasoService, CasoResponseDTO } from '@/services/caso.service';
 import { formatDateTime } from '@/utils/format';
 
-const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'secondary'> = {
-    New: 'info', Assigned: 'secondary', 'In Review': 'warning', 'Pending Input': 'warning', Resolved: 'success', Closed: 'secondary'
+const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'info'> = {
+    New: 'info', Assigned: 'info', 'In Review': 'warning', 'Pending Input': 'warning', Resolved: 'success', Closed: 'info'
 };
 const PRIORIDADE_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info'> = {
     Low: 'success', Medium: 'warning', High: 'danger', Urgent: 'danger'

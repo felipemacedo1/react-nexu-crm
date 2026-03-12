@@ -120,7 +120,7 @@ const UsuariosPage = () => {
         row.ativo !== false ? (
             <Tag value="Ativo" severity="success" icon="pi pi-check" />
         ) : (
-            <Tag value="Inativo" severity="secondary" />
+            <Tag value="Inativo" severity="info" />
         );
 
     const dataCriacaoTemplate = (row: UsuarioDTO) =>

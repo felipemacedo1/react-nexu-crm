@@ -21,6 +21,7 @@ const NovoCasoPage = () => {
     const toast = useRef<Toast>(null);
     const [saving, setSaving] = useState(false);
     const [form, setForm] = useState<CasoRequestDTO>({
+        nome: '',
         estado: 'Open',
         status: 'New',
         prioridade: 'Medium',

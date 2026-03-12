@@ -189,7 +189,7 @@ const EditarOportunidadePage = () => {
                             icon="pi pi-arrow-left"
                             rounded
                             text
-                            severity="secondary"
+                            severity="info"
                             onClick={() => router.push(`/crm/oportunidades/${id}`)}
                         />
                         <h2 className="m-0 text-xl font-semibold">Editar Oportunidade</h2>
@@ -393,7 +393,7 @@ const EditarOportunidadePage = () => {
                                 label="Cancelar"
                                 icon="pi pi-times"
                                 outlined
-                                severity="secondary"
+                                severity="info"
                                 type="button"
                                 onClick={() => router.push(`/crm/oportunidades/${id}`)}
                             />

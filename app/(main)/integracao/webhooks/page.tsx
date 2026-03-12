@@ -150,7 +150,7 @@ const WebhooksPage = () => {
                                                 <div className="font-bold text-900 text-lg">{w.nome}</div>
                                                 <div className="text-500 text-sm mt-1 word-break-all">{w.url}</div>
                                             </div>
-                                            <Tag value={w.ativo ? 'Ativo' : 'Inativo'} severity={w.ativo ? 'success' : 'secondary'} className="ml-2 flex-shrink-0" />
+                                            <Tag value={w.ativo ? 'Ativo' : 'Inativo'} severity={w.ativo ? 'success' : 'info'} className="ml-2 flex-shrink-0" />
                                         </div>
 
                                         <div className="mb-3">
@@ -160,7 +160,7 @@ const WebhooksPage = () => {
                                                     <Tag key={ev} value={ev} severity="info" className="text-xs" />
                                                 ))}
                                                 {(w.eventos?.length ?? 0) > 4 && (
-                                                    <Tag value={`+${(w.eventos?.length ?? 0) - 4}`} severity="secondary" className="text-xs" />
+                                                    <Tag value={`+${(w.eventos?.length ?? 0) - 4}`} severity="info" className="text-xs" />
                                                 )}
                                             </div>
                                         </div>

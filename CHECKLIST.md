@@ -475,7 +475,7 @@
 - [x] Otimizar bundle size (code splitting) _(next.config.js transpilePackages + compress)_
 - [x] Implementar cache de dados (React Query ou SWR) _(QueryClientProvider em app/layout.tsx, staleTime 1min, gcTime 5min)_
 - [x] Otimizar imagens (next/image) _(next.config.js images config)_
-- [ ] Implementar virtualização para listas grandes
+- [x] Implementar virtualização para listas grandes _(app/components/VirtualList.tsx com @tanstack/react-virtual v3)_
 
 ### 15.2 SEO e Acessibilidade
 - [x] Configurar meta tags (Next.js Metadata API)
@@ -484,10 +484,10 @@
 - [x] Adicionar ARIA labels _(aria-label, aria-haspopup, aria-pressed, aria-hidden em AppTopbar; role=combobox na busca)_
 
 ### 15.3 PWA (Progressive Web App)
-- [ ] Configurar Service Worker
-- [ ] Implementar offline mode
+- [x] Configurar Service Worker _(public/sw.js: cache-first estáticos, network-first API, auto-limpeza de cache)_
+- [x] Implementar offline mode _(SW responde com JSON 503 quando offline; assets cacheados servem sem rede)_
 - [x] Adicionar manifest.json
-- [ ] Implementar instalação como app
+- [x] Implementar instalação como app _(manifest.json display=standalone + SW registrado via useServiceWorker hook)_
 
 ---
 
@@ -552,7 +552,7 @@
 ### 19.1 Boas Práticas de Segurança
 - [x] Implementar CSP (Content Security Policy) _(Content-Security-Policy header em next.config.js)_
 - [x] Sanitizar inputs de usuário _(utils/sanitize.ts: sanitizeString, sanitizeFormData, sanitizeUrl, truncate)_
-- [ ] Implementar rate limiting no frontend
+- [x] Implementar rate limiting no frontend _(hooks/useRateLimit.ts + hooks/useThrottle.ts)_
 - [x] Validar dados antes de enviar ao backend _(validações em todos os forms)_
 - [x] Implementar proteção contra XSS _(X-XSS-Protection header em next.config.js)_
 - [x] Implementar proteção contra CSRF _(X-Frame-Options, Referrer-Policy headers)_
@@ -568,7 +568,7 @@
 
 ### 20.1 Build de Produção
 - [x] Configurar variáveis de ambiente de produção
-- [ ] Testar build de produção localmente
+- [x] Testar build de produção localmente
 - [x] Otimizar assets para produção _(compress + image formats em next.config.js)_
 - [x] Configurar .env.production
 

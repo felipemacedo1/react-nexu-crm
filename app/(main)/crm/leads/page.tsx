@@ -106,7 +106,7 @@ const LeadsPage = () => {
     // Templates de coluna
     const statusBodyTemplate = (rowData: LeadResponseDTO) => {
         const label = LEAD_STATUS_LABELS[rowData.status || ''] || rowData.status || '—';
-        const severity = (LEAD_STATUS_SEVERITY[rowData.status || ''] || 'secondary') as any;
+        const severity = (LEAD_STATUS_SEVERITY[rowData.status || ''] || 'info') as any;
         return <Tag value={label} severity={severity} />;
     };
 
@@ -194,7 +194,7 @@ const LeadsPage = () => {
                     icon="pi pi-refresh"
                     rounded
                     text
-                    severity="secondary"
+                    severity="info"
                     tooltip="Atualizar"
                     tooltipOptions={{ position: 'top' }}
                     onClick={fetchLeads}

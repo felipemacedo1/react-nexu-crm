@@ -18,13 +18,13 @@ import {
     PRIORIDADE_CASO_OPTIONS
 } from '@/services/caso.service';
 
-const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'secondary'> = {
+const STATUS_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'info'> = {
     New: 'info',
-    Assigned: 'secondary',
+    Assigned: 'info',
     'In Review': 'warning',
     'Pending Input': 'warning',
     Resolved: 'success',
-    Closed: 'secondary'
+    Closed: 'info'
 };
 
 const PRIORIDADE_SEVERITY: Record<string, 'success' | 'warning' | 'danger' | 'info'> = {

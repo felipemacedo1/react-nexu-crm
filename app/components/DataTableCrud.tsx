@@ -15,7 +15,7 @@ export interface DataTableCrudColumn<T> extends Omit<ColumnProps, 'field'> {
 export interface DataTableCrudAction<T> {
     icon: string;
     tooltip?: string;
-    severity?: 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'help';
+    severity?: 'info' | 'success' | 'info' | 'warning' | 'danger' | 'help';
     onClick: (row: T) => void;
     visible?: (row: T) => boolean;
 }
@@ -186,7 +186,7 @@ function DataTableCrud<T extends { id?: string | number }>({
                 responsiveLayout="scroll"
                 emptyMessage="Nenhum registro encontrado."
                 stripedRows
-                {...tableProps}
+                {...(tableProps as any)}
             >
                 {columns.map((col, idx) => (
                     <Column key={idx} {...(col as ColumnProps)} />

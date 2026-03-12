@@ -114,7 +114,7 @@ const GruposPage = () => {
     };
 
     const ativoTemplate = (row: GrupoSegurancaResponseDTO) =>
-        <Tag value={row.ativo ? 'Ativo' : 'Inativo'} severity={row.ativo ? 'success' : 'secondary'} />;
+        <Tag value={row.ativo ? 'Ativo' : 'Inativo'} severity={row.ativo ? 'success' : 'info'} />;
 
     const usuariosTemplate = (row: GrupoSegurancaResponseDTO) =>
         <span className="font-semibold">{row.totalUsuarios ?? 0}</span>;

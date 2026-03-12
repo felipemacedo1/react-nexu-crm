@@ -21,9 +21,9 @@ const TIPO_CONFIG: Record<NonNullable<TimelineEvent['tipo']>, { icon: string; co
     email:      { icon: 'pi-envelope',         color: '#8B5CF6', severity: undefined },
     reuniao:    { icon: 'pi-users',            color: '#0EA5E9', severity: 'info'    },
     tarefa:     { icon: 'pi-check-circle',     color: '#10B981', severity: 'success' },
-    nota:       { icon: 'pi-file',             color: '#64748B', severity: 'secondary'},
+    nota:       { icon: 'pi-file',             color: '#64748B', severity: 'info' },
     conversao:  { icon: 'pi-sync',             color: '#F97316', severity: 'warning' },
-    sistema:    { icon: 'pi-cog',              color: '#94A3B8', severity: 'secondary'},
+    sistema:    { icon: 'pi-cog',              color: '#94A3B8', severity: 'info' },
 };
 
 export interface ActivityTimelineProps {
