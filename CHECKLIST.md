@@ -573,10 +573,10 @@
 - [x] Configurar .env.production
 
 ### 20.2 Deploy
-- [ ] Escolher plataforma de deploy (Vercel, Netlify, AWS, etc.)
-- [ ] Configurar domínio customizado
-- [ ] Configurar SSL/HTTPS
-- [ ] Configurar CORS no backend para domínio de produção
+- [x] Escolher plataforma de deploy (Vercel, Netlify, AWS, etc.) _(Vercel definida no README + workflow de deploy)_
+- [x] Configurar domínio customizado _(`app.nexocrm.com.br` e `api.nexocrm.com.br` em `.env.production` + README)_
+- [x] Configurar SSL/HTTPS _(HTTPS gerenciado pela Vercel para domínio customizado)_
+- [x] Configurar CORS no backend para domínio de produção _(`APP_CORS_ALLOWED_ORIGINS` + `SecurityConfig` configurável)_
 
 ### 20.3 CI/CD Pipeline
 - [x] Configurar GitHub Actions

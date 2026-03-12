@@ -131,7 +131,28 @@ Jest 29 + React Testing Library — 18 testes passando.
 npm i -g vercel && vercel --prod
 ```
 
-Defina `NEXT_PUBLIC_API_BASE_URL` no painel da Vercel.
+Plataforma de produção escolhida: **Vercel**.
+
+Defina no painel da Vercel:
+- `NEXT_PUBLIC_API_BASE_URL`
+- `NEXT_PUBLIC_APP_URL`
+
+### Domínio customizado
+
+- Frontend: `app.nexocrm.com.br`
+- Backend API: `api.nexocrm.com.br`
+
+### SSL/HTTPS
+
+O SSL é gerenciado automaticamente pela Vercel (certificados HTTPS).
+
+### CORS no backend (produção)
+
+No backend (`spring-crm-backand`), configure os domínios permitidos via variável:
+
+```bash
+APP_CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173,https://app.nexocrm.com.br
+```
 
 ### CI/CD (GitHub Actions)
 
