@@ -118,8 +118,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <meta name="theme-color" content="#6366F1" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 {/* Icons */}
-                <link rel="icon" href="/favicon.ico" sizes="any" />
-                <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+                <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+                <link rel="apple-touch-icon" href="/favicon.png" />
                 <link rel="manifest" href="/manifest.json" />
                 {/* Theme */}
                 <link id="theme-css" href={`/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>

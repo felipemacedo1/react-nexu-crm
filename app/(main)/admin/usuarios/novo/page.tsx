@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -10,6 +10,7 @@ import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { Divider } from 'primereact/divider';
 import { UsuarioService, UsuarioDTO } from '@/services/usuario.service';
+import { GrupoSegurancaResponseDTO, GrupoSegurancaService } from '@/services/grupo-seguranca.service';
 
 const TITULO_OPTIONS = [
     { label: 'Sr.', value: 'Sr.' },
@@ -23,6 +24,7 @@ const NovoUsuarioPage = () => {
     const router = useRouter();
     const toast = useRef<Toast>(null);
     const [saving, setSaving] = useState(false);
+    const [grupos, setGrupos] = useState<GrupoSegurancaResponseDTO[]>([]);
 
     const [form, setForm] = useState<Partial<UsuarioDTO> & { confirmarSenha?: string }>({
         nome: '',
@@ -33,9 +35,18 @@ const NovoUsuarioPage = () => {
         confirmarSenha: '',
         titulo: '',
         departamento: '',
+        grupoSegurancaId: '',
         ativo: true,
         administrador: false
     });
+
+    useEffect(() => {
+        GrupoSegurancaService.listarAtivos()
+            .then(setGrupos)
+            .catch(() => {
+                toast.current?.show({ severity: 'warn', summary: 'Atenção', detail: 'Não foi possível carregar os grupos de segurança.', life: 4000 });
+            });
+    }, []);
 
     const update = (field: keyof typeof form, value: any) => {
         setForm((prev) => ({ ...prev, [field]: value }));
@@ -212,6 +223,19 @@ const NovoUsuarioPage = () => {
                                 onChange={(e) => update('departamento', e.target.value)}
                                 placeholder="Ex: Comercial, TI, RH..."
                                 className="w-full"
+                            />
+                        </div>
+
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="grupoSegurancaId" className="font-semibold">Grupo de Segurança</label>
+                            <Dropdown
+                                id="grupoSegurancaId"
+                                value={form.grupoSegurancaId ?? ''}
+                                options={grupos.map((grupo) => ({ label: grupo.nome, value: grupo.id }))}
+                                onChange={(e) => update('grupoSegurancaId', e.value)}
+                                placeholder="Selecione um grupo"
+                                className="w-full"
+                                showClear
                             />
                         </div>
 

@@ -1,9 +1,8 @@
 // NexoCRM Service Worker — offline cache + background sync
 // Strategy: Cache-first for static assets, Network-first for API calls
 
-const CACHE_NAME = 'nexocrm-v1';
+const CACHE_NAME = 'nexocrm-v2';
 const STATIC_ASSETS = [
-    '/',
     '/manifest.json',
     '/themes/lara-light-indigo/theme.css',
     '/themes/lara-dark-indigo/theme.css',
@@ -50,6 +49,20 @@ self.addEventListener('fetch', (event) => {
                         { status: 503, headers: { 'Content-Type': 'application/json' } }
                     )
                 )
+        );
+        return;
+    }
+
+    // Never cache Next.js build/runtime assets to avoid stale chunk references
+    if (url.pathname.startsWith('/_next/')) {
+        event.respondWith(fetch(request));
+        return;
+    }
+
+    // Navigations: network-first (fresh HTML), fallback to cache
+    if (request.mode === 'navigate') {
+        event.respondWith(
+            fetch(request).catch(() => caches.match(request))
         );
         return;
     }

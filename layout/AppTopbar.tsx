@@ -12,6 +12,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { AppTopbarRef } from '@/types';
 import { LayoutContext } from './context/layoutcontext';
 import { useAuth } from '@/hooks/useAuth';
+import { usePermission } from '@/hooks/usePermission';
 import { useRouter } from 'next/navigation';
 import { SearchService, SearchResultItem, SEARCH_TIPO_LABELS } from '@/services/search.service';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -26,6 +27,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         setLayoutConfig((prev: any) => ({ ...prev, colorScheme: newScheme, theme: newTheme }));
     }, [layoutConfig.colorScheme, setLayoutConfig]);
     const { user, logout } = useAuth();
+    const { can, isAdmin } = usePermission();
     const router = useRouter();
     const menubuttonRef = useRef(null);
     const topbarmenuRef = useRef(null);
@@ -106,11 +108,11 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
             icon: 'pi pi-user',
             command: () => router.push('/perfil')
         },
-        {
+        ...((isAdmin || can('config:manage')) ? [{
             label: 'Configurações',
             icon: 'pi pi-cog',
             command: () => router.push('/configuracoes')
-        },
+        }] : []),
         { separator: true },
         {
             label: 'Sair',
@@ -136,7 +138,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
             </button>
 
             {/* Busca Global */}
-            <div className="hidden md:flex align-items-center ml-3 flex-1" style={{ maxWidth: '400px' }}>
+            <div className="hidden md:flex align-items-center flex-1" style={{ maxWidth: '420px', marginLeft: '1.5rem' }}>
                 <span className="p-input-icon-left w-full">
                     <i className="pi pi-search" />
                     <InputText
@@ -231,18 +233,19 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 <Menu model={profileMenuItems} popup ref={profileMenuRef} className="w-15rem" />
                 <button
                     type="button"
-                    className="p-link layout-topbar-button flex align-items-center gap-2"
+                    className="p-link layout-topbar-button"
                     onClick={(e) => profileMenuRef.current?.toggle(e)}
                     aria-label={`Menu do usuário ${user?.nome || 'Usuário'}`}
                     aria-haspopup="true"
+                    style={{ gap: '0.5rem', width: 'auto', paddingInline: '0.5rem' }}
                 >
                     <div
                         className="flex align-items-center justify-content-center bg-primary border-circle font-bold text-white"
-                        style={{ width: '2rem', height: '2rem', fontSize: '0.85rem' }}
+                        style={{ width: '2.25rem', height: '2.25rem', minWidth: '2.25rem', fontSize: '0.8rem', lineHeight: '1', flexShrink: 0 }}
                     >
                         {userInitials}
                     </div>
-                    <span className="hidden lg:inline">{user?.nome || 'Usuário'}</span>
+                    <span className="hidden lg:inline" style={{ fontSize: '0.875rem', fontWeight: 500 }}>{user?.nome || 'Usuário'}</span>
                 </button>
             </div>
         </div>

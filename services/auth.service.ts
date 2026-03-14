@@ -20,6 +20,29 @@ export interface UsuarioLogado {
     nomeUsuario: string;
     ativo: boolean;
     administrador?: boolean;
+    permissoes: string[];
+    titulo?: string;
+    departamento?: string;
+    foto?: string;
+    telefone?: string;
+}
+
+interface UsuarioMeResponse {
+    id: string;
+    nome?: string;
+    primeiroNome?: string;
+    ultimoNome?: string;
+    nomeUsuario: string;
+    email1?: string;
+    status?: string;
+    ehAdmin?: boolean;
+    administrador?: boolean;
+    permissoes?: string[];
+    titulo?: string;
+    departamento?: string;
+    foto?: string;
+    telefoneComercial?: string;
+    telefoneCelular?: string;
 }
 
 export interface RegisterRequest {
@@ -43,15 +66,58 @@ export interface VerificacaoResponse {
 const TOKEN_KEY = 'nexocrm_token';
 const USER_KEY = 'nexocrm_user';
 
+const persistUser = (user: UsuarioLogado) => {
+    Cookies.set(USER_KEY, JSON.stringify(user), { expires: 1 });
+};
+
+const normalizeUser = (user: Partial<UsuarioLogado>): UsuarioLogado => ({
+    id: user.id ?? '',
+    nome: user.nome ?? '',
+    sobrenome: user.sobrenome ?? '',
+    email: user.email ?? '',
+    nomeUsuario: user.nomeUsuario ?? '',
+    ativo: user.ativo ?? false,
+    administrador: user.administrador ?? false,
+    permissoes: user.permissoes ?? [],
+    titulo: user.titulo,
+    departamento: user.departamento,
+    foto: user.foto,
+    telefone: user.telefone
+});
+
+const mapMeToUsuarioLogado = (data: UsuarioMeResponse): UsuarioLogado =>
+    normalizeUser({
+        id: data.id,
+        nome: data.primeiroNome ?? data.nome ?? '',
+        sobrenome: data.ultimoNome ?? '',
+        email: data.email1 ?? '',
+        nomeUsuario: data.nomeUsuario,
+        ativo: data.status ? data.status.toLowerCase() === 'active' : true,
+        administrador: data.administrador ?? data.ehAdmin ?? false,
+        permissoes: data.permissoes ?? [],
+        titulo: data.titulo,
+        departamento: data.departamento,
+        foto: data.foto,
+        telefone: data.telefoneCelular ?? data.telefoneComercial
+    });
+
 export const AuthService = {
     async login(data: LoginRequest): Promise<LoginResponse> {
         const response = await api.post<LoginResponse>('/auth/login', data);
-        const { token, usuario } = response.data;
+        const { token } = response.data;
+        const usuario = normalizeUser(response.data.usuario);
 
         Cookies.set(TOKEN_KEY, token, { expires: 1 }); // 1 dia
-        Cookies.set(USER_KEY, JSON.stringify(usuario), { expires: 1 });
+        persistUser(usuario);
 
-        return response.data;
+        return { ...response.data, usuario };
+    },
+
+    async me(): Promise<UsuarioLogado> {
+        const response = await api.get<UsuarioMeResponse>('/auth/me');
+        const usuario = mapMeToUsuarioLogado(response.data);
+        persistUser(usuario);
+        return usuario;
     },
 
     async register(data: RegisterRequest): Promise<RegisterResponse> {
@@ -87,7 +153,7 @@ export const AuthService = {
         const userStr = Cookies.get(USER_KEY);
         if (userStr) {
             try {
-                return JSON.parse(userStr);
+                return normalizeUser(JSON.parse(userStr));
             } catch {
                 return null;
             }

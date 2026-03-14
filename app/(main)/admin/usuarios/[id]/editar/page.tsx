@@ -10,6 +10,7 @@ import { Toast } from 'primereact/toast';
 import { Divider } from 'primereact/divider';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { UsuarioService, UsuarioDTO } from '@/services/usuario.service';
+import { GrupoSegurancaResponseDTO, GrupoSegurancaService } from '@/services/grupo-seguranca.service';
 
 const TITULO_OPTIONS = [
     { label: 'Sr.', value: 'Sr.' },
@@ -27,6 +28,7 @@ const EditarUsuarioPage = () => {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [grupos, setGrupos] = useState<GrupoSegurancaResponseDTO[]>([]);
     const [form, setForm] = useState<Partial<UsuarioDTO> & { novaSenha?: string; confirmarSenha?: string }>({});
 
     const fetchUsuario = useCallback(async () => {
@@ -45,6 +47,14 @@ const EditarUsuarioPage = () => {
     useEffect(() => {
         if (id) fetchUsuario();
     }, [id, fetchUsuario]);
+
+    useEffect(() => {
+        GrupoSegurancaService.listarAtivos()
+            .then(setGrupos)
+            .catch(() => {
+                toast.current?.show({ severity: 'warn', summary: 'Atenção', detail: 'Não foi possível carregar os grupos de segurança.', life: 4000 });
+            });
+    }, []);
 
     const update = (field: keyof typeof form, value: any) => {
         setForm((prev) => ({ ...prev, [field]: value }));
@@ -220,6 +230,19 @@ const EditarUsuarioPage = () => {
                                 onChange={(e) => update('departamento', e.target.value)}
                                 placeholder="Ex: Comercial, TI, RH..."
                                 className="w-full"
+                            />
+                        </div>
+
+                        <div className="field col-12 md:col-6">
+                            <label htmlFor="grupoSegurancaId" className="font-semibold">Grupo de Segurança</label>
+                            <Dropdown
+                                id="grupoSegurancaId"
+                                value={form.grupoSegurancaId ?? ''}
+                                options={grupos.map((grupo) => ({ label: grupo.nome, value: grupo.id }))}
+                                onChange={(e) => update('grupoSegurancaId', e.value)}
+                                placeholder="Selecione um grupo"
+                                className="w-full"
+                                showClear
                             />
                         </div>
 

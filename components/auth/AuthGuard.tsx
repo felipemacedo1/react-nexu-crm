@@ -1,7 +1,8 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
+import { usePermission } from '@/hooks/usePermission';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 interface AuthGuardProps {
     children: React.ReactNode;
@@ -14,8 +15,20 @@ interface AuthGuardProps {
  */
 const AuthGuard = ({ children }: AuthGuardProps) => {
     const { isAuthenticated, loading } = useAuth();
+    const { can, isAdmin } = usePermission();
     const router = useRouter();
     const pathname = usePathname();
+
+    const hasRoutePermission = useCallback(() => {
+        const rules: Array<{ prefix: string; allowed: boolean }> = [
+            { prefix: '/admin/usuarios', allowed: isAdmin || can('usuarios:read') },
+            { prefix: '/admin/grupos', allowed: isAdmin || can('grupos:manage') },
+            { prefix: '/admin/configuracoes', allowed: isAdmin || can('config:manage') }
+        ];
+
+        const matched = rules.find(rule => pathname.startsWith(rule.prefix));
+        return matched ? matched.allowed : true;
+    }, [pathname, isAdmin, can]);
 
     useEffect(() => {
         if (!loading && !isAuthenticated) {
@@ -25,7 +38,11 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
             }
             router.replace('/auth/login');
         }
-    }, [isAuthenticated, loading, router, pathname]);
+
+        if (!loading && isAuthenticated && !hasRoutePermission()) {
+            router.replace('/auth/access');
+        }
+    }, [isAuthenticated, loading, router, pathname, hasRoutePermission]);
 
     // Exibir loading enquanto verifica autenticação
     if (loading) {
@@ -41,6 +58,10 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
 
     // Não renderizar conteúdo se não autenticado
     if (!isAuthenticated) {
+        return null;
+    }
+
+    if (!hasRoutePermission()) {
         return null;
     }
 

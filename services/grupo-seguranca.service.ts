@@ -69,7 +69,7 @@ export const MODULOS_PERMISSOES = [
 
 class GrupoSegurancaServiceClass extends BaseService<GrupoSegurancaResponseDTO> {
     constructor() {
-        super('/grupo-seguranca');
+        super('/gruposeguranca');
     }
 
     async listarPaginado(params: PaginationParams): Promise<PaginatedResponse<GrupoSegurancaResponseDTO>> {
@@ -77,6 +77,11 @@ class GrupoSegurancaServiceClass extends BaseService<GrupoSegurancaResponseDTO> 
         const response = await api.get<PaginatedResponse<GrupoSegurancaResponseDTO>>(this.endpoint, {
             params: { page, size, sort, direction }
         });
+        return response.data;
+    }
+
+    async listarAtivos(): Promise<GrupoSegurancaResponseDTO[]> {
+        const response = await api.get<GrupoSegurancaResponseDTO[]>(`${this.endpoint}/ativos`);
         return response.data;
     }
 

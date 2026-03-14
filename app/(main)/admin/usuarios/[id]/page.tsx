@@ -153,6 +153,7 @@ const UsuarioDetalhesPage = () => {
                         <InfoItem label="Telefone" value={(usuario as any).telefone} />
                         <InfoItem label="Título" value={usuario.titulo} />
                         <InfoItem label="Departamento" value={usuario.departamento} />
+                        <InfoItem label="Grupo de Segurança" value={usuario.grupoSegurancaNome} />
                         <InfoItem label="Criado em" value={usuario.criadoEm ? formatDate(usuario.criadoEm) : '-'} />
                         <InfoItem label="Atualizado em" value={usuario.atualizadoEm ? formatDate(usuario.atualizadoEm) : '-'} />
                     </div>

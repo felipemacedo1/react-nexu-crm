@@ -42,6 +42,7 @@
         height: 3rem;
         cursor: pointer;
         transition: background-color $transitionDuration;
+        flex-shrink: 0;
 
         &:hover {
             color: var(--text-color);
@@ -63,7 +64,8 @@
     }
 
     .layout-menu-button {
-        margin-left: 2rem;
+        margin-left: 1rem;
+        flex-shrink: 0;
     }
 
     .layout-topbar-menu-button {

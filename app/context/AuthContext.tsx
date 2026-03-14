@@ -2,7 +2,6 @@
 import React, { createContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { AuthService, LoginRequest, LoginResponse, RegisterRequest, UsuarioLogado } from '@/services/auth.service';
 import { broadcastLogout } from '@/services/api.config';
-import { useRouter } from 'next/navigation';
 
 interface AuthContextProps {
     user: UsuarioLogado | null;
@@ -26,15 +25,35 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Recuperar dados do cookie ao montar
         const savedToken = AuthService.getToken();
         const savedUser = AuthService.getUser();
 
-        if (savedToken && savedUser) {
+        const hydrateSession = async () => {
+            if (!savedToken) {
+                setLoading(false);
+                return;
+            }
+
             setToken(savedToken);
-            setUser(savedUser);
-        }
-        setLoading(false);
+
+            if (savedUser) {
+                setUser(savedUser);
+            }
+
+            try {
+                const freshUser = await AuthService.me();
+                setUser(freshUser);
+            } catch {
+                setToken(undefined);
+                setUser(null);
+                AuthService.logout();
+                return;
+            }
+
+            setLoading(false);
+        };
+
+        void hydrateSession();
     }, []);
 
     const login = useCallback(async (data: LoginRequest): Promise<LoginResponse> => {
